@@ -1,0 +1,50 @@
+package com.candi.animalia.model;
+
+
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.NaturalId;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name="user_entity")
+public class User implements UserDetails {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+    private String email;
+
+    @NaturalId
+    @Column(unique = true, updatable = false)
+    private String username;
+    private String password;
+
+    private LocalDate registrationDate;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Role> roles;
+
+    @Builder.Default
+    private boolean enabled = false;
+
+    private String activationToken;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+}
