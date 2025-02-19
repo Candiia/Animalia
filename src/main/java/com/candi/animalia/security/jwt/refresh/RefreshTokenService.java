@@ -1,14 +1,15 @@
 package com.candi.animalia.security.jwt.refresh;
 
+import com.candi.animalia.dto.UserResponse;
 import com.candi.animalia.model.User;
 import com.candi.animalia.repository.UserRepository;
 import com.candi.animalia.security.jwt.access.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

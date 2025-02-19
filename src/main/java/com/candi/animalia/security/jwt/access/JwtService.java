@@ -32,6 +32,7 @@ public class JwtService {
 
     private SecretKey secretKey;
 
+
     @PostConstruct
     public void init() {
 

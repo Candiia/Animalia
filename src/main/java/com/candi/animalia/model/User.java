@@ -6,12 +6,14 @@ import lombok.*;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -42,9 +44,16 @@ public class User implements UserDetails {
 
     private String activationToken;
 
+    @Builder.Default
+    private Instant createdAt = Instant.now();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return roles.stream()
+                .map(role -> "ROLE_" + role)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toSet());
     }
+
 
 }
