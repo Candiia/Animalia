@@ -9,6 +9,4 @@ import java.util.UUID;
 
 public interface RazaInterface extends JpaRepository<Raza, UUID> {
 
-
-    List<Raza> findAllMascotas();
 }

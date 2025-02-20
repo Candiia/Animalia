@@ -1,4 +1,1 @@
-INSERT INTO raza(id, nombre) VALUES (1, "Podenco")
-
-
-ALTER SEQUENCE raza_seq RESTART WITH 100;
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440000', 'Podenco');
