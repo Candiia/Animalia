@@ -4,10 +4,13 @@ import com.candi.animalia.error.ActivationExpiredException;
 import com.candi.animalia.model.Role;
 import com.candi.animalia.model.User;
 import com.candi.animalia.repository.UserRepository;
+import com.candi.animalia.util.SendGridMailSender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -20,7 +23,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
     @Value("${activation.duration}")
     private int activationDuration;
 
@@ -32,8 +34,6 @@ public class UserService {
                 .roles(Set.of(Role.USER))
                 .activationToken(generateRandomActivationCode())
                 .build();
-
-
         return userRepository.save(user);
     }
 
