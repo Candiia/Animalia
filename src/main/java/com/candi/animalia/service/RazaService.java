@@ -1,4 +1,4 @@
-package com.candi.animalia.Service;
+package com.candi.animalia.service;
 
 import com.candi.animalia.model.Raza;
 import com.candi.animalia.repository.RazaInterface;
