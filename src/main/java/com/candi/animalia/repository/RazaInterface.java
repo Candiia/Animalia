@@ -9,10 +9,6 @@ import java.util.UUID;
 
 public interface RazaInterface extends JpaRepository<Raza, UUID> {
 
-    @Query("""
-            SELECT r
-            FROM Raza r
-            LEFT JOIN FETCH r.mascotas
-            """)
+
     List<Raza> findAllMascotas();
 }
