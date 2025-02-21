@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.UUID;
 
-public interface RazaInterface extends  JpaRepository<Raza, UUID> {
+public interface RazaRepository extends  JpaRepository<Raza, UUID> {
 
     @Query(value = "SELECT r FROM Raza r")
     Page<Raza> findAllRaza(Pageable pageable);
