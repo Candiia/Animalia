@@ -1,6 +1,6 @@
 package com.candi.animalia.security.jwt.access;
 
-import com.candi.animalia.model.User;
+import com.candi.animalia.model.Usuario;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
@@ -44,7 +44,7 @@ public class JwtService {
 
     }
 
-    public String generateAccessToken(User user) {
+    public String generateAccessToken(Usuario user) {
 
         Date tokeExpirationDate =
                 Date.from(

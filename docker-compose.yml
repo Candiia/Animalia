@@ -11,7 +11,6 @@ services:
       - SPRING_DATASOURCE_USERNAME=animalia
       - SPRING_DATASOURCE_PASSWORD=87654321
       - SPRING_PROFILE_ACTIVE=prod
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     depends_on:
       pg:
         condition: service_healthy
@@ -49,6 +48,8 @@ services:
       - PGADMIN_DEFAULT_PASSWORD=1
     volumes:
       - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - backend
 
 networks:
   backend:

@@ -1,6 +1,6 @@
 package com.candi.animalia.security.jwt.access;
 
-import com.candi.animalia.model.User;
+import com.candi.animalia.model.Usuario;
 import com.candi.animalia.repository.UserRepository;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
@@ -43,10 +43,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             if (StringUtils.hasText(token) && jwtService.validateAccessToken(token)) {
                 UUID id = jwtService.getUserIdFromAccessToken(token);
 
-                Optional<User> result = userRepository.findById(id);
+                Optional<Usuario> result = userRepository.findById(id);
 
                 if (result.isPresent()) {
-                    User user = result.get();
+                    Usuario user = result.get();
                     UsernamePasswordAuthenticationToken
                             authenticationToken = new UsernamePasswordAuthenticationToken(
                             user,

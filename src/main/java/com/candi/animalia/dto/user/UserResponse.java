@@ -1,6 +1,6 @@
-package com.candi.animalia.dto;
+package com.candi.animalia.dto.user;
 
-import com.candi.animalia.model.User;
+import com.candi.animalia.model.Usuario;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.UUID;
@@ -14,7 +14,7 @@ public record UserResponse(
         String refreshToken
 ) {
 
-    public static UserResponse of (User user) {
+    public static UserResponse of (Usuario user) {
         return new UserResponse(
                 user.getId(),
                 user.getUsername(),
@@ -23,7 +23,7 @@ public record UserResponse(
         );
     }
 
-    public static UserResponse of (User user, String token, String refreshToken) {
+    public static UserResponse of (Usuario user, String token, String refreshToken) {
         return new UserResponse(
                 user.getId(),
                 user.getUsername(),

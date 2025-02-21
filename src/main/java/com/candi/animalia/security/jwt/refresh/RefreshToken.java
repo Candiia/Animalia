@@ -1,7 +1,7 @@
 package com.candi.animalia.security.jwt.refresh;
 
 
-import com.candi.animalia.model.User;
+import com.candi.animalia.model.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +22,7 @@ public class RefreshToken {
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Usuario user;
 
     @Column(nullable = false)
     private Instant expireAt;

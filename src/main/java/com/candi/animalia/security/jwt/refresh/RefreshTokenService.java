@@ -1,7 +1,7 @@
 package com.candi.animalia.security.jwt.refresh;
 
-import com.candi.animalia.dto.UserResponse;
-import com.candi.animalia.model.User;
+import com.candi.animalia.dto.user.UserResponse;
+import com.candi.animalia.model.Usuario;
 import com.candi.animalia.repository.UserRepository;
 import com.candi.animalia.security.jwt.access.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class RefreshTokenService {
     @Value("${jwt.refresh.duration}")
     private int durationInMinutes;
 
-    public RefreshToken create(User user) {
+    public RefreshToken create(Usuario user) {
         refreshTokenRepository.deleteByUser(user);
         return refreshTokenRepository.save(
                 RefreshToken.builder()
