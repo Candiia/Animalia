@@ -1,13 +1,8 @@
     package com.candi.animalia.controller;
 
     import com.candi.animalia.dto.especie.GetEspecieDTO;
-    import com.candi.animalia.dto.raza.CreateRazaDTO;
-    import com.candi.animalia.dto.raza.EditRazaDTO;
-    import com.candi.animalia.dto.raza.GetRazaDTO;
     import com.candi.animalia.model.Especie;
-    import com.candi.animalia.model.Raza;
     import com.candi.animalia.service.EspecieService;
-    import com.candi.animalia.service.RazaService;
     import io.swagger.v3.oas.annotations.Operation;
     import io.swagger.v3.oas.annotations.media.ArraySchema;
     import io.swagger.v3.oas.annotations.media.Content;
@@ -116,5 +111,34 @@
             return especies.map(GetEspecieDTO::of);
         }
 
+        @Operation(summary = "Obtiene una especie determinada")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Se ha obtenido la especie",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = GetEspecieDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                                           {
+                                                                       "nombre": "Canino",
+                                                                       "localDate": "2025-01-01"
+                                                           }
+                                    """
+                                                )
+                                        })
+                        }), @ApiResponse(responseCode = "404",
+                description = "Raza no encontrada",
+                content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No autorizado",
+                        content = @Content),
+        })
+        @PostAuthorize("hasRole('ADMIN')")
+        @GetMapping("/{id}")
+        public GetEspecieDTO findByid(@PathVariable UUID id){
+            return GetEspecieDTO.of(especieService.findById(id));
+        }
 
     }
