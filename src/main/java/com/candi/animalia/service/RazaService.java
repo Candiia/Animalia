@@ -1,6 +1,7 @@
 package com.candi.animalia.service;
 
 import com.candi.animalia.dto.raza.CreateRazaDTO;
+import com.candi.animalia.dto.raza.EditRazaDTO;
 import com.candi.animalia.model.Raza;
 import com.candi.animalia.repository.RazaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -36,4 +37,14 @@ public class RazaService {
                 .nombre(raza.nombre())
                 .build());
     }
+
+    public Raza edit(EditRazaDTO editRazaDTO, UUID id) {
+        return razaRepository.findById(id)
+                .map(old -> {
+                    old.setNombre(editRazaDTO.nombre());
+                    return razaRepository.save(old);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("No hay raza con esa id " + id));
+    }
+
 }
