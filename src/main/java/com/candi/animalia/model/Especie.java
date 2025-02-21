@@ -6,6 +6,8 @@ import org.hibernate.proxy.HibernateProxy;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -16,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Mascota {
+public class Especie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -24,31 +26,15 @@ public class Mascota {
 
     private String nombre;
 
+    @OneToMany(
+            mappedBy="especie",
+            fetch = FetchType.LAZY
+    )
+    @ToString.Exclude
+    List<Mascota> mascotas = new ArrayList<>();
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate fechaNacimiento;
-
-    @Column(length = 500)
-    private String biografia;
-
-    @Column(length = 650)
-    private String avatar;
-
-    @ManyToOne(
-            fetch = FetchType.EAGER
-    )
-    @JoinColumn(
-            name = "raza_id"
-    )
-    private Raza raza;
-
-
-    @ManyToOne(
-            fetch = FetchType.EAGER
-    )
-    @JoinColumn(
-            name = "especie_id"
-    )
-    private Especie especie;
+    LocalDate fechaRegistro;
 
     @Override
     public final boolean equals(Object o) {
@@ -57,12 +43,24 @@ public class Mascota {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        Mascota mascota = (Mascota) o;
-        return getId() != null && Objects.equals(getId(), mascota.getId());
+        Especie raza = (Especie) o;
+        return getId() != null && Objects.equals(getId(), raza.getId());
     }
 
     @Override
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
+
+
+    //helpersMascota
+    public void addMascotas (Mascota m){
+        m.setEspecie(this);
+        this.getMascotas().add(m);
+    }
+
+    public void removeMascota (Mascota m){
+        this.getMascotas().remove(m);
+        m.setEspecie(null);
     }
 }
