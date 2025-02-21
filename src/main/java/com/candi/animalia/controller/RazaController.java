@@ -1,5 +1,6 @@
     package com.candi.animalia.controller;
 
+    import com.candi.animalia.dto.raza.CreateRazaDTO;
     import com.candi.animalia.dto.raza.GetRazaDTO;
     import com.candi.animalia.model.Raza;
     import com.candi.animalia.service.RazaService;
@@ -10,15 +11,14 @@
     import io.swagger.v3.oas.annotations.media.Schema;
     import io.swagger.v3.oas.annotations.responses.ApiResponse;
     import io.swagger.v3.oas.annotations.responses.ApiResponses;
+    import jakarta.validation.Valid;
     import lombok.RequiredArgsConstructor;
     import org.springframework.data.domain.Page;
     import org.springframework.data.domain.Pageable;
     import org.springframework.data.web.PageableDefault;
 
-    import org.springframework.web.bind.annotation.GetMapping;
-    import org.springframework.web.bind.annotation.PathVariable;
-    import org.springframework.web.bind.annotation.RequestMapping;
-    import org.springframework.web.bind.annotation.RestController;
+    import org.springframework.http.ResponseEntity;
+    import org.springframework.web.bind.annotation.*;
 
     import java.util.UUID;
 
@@ -80,4 +80,35 @@
         public GetRazaDTO findByid(@PathVariable UUID id){
             return GetRazaDTO.of(razaService.findById(id));
         }
+
+        @Operation(summary = "Creación de una nueva raza")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "201",
+                        description = "Se ha creado la raza",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = CreateRazaDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                            {
+                                                "nombre": "Bulldog francés"
+                                            }
+                                    """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "400",
+                        description = "¡Error!, Datos incorrectos ",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No estas autorizado",
+                        content = @Content)
+        })
+        @PostMapping()
+        public ResponseEntity<GetRazaDTO> createRaza(@RequestBody @Valid CreateRazaDTO razaDTO){
+            return ResponseEntity.status(201)
+                    .body(GetRazaDTO.of(razaService.save(razaDTO)));
+        }
+
     }

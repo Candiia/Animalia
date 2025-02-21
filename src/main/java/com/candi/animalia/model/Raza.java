@@ -22,7 +22,6 @@ public class Raza {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(unique = true)
     private String nombre;
 
     @OneToMany(
