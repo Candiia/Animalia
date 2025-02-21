@@ -18,8 +18,8 @@ public class RazaService {
 
     private final RazaInterface razaInterface;
 
-    public List<Raza> findAll() {
-        List<Raza> result = razaInterface.findAll();
+    public Page<Raza> findAll(Pageable pageable) {
+        Page<Raza> result = razaInterface.findAllRaza(pageable);
         if (result.isEmpty())
             throw new EntityNotFoundException("No hay raza con esos criterios de búsqueda");
         return result;
