@@ -158,12 +158,37 @@
                         }),
                 @ApiResponse(responseCode = "404",
                         description = "Raza no encontrada",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No autorizado",
                         content = @Content)
         })
         @PreAuthorize("hasRole('ADMIN')")
         @PutMapping("/{id}")
         public GetRazaDTO edit(@RequestBody @Valid EditRazaDTO edit, @PathVariable UUID id) {
             return GetRazaDTO.of(razaService.edit(edit, id));
+        }
+
+
+        @Operation(summary = "Eliminar una raza")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "204",
+                        description = "Raza eliminada correctamente",
+                        content = @Content
+                ),
+                @ApiResponse(responseCode = "404",
+                        description = "Raza no encontrado",
+                        content = @Content
+                ),
+                @ApiResponse(responseCode = "401",
+                        description = "No estás autorizado",
+                        content = @Content)
+        })
+        @PreAuthorize("hasRole('ADMIN')")
+        @DeleteMapping("/{id}")
+        public ResponseEntity<?> deleteRaza(@PathVariable UUID id){
+            razaService.deleteById(id);
+            return ResponseEntity.noContent().build();
         }
 
     }

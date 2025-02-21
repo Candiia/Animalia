@@ -47,4 +47,9 @@ public class RazaService {
                 .orElseThrow(() -> new EntityNotFoundException("No hay raza con esa id " + id));
     }
 
+
+    public void deleteById(UUID id){
+        razaRepository.deleteById(id);
+    }
+
 }
