@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
@@ -31,22 +33,24 @@ public class UserService {
                 .username(createUserRequest.username())
                 .password(passwordEncoder.encode(createUserRequest.password()))
                 .email(createUserRequest.email())
+                .registrationDate(LocalDate.now())
                 .roles(Set.of(Role.USER))
-                .activationToken(generateRandomActivationCode())
+                .activationToken(generatedVerificationCode())
                 .build();
         try {
-            mailSender.sendMail(createUserRequest.email(), "Activación de cuenta", user.getActivationToken());
+            String text = "Su codigo de activacion es " + user.getActivationToken();
+            mailSender.sendMail(createUserRequest.email(), "Activación de cuenta", text);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error al enviar el email de activación");
         }
 
-
         return userRepository.save(user);
     }
 
-    public String generateRandomActivationCode() {
-        return UUID.randomUUID().toString();
+    public String generatedVerificationCode(){
+        return String.format("%06d", new Random().nextInt(99999));
     }
+
 
     public Usuario activateAccount(String token) {
 
@@ -58,6 +62,25 @@ public class UserService {
                     return userRepository.save(user);
                 })
                 .orElseThrow(() -> new ActivationExpiredException("El código de activación no existe o ha caducado"));
+    }
+
+    public Usuario createAdmin(CreateUserRequest createUserRequest) {
+        Usuario user = Usuario.builder()
+                .username(createUserRequest.username())
+                .password(passwordEncoder.encode(createUserRequest.password()))
+                .email(createUserRequest.email())
+                .registrationDate(LocalDate.now())
+                .roles(Set.of(Role.ADMIN))
+                .activationToken(generatedVerificationCode())
+                .build();
+        try {
+            String text = "Su codigo de activacion es " + user.getActivationToken();
+            mailSender.sendMail(createUserRequest.email(), "Activación de cuenta", text);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error al enviar el email de activación");
+        }
+
+        return userRepository.save(user);
     }
 
 }

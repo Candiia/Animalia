@@ -1,6 +1,4 @@
 package com.candi.animalia.model;
-
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
