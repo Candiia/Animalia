@@ -111,34 +111,5 @@
             return especies.map(GetEspecieDTO::of);
         }
 
-        @Operation(summary = "Obtiene una especie determinada")
-        @ApiResponses(value = {
-                @ApiResponse(responseCode = "200",
-                        description = "Se ha obtenido la especie",
-                        content = {
-                                @Content(mediaType = "application/json",
-                                        array = @ArraySchema(schema = @Schema(implementation = GetEspecieDTO.class)),
-                                        examples = {
-                                                @ExampleObject(
-                                                        value = """
-                                                           {
-                                                                       "nombre": "Canino",
-                                                                       "localDate": "2025-01-01"
-                                                           }
-                                    """
-                                                )
-                                        })
-                        }), @ApiResponse(responseCode = "404",
-                description = "Raza no encontrada",
-                content = @Content),
-                @ApiResponse(responseCode = "401",
-                        description = "No autorizado",
-                        content = @Content),
-        })
-        @PostAuthorize("hasRole('ADMIN')")
-        @GetMapping("/{id}")
-        public GetEspecieDTO findByid(@PathVariable UUID id){
-            return GetEspecieDTO.of(especieService.findById(id));
-        }
 
     }
