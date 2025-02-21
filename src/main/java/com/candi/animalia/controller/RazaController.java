@@ -16,8 +16,11 @@
     import org.springframework.data.web.PageableDefault;
 
     import org.springframework.web.bind.annotation.GetMapping;
+    import org.springframework.web.bind.annotation.PathVariable;
     import org.springframework.web.bind.annotation.RequestMapping;
     import org.springframework.web.bind.annotation.RestController;
+
+    import java.util.UUID;
 
 
     @RestController
@@ -71,5 +74,10 @@
         public Page<GetRazaDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable){
             Page<Raza> razas = razaService.findAll(pageable);
             return razas.map(GetRazaDTO::of);
+        }
+
+        @GetMapping("/{id}")
+        public GetRazaDTO findByid(@PathVariable UUID id){
+            return GetRazaDTO.of(razaService.findById(id));
         }
     }
