@@ -1,11 +1,8 @@
 package com.candi.animalia.service;
 
-import com.candi.animalia.dto.raza.CreateRazaDTO;
-import com.candi.animalia.dto.raza.EditRazaDTO;
 import com.candi.animalia.model.Especie;
 import com.candi.animalia.model.Raza;
 import com.candi.animalia.repository.EspecieRepository;
-import com.candi.animalia.repository.RazaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +22,12 @@ public class EspecieService {
         if (result.isEmpty())
             throw new EntityNotFoundException("No hay especie con esos criterios de búsqueda");
         return result;
+    }
+
+    public Especie findById(UUID id) {
+        return especieRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No hay especie con esa id " + id));
+
     }
 
 }

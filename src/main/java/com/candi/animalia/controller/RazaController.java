@@ -104,6 +104,29 @@
             return razas.map(GetRazaDTO::of);
         }
 
+        @Operation(summary = "Obtiene una raza determinada")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Se ha obtenido la raza",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = GetRazaDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                        {
+                                          "nombre": "Caniche"
+                                        }
+                                    """
+                                                )
+                                        })
+                        }), @ApiResponse(responseCode = "404",
+                description = "Raza no encontrada",
+                content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No autorizado",
+                        content = @Content),
+        })
         @GetMapping("/{id}")
         public GetRazaDTO findByid(@PathVariable UUID id){
             return GetRazaDTO.of(razaService.findById(id));
