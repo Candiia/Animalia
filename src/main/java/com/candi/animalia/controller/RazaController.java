@@ -1,6 +1,7 @@
     package com.candi.animalia.controller;
 
     import com.candi.animalia.dto.raza.CreateRazaDTO;
+    import com.candi.animalia.dto.raza.EditRazaDTO;
     import com.candi.animalia.dto.raza.GetRazaDTO;
     import com.candi.animalia.model.Raza;
     import com.candi.animalia.service.RazaService;
@@ -11,6 +12,7 @@
     import io.swagger.v3.oas.annotations.media.Schema;
     import io.swagger.v3.oas.annotations.responses.ApiResponse;
     import io.swagger.v3.oas.annotations.responses.ApiResponses;
+    import io.swagger.v3.oas.annotations.tags.Tag;
     import jakarta.validation.Valid;
     import lombok.RequiredArgsConstructor;
     import org.springframework.data.domain.Page;
@@ -18,6 +20,7 @@
     import org.springframework.data.web.PageableDefault;
 
     import org.springframework.http.ResponseEntity;
+    import org.springframework.security.access.prepost.PreAuthorize;
     import org.springframework.web.bind.annotation.*;
 
     import java.util.UUID;
@@ -26,6 +29,7 @@
     @RestController
     @RequiredArgsConstructor
     @RequestMapping("/raza")
+    @Tag(name = "Raza", description = "Controlador de raza, para realizar todas las operaciones de gestión")
     public class RazaController {
 
         private final RazaService razaService;
@@ -43,25 +47,49 @@
                                                         value = """
                                             [
                                                 {
-                                                    "count": 11,
-                                                    "items": [
-                                                        {
-                                                            "nombre": "Podenco"
-                                                        },
-                                                        {
-                                                            "nombre": "Labrador Retriever"
-                                                        },
-                                                        {
-                                                            "nombre": "Siamés"
-                                                        },
-                                                        {
-                                                            "nombre": "Persa"
-                                                        },
-                                                        {
-                                                            "nombre": "Bengalí"
-                                                        }
-                                                    ]
-                                                }
+                                                                             "content": [
+                                                                                 {
+                                                                                     "nombre": "Beagle"
+                                                                                 },
+                                                                                 {
+                                                                                     "nombre": "Husky Siberiano"
+                                                                                 },
+                                                                                 {
+                                                                                     "nombre": "Rottweiler"
+                                                                                 },
+                                                                                 {
+                                                                                     "nombre": "DÃ¡lmata"
+                                                                                 },
+                                                                                 {
+                                                                                     "nombre": "Golden Retriever"
+                                                                                 }
+                                                                             ],
+                                                                             "pageable": {
+                                                                                 "pageNumber": 1,
+                                                                                 "pageSize": 5,
+                                                                                 "sort": {
+                                                                                     "empty": true,
+                                                                                     "sorted": false,
+                                                                                     "unsorted": true
+                                                                                 },
+                                                                                 "offset": 5,
+                                                                                 "paged": true,
+                                                                                 "unpaged": false
+                                                                             },
+                                                                             "last": false,
+                                                                             "totalPages": 4,
+                                                                             "totalElements": 16,
+                                                                             "size": 5,
+                                                                             "number": 1,
+                                                                             "sort": {
+                                                                                 "empty": true,
+                                                                                 "sorted": false,
+                                                                                 "unsorted": true
+                                                                             },
+                                                                             "first": false,
+                                                                             "numberOfElements": 5,
+                                                                             "empty": false
+                                                                         }
                                             ]
                                         """
                                                 )
@@ -109,6 +137,33 @@
         public ResponseEntity<GetRazaDTO> createRaza(@RequestBody @Valid CreateRazaDTO razaDTO){
             return ResponseEntity.status(201)
                     .body(GetRazaDTO.of(razaService.save(razaDTO)));
+        }
+
+        @Operation(summary = "Editar una raza")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Raza editada correctamente",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = EditRazaDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                            {
+                                             "nombre":"Cocodrilo"
+                                            }
+                                    """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "404",
+                        description = "Raza no encontrada",
+                        content = @Content)
+        })
+        @PreAuthorize("hasRole('ADMIN')")
+        @PutMapping("/{id}")
+        public GetRazaDTO edit(@RequestBody @Valid EditRazaDTO edit, @PathVariable UUID id) {
+            return GetRazaDTO.of(razaService.edit(edit, id));
         }
 
     }
