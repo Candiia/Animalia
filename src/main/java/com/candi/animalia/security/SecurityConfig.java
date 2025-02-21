@@ -69,6 +69,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authz -> authz
                 .requestMatchers(HttpMethod.POST, "/auth/register", "/auth/login", "/auth/refresh/token", "/error", "/activate/account/", "/auth/register/admin", "/auth/login/admin").permitAll()
                 .requestMatchers(HttpMethod.GET, "/raza/admin", "/raza/{id}").hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.POST, "/raza").hasRole("ADMIN")
                 .anyRequest().authenticated());
 
 
