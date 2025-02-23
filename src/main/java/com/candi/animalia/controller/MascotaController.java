@@ -1,12 +1,7 @@
     package com.candi.animalia.controller;
 
-    import com.candi.animalia.dto.especie.CreateEspecieDTO;
-    import com.candi.animalia.dto.especie.EditEspecieDTO;
-    import com.candi.animalia.dto.especie.GetEspecieDTO;
     import com.candi.animalia.dto.mascota.GetMascotaDTO;
-    import com.candi.animalia.model.Especie;
-    import com.candi.animalia.model.mascota.Mascota;
-    import com.candi.animalia.service.EspecieService;
+    import com.candi.animalia.model.Mascota;
     import com.candi.animalia.service.MascotaService;
     import io.swagger.v3.oas.annotations.Operation;
     import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -16,14 +11,11 @@
     import io.swagger.v3.oas.annotations.responses.ApiResponse;
     import io.swagger.v3.oas.annotations.responses.ApiResponses;
     import io.swagger.v3.oas.annotations.tags.Tag;
-    import jakarta.validation.Valid;
     import lombok.RequiredArgsConstructor;
     import org.springframework.data.domain.Page;
     import org.springframework.data.domain.Pageable;
     import org.springframework.data.web.PageableDefault;
-    import org.springframework.http.ResponseEntity;
     import org.springframework.security.access.prepost.PostAuthorize;
-    import org.springframework.security.access.prepost.PreAuthorize;
     import org.springframework.web.bind.annotation.*;
 
     import java.util.UUID;
@@ -187,6 +179,54 @@
         public Page<GetMascotaDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable){
             Page<Mascota> mascotas = mascotaService.findAll(pageable);
             return mascotas.map(GetMascotaDTO::of);
+        }
+
+        @Operation(summary = "Obtiene una mascota determinada")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Se ha obtenido la mascota",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = GetMascotaDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                       {
+                                                                       "nombre": "Max",
+                                                                       "biografia": "Un perro muy juguetÃ³n y amigable.",
+                                                                       "fechaNacimiento": "2020-05-15",
+                                                                       "avatar": "https://example.com/avatars/max.jpg",
+                                                                       "raza": {
+                                                                           "nombre": "Labrador Retriever"
+                                                                       },
+                                                                       "especie": {
+                                                                           "nombre": "Canino",
+                                                                           "localDate": "2025-01-01"
+                                                                       },
+                                                                       "userDTO": {
+                                                                           "username": "user1",
+                                                                           "email": "user1@example.com",
+                                                                           "fechaRegistro": "2025-02-01"
+                                                                       }
+                                                                   }
+                                    """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "404",
+                description = "Mascota no encontrada",
+                content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No autorizado",
+                        content = @Content),
+                @ApiResponse(responseCode = "403",
+                        description = "Acceso denegado",
+                        content = @Content),
+        })
+        @GetMapping("/{id}")
+        @PostAuthorize("hasRole('ADMIN')")
+        public GetMascotaDTO findByid(@PathVariable UUID id){
+            return GetMascotaDTO.of(mascotaService.findById(id));
         }
 
     }
