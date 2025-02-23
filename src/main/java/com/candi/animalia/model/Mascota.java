@@ -37,7 +37,8 @@ public class Mascota {
             fetch = FetchType.EAGER
     )
     @JoinColumn(
-            name = "raza_id"
+            name = "raza_id",
+            foreignKey = @ForeignKey(name = "fk_mascota_raza")
     )
     private Raza raza;
 
@@ -55,7 +56,8 @@ public class Mascota {
             fetch = FetchType.EAGER
     )
     @JoinColumn(
-            name = "especie_id"
+            name = "especie_id",
+            foreignKey = @ForeignKey(name = "fk_mascota_especie")
     )
     private Especie especie;
 

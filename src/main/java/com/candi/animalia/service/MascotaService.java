@@ -1,6 +1,8 @@
 package com.candi.animalia.service;
 
 import com.candi.animalia.model.Mascota;
+import com.candi.animalia.model.Usuario;
+import com.candi.animalia.model.UsuarioRepository;
 import com.candi.animalia.repository.MascotaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import java.util.UUID;
 public class MascotaService {
 
     private final MascotaRepository mascotaRepository;
+    private final UsuarioRepository usuarioRepository;
 
     public Page<Mascota> findAll(Pageable pageable) {
         Page<Mascota> result = mascotaRepository.findAllMascota(pageable);
@@ -37,6 +40,15 @@ public class MascotaService {
             throw new EntityNotFoundException("No se encontraron mascotas para el usuario con ID: " + usuarioId);
         }
         return mascotas;
+    }
+
+
+    public Mascota save(Mascota mascota, UUID usuarioId) {
+        Usuario usuario = usuarioRepository.buscarConMascotas(usuarioId)
+                .orElseThrow(() -> new EntityNotFoundException("Usuario con ID " + usuarioId + " no encontrado"));
+        usuario.addMascota(mascota);
+
+        return mascotaRepository.save(mascota);
     }
 
 }
