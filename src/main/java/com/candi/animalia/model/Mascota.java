@@ -43,8 +43,7 @@ public class Mascota {
     private Raza raza;
 
     @ManyToOne(
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL
+            fetch = FetchType.EAGER
     )
     @JoinColumn(
             name = "usuario_id",
