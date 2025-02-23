@@ -1,7 +1,10 @@
 package com.candi.animalia.service;
 
 import com.candi.animalia.dto.especie.CreateEspecieDTO;
+import com.candi.animalia.dto.especie.EditEspecieDTO;
+import com.candi.animalia.dto.raza.EditRazaDTO;
 import com.candi.animalia.model.Especie;
+import com.candi.animalia.model.Raza;
 import com.candi.animalia.repository.EspecieRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +40,16 @@ public class EspecieService {
                         .fechaRegistro(LocalDate.now())
                         .nombre(especieDTO.nombre())
                         .build());
+    }
+
+
+    public Especie edit(EditEspecieDTO especieDTO, UUID id) {
+        return especieRepository.findById(id)
+                .map(old -> {
+                    old.setNombre(especieDTO.nombre());
+                    return especieRepository.save(old);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("No hay especie con esa id " + id));
     }
 
 
