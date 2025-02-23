@@ -1,7 +1,10 @@
     package com.candi.animalia.controller;
 
     import com.candi.animalia.dto.especie.CreateEspecieDTO;
+    import com.candi.animalia.dto.especie.EditEspecieDTO;
     import com.candi.animalia.dto.especie.GetEspecieDTO;
+    import com.candi.animalia.dto.raza.EditRazaDTO;
+    import com.candi.animalia.dto.raza.GetRazaDTO;
     import com.candi.animalia.model.Especie;
     import com.candi.animalia.service.EspecieService;
     import io.swagger.v3.oas.annotations.Operation;
@@ -19,6 +22,7 @@
     import org.springframework.data.web.PageableDefault;
     import org.springframework.http.ResponseEntity;
     import org.springframework.security.access.prepost.PostAuthorize;
+    import org.springframework.security.access.prepost.PreAuthorize;
     import org.springframework.web.bind.annotation.*;
 
     import java.util.UUID;
@@ -171,5 +175,36 @@
         public ResponseEntity<GetEspecieDTO> createEspecie(@RequestBody @Valid CreateEspecieDTO especieDTO){
             return ResponseEntity.status(201)
                     .body(GetEspecieDTO.of(especieService.save(especieDTO)));
+        }
+
+        @Operation(summary = "Editar una Especie")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Especie editada correctamente",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = EditEspecieDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                                            {
+                                                              "nombre": "Caracol",
+                                                              "localDate": "2025-01-01"
+                                                            }
+                                    """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "404",
+                        description = "Especie no encontrada",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No autorizado",
+                        content = @Content)
+        })
+        @PreAuthorize("hasRole('ADMIN')")
+        @PutMapping("/{id}")
+        public GetEspecieDTO edit(@RequestBody @Valid EditEspecieDTO edit, @PathVariable UUID id) {
+            return GetEspecieDTO.of(especieService.edit(edit, id));
         }
     }
