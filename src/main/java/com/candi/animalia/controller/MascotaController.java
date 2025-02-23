@@ -224,7 +224,6 @@
                         content = @Content),
         })
         @GetMapping("/{id}")
-        @PostAuthorize("hasRole('ADMIN')")
         public GetMascotaDTO findByid(@PathVariable UUID id){
             return GetMascotaDTO.of(mascotaService.findById(id));
         }
