@@ -1,5 +1,8 @@
-package com.candi.animalia.model;
+package com.candi.animalia.model.mascota;
 
+import com.candi.animalia.model.Especie;
+import com.candi.animalia.model.Raza;
+import com.candi.animalia.model.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
@@ -16,6 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @ToString
+@IdClass(MascotaPK.class)
 public class Mascota {
 
     @Id
@@ -41,6 +45,16 @@ public class Mascota {
     )
     private Raza raza;
 
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn(
+            name = "usuario_id",
+            foreignKey = @ForeignKey(name = "fk_mascota_usuario")
+    )
+    @Id
+    private Usuario usuario;
 
     @ManyToOne(
             fetch = FetchType.EAGER

@@ -1,4 +1,5 @@
 package com.candi.animalia.model;
+import com.candi.animalia.model.mascota.Mascota;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
@@ -8,9 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -41,6 +40,16 @@ public class Usuario implements UserDetails {
     private boolean enabled = false;
 
     private String activationToken;
+
+    @OneToMany(
+            mappedBy="usuario",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @ToString.Exclude
+    @Builder.Default
+    List<Mascota> mascotaList = new ArrayList<>();
 
     @Builder.Default
     private Instant createdAt = Instant.now();
