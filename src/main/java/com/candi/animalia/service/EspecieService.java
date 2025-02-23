@@ -4,8 +4,10 @@ import com.candi.animalia.dto.especie.CreateEspecieDTO;
 import com.candi.animalia.dto.especie.EditEspecieDTO;
 import com.candi.animalia.dto.raza.EditRazaDTO;
 import com.candi.animalia.model.Especie;
+import com.candi.animalia.model.Mascota;
 import com.candi.animalia.model.Raza;
 import com.candi.animalia.repository.EspecieRepository;
+import com.candi.animalia.repository.MascotaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,6 +25,7 @@ import java.util.UUID;
 public class EspecieService {
 
     private final EspecieRepository especieRepository;
+    private final MascotaRepository mascotaRepository;
 
     public Page<Especie> findAll(Pageable pageable) {
         Page<Especie> result = especieRepository.findAllEspecie(pageable);
@@ -52,5 +58,22 @@ public class EspecieService {
                 .orElseThrow(() -> new EntityNotFoundException("No hay especie con esa id " + id));
     }
 
+    public void deleteById(UUID id){
+        Optional<Especie> especieOpt = especieRepository.findbyIdMascotas(id);
+        Especie especie;
+        List<Mascota> mascotas;
+
+        if (especieOpt.isPresent()) {
+            especie = especieOpt.get();
+
+            mascotas = new ArrayList<>(especie.getMascotas());
+            mascotas.forEach(especie::removeMascota);
+
+            mascotaRepository.saveAll(mascotas);
+            especieRepository.save(especie);
+
+            especieRepository.deleteById(id);
+        }
+    }
 
 }

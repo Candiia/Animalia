@@ -2,7 +2,10 @@ package com.candi.animalia.service;
 
 import com.candi.animalia.dto.raza.CreateRazaDTO;
 import com.candi.animalia.dto.raza.EditRazaDTO;
+import com.candi.animalia.model.Especie;
+import com.candi.animalia.model.Mascota;
 import com.candi.animalia.model.Raza;
+import com.candi.animalia.repository.MascotaRepository;
 import com.candi.animalia.repository.RazaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -18,6 +24,7 @@ import java.util.UUID;
 public class RazaService {
 
     private final RazaRepository razaRepository;
+    private final MascotaRepository mascotaRepository;
 
     public Page<Raza> findAll(Pageable pageable) {
         Page<Raza> result = razaRepository.findAllRaza(pageable);
@@ -49,7 +56,21 @@ public class RazaService {
 
 
     public void deleteById(UUID id){
-        razaRepository.deleteById(id);
+        Optional<Raza> razaOpt = razaRepository.findbyIdMascotas(id);
+        Raza raza;
+        List<Mascota> mascotas;
+
+        if (razaOpt.isPresent()) {
+            raza= razaOpt.get();
+
+            mascotas = new ArrayList<>(raza.getMascotas());
+            mascotas.forEach(raza::removeMascota);
+
+            mascotaRepository.saveAll(mascotas);
+            razaRepository.save(raza);
+
+            razaRepository.deleteById(id);
+        }
     }
 
 }
