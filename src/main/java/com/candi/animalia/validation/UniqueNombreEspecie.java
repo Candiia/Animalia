@@ -6,11 +6,11 @@ import java.lang.annotation.*;
 
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = UniqueNombreValidator.class)
+@Constraint(validatedBy = UniqueNombreEspecieValidator.class)
 @Documented
-public @interface UniqueNombre {
+public @interface UniqueNombreEspecie {
 
-    String message() default "El nombre ya existe";
+    String message() default "El nombre de la especie ya existe";
 
     Class<?>[] groups() default {};
 
