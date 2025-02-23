@@ -1,18 +1,23 @@
 package com.candi.animalia.controller;
-import com.candi.animalia.dto.user.ActivateAccountRequest;
-import com.candi.animalia.dto.user.CreateUserRequest;
-import com.candi.animalia.dto.user.LoginRequest;
-import com.candi.animalia.dto.user.UserResponse;
+import com.candi.animalia.dto.raza.GetRazaDTO;
+import com.candi.animalia.dto.user.*;
+import com.candi.animalia.model.Raza;
 import com.candi.animalia.model.Usuario;
+import com.candi.animalia.model.UsuarioRepository;
 import com.candi.animalia.security.jwt.access.JwtService;
 import com.candi.animalia.security.jwt.refresh.RefreshToken;
 import com.candi.animalia.security.jwt.refresh.RefreshTokenRequest;
 import com.candi.animalia.security.jwt.refresh.RefreshTokenService;
 import com.candi.animalia.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,12 +33,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/usuario")
+@Tag(name = "Usuario", description = "Controlador de usuario, para realizar todas las operaciones de gestión")
 public class UserController {
 
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
+    private final UsuarioRepository usuarioRepository;
 
     @Operation(summary = "Creación de un nuevo usuario")
     @ApiResponses(value = {
@@ -57,7 +65,7 @@ public class UserController {
                     description = "No tienes autorización",
                     content = @Content)
     })
-    @PostMapping("/auth/register")
+    @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@RequestBody @Valid CreateUserRequest createUserRequest) {
         Usuario user = userService.createUser(createUserRequest);
         System.out.println(user.getActivationToken());
@@ -89,7 +97,7 @@ public class UserController {
                     description = "No tienes autorización",
                     content = @Content)
     })
-    @PostMapping("/auth/login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
 
         Authentication authentication =
@@ -113,7 +121,7 @@ public class UserController {
 
     }
 
-    @PostMapping("/auth/refresh/token")
+    @PostMapping("/refresh/token")
     public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest req) {
         String token = req.refreshToken();
 
@@ -173,7 +181,7 @@ public class UserController {
                     description = "No tienes autorización",
                     content = @Content)
     })
-    @PostMapping("/auth/register/admin")
+    @PostMapping("/register/admin")
     public ResponseEntity<UserResponse> registerAdmin(@RequestBody @Valid CreateUserRequest createUserRequest) {
         Usuario user = userService.createAdmin(createUserRequest);
         System.out.println(user.getActivationToken());
@@ -206,7 +214,7 @@ public class UserController {
                     description = "No tienes autorización",
                     content = @Content)
     })
-    @PostMapping("/auth/login/admin")
+    @PostMapping("/login/admin")
     public ResponseEntity<?> loginAdmin(@RequestBody LoginRequest loginRequest) {
 
         Authentication authentication =
@@ -230,5 +238,82 @@ public class UserController {
 
     }
 
+    @Operation(summary = "se ha obtenido todos los usuarios")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha obtenido todos los usarios",
+                    content = {
+                            @Content(mediaType = "application/json",
+
+                                    array = @ArraySchema(schema = @Schema(implementation = GetUserDTO.class)),
+                                    examples = {
+                                            @ExampleObject(
+                                                    value = """
+                                            [
+                                                {
+                                                                             "content": [
+                                                                                 {
+                                                                                     "nombre": "Beagle"
+                                                                                 },
+                                                                                 {
+                                                                                     "nombre": "Husky Siberiano"
+                                                                                 },
+                                                                                 {
+                                                                                     "nombre": "Rottweiler"
+                                                                                 },
+                                                                                 {
+                                                                                     "nombre": "DÃ¡lmata"
+                                                                                 },
+                                                                                 {
+                                                                                     "nombre": "Golden Retriever"
+                                                                                 }
+                                                                             ],
+                                                                             "pageable": {
+                                                                                 "pageNumber": 1,
+                                                                                 "pageSize": 5,
+                                                                                 "sort": {
+                                                                                     "empty": true,
+                                                                                     "sorted": false,
+                                                                                     "unsorted": true
+                                                                                 },
+                                                                                 "offset": 5,
+                                                                                 "paged": true,
+                                                                                 "unpaged": false
+                                                                             },
+                                                                             "last": false,
+                                                                             "totalPages": 4,
+                                                                             "totalElements": 16,
+                                                                             "size": 5,
+                                                                             "number": 1,
+                                                                             "sort": {
+                                                                                 "empty": true,
+                                                                                 "sorted": false,
+                                                                                 "unsorted": true
+                                                                             },
+                                                                             "first": false,
+                                                                             "numberOfElements": 5,
+                                                                             "empty": false
+                                                                         }
+                                            ]
+                                        """
+                                            )
+                                    })
+                    }),
+            @ApiResponse(responseCode = "404",
+            description = "No se ha encontrado ninguna usuario",
+            content = @Content),
+            @ApiResponse(responseCode = "401",
+                    description = "No tienes autorización",
+                    content = @Content),
+            @ApiResponse(responseCode = "403",
+                    description = "No acceso",
+                    content = @Content)
+    })
+    @PostAuthorize("hasRole('ADMIN')")
+    @GetMapping("/admin")
+    public Page<GetUserDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable){
+        Page<Usuario> usuarios = usuarioRepository.findAll(pageable);
+        return usuarios.map(GetUserDTO::of);
+    }
 
 }
