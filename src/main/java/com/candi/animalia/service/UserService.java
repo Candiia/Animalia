@@ -1,11 +1,15 @@
 package com.candi.animalia.service;
 import com.candi.animalia.dto.user.CreateUserRequest;
 import com.candi.animalia.error.ActivationExpiredException;
+import com.candi.animalia.model.Especie;
 import com.candi.animalia.model.Role;
 import com.candi.animalia.model.Usuario;
 import com.candi.animalia.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -81,6 +85,13 @@ public class UserService {
         }
 
         return userRepository.save(user);
+    }
+
+    public Page<Usuario> findAll(Pageable pageable) {
+        Page<Usuario> result = userRepository.findAllUsuario(pageable);
+        if (result.isEmpty())
+            throw new EntityNotFoundException("No hay usuario con esos criterios de búsqueda");
+        return result;
     }
 
 }
