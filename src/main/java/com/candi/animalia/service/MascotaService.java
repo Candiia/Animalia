@@ -30,4 +30,13 @@ public class MascotaService {
 
     }
 
+
+    public Page<Mascota> findByUsuarioIdMascota(UUID usuarioId, Pageable pageable) {
+        Page<Mascota> mascotas = mascotaRepository.findByUsuarioIdMascotas(usuarioId, pageable);
+        if (mascotas.isEmpty()) {
+            throw new EntityNotFoundException("No se encontraron mascotas para el usuario con ID: " + usuarioId);
+        }
+        return mascotas;
+    }
+
 }

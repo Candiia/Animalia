@@ -23,9 +23,10 @@ public record GetMascotaDTO(
                 mascota.getBiografia(),
                 mascota.getFechaNacimiento(),
                 mascota.getAvatar(),
-                GetRazaDTO.of(mascota.getRaza()),
-                GetEspecieDTO.of(mascota.getEspecie()),
+                mascota.getRaza() != null ? GetRazaDTO.of(mascota.getRaza()) : null,
+                mascota.getEspecie() != null ? GetEspecieDTO.of(mascota.getEspecie()) : null,
                 GetUserDTO.of(mascota.getUsuario())
         );
     }
 }
+
