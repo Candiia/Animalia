@@ -78,7 +78,7 @@ public class UserService {
                 .activationToken(generatedVerificationCode())
                 .build();
         try {
-            String text = "Su codigo de activacion es " + user.getActivationToken();
+            String text = "Su código de activación es " + user.getActivationToken();
             mailSender.sendMail(createUserRequest.email(), "Activación de cuenta", text);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error al enviar el email de activación");
@@ -92,6 +92,12 @@ public class UserService {
         if (result.isEmpty())
             throw new EntityNotFoundException("No hay usuario con esos criterios de búsqueda");
         return result;
+    }
+
+    public Usuario findById(UUID id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No hay usuario con esa id " + id));
+
     }
 
 }
