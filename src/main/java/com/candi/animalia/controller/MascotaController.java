@@ -1,8 +1,13 @@
     package com.candi.animalia.controller;
 
+    import com.candi.animalia.dto.mascota.CreateMascotaDTO;
     import com.candi.animalia.dto.mascota.GetMascotaDTO;
+    import com.candi.animalia.model.Especie;
     import com.candi.animalia.model.Mascota;
+    import com.candi.animalia.model.Raza;
+    import com.candi.animalia.service.EspecieService;
     import com.candi.animalia.service.MascotaService;
+    import com.candi.animalia.service.RazaService;
     import io.swagger.v3.oas.annotations.Operation;
     import io.swagger.v3.oas.annotations.media.ArraySchema;
     import io.swagger.v3.oas.annotations.media.Content;
@@ -11,10 +16,12 @@
     import io.swagger.v3.oas.annotations.responses.ApiResponse;
     import io.swagger.v3.oas.annotations.responses.ApiResponses;
     import io.swagger.v3.oas.annotations.tags.Tag;
+    import jakarta.validation.Valid;
     import lombok.RequiredArgsConstructor;
     import org.springframework.data.domain.Page;
     import org.springframework.data.domain.Pageable;
     import org.springframework.data.web.PageableDefault;
+    import org.springframework.http.ResponseEntity;
     import org.springframework.security.access.prepost.PostAuthorize;
     import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +35,8 @@
     public class MascotaController {
 
         private final MascotaService mascotaService;
+        private final RazaService razaService;
+        private final EspecieService especieService;
 
         @Operation(summary = "Obtiene todas las mascotas")
         @ApiResponses(value = {
@@ -322,5 +331,18 @@
             return mascotas.map(GetMascotaDTO::of);
         }
 
+
+        @PostMapping("/usuario/{usuarioId}")
+        @PostAuthorize("hasRole('USER')")
+        public ResponseEntity<GetMascotaDTO> createMascota(@RequestBody @Valid CreateMascotaDTO mascota, @PathVariable UUID usuarioId) {
+            Raza raza = razaService.findById(mascota.razaId());
+            Especie especie = especieService.findById(mascota.especieId());
+
+            return ResponseEntity.status(201)
+                    .body(GetMascotaDTO.of(
+                            mascotaService.save(
+                                    mascota.toMascota(raza, especie), usuarioId)
+                    ));
+        }
 
     }

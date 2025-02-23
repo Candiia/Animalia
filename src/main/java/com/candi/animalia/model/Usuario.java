@@ -61,5 +61,14 @@ public class Usuario implements UserDetails {
                 .collect(Collectors.toSet());
     }
 
+    public void addMascota (Mascota m){
+        m.setUsuario(this);
+        this.mascotaList.add(m);
+    }
+
+    public void removeMascota (Mascota m){
+        this.mascotaList.remove(m);
+        m.setUsuario(null);
+    }
 
 }
