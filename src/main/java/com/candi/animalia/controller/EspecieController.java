@@ -2,8 +2,6 @@
 
     import com.candi.animalia.dto.especie.CreateEspecieDTO;
     import com.candi.animalia.dto.especie.GetEspecieDTO;
-    import com.candi.animalia.dto.raza.CreateRazaDTO;
-    import com.candi.animalia.dto.raza.GetRazaDTO;
     import com.candi.animalia.model.Especie;
     import com.candi.animalia.service.EspecieService;
     import io.swagger.v3.oas.annotations.Operation;
@@ -21,7 +19,6 @@
     import org.springframework.data.web.PageableDefault;
     import org.springframework.http.ResponseEntity;
     import org.springframework.security.access.prepost.PostAuthorize;
-    import org.springframework.security.access.prepost.PreAuthorize;
     import org.springframework.web.bind.annotation.*;
 
     import java.util.UUID;
@@ -114,7 +111,35 @@
             return especies.map(GetEspecieDTO::of);
         }
 
-
+        @Operation(summary = "Obtiene una especie determinada")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Se ha obtenido la especie",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = GetEspecieDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                                                {
+                                                                   "nombre": "Felino",
+                                                                   "localDate": "2025-01-01"
+                                                                }
+                                                              """
+                                                )
+                                        })
+                        }), @ApiResponse(responseCode = "404",
+                description = "Espcie no encontrada",
+                content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No autorizado",
+                        content = @Content),
+        })
+        @GetMapping("/{id}")
+        @PostAuthorize("hasRole('ADMIN')")
+        public GetEspecieDTO findByid(@PathVariable UUID id){
+            return GetEspecieDTO.of(especieService.findById(id));
+        }
 
         @Operation(summary = "Creación de una nueva especie")
         @ApiResponses(value = {
