@@ -2,6 +2,7 @@
 
     import com.candi.animalia.dto.mascota.CreateMascotaDTO;
     import com.candi.animalia.dto.mascota.GetMascotaDTO;
+    import com.candi.animalia.dto.raza.CreateRazaDTO;
     import com.candi.animalia.model.Especie;
     import com.candi.animalia.model.Mascota;
     import com.candi.animalia.model.Raza;
@@ -23,6 +24,7 @@
     import org.springframework.data.web.PageableDefault;
     import org.springframework.http.ResponseEntity;
     import org.springframework.security.access.prepost.PostAuthorize;
+    import org.springframework.security.access.prepost.PreAuthorize;
     import org.springframework.web.bind.annotation.*;
 
     import java.util.UUID;
@@ -332,6 +334,49 @@
         }
 
 
+
+        @Operation(summary = "Creación de una nueva mascota")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "201",
+                        description = "Se ha creado la mascota",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = CreateMascotaDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                            {
+                                                                             "nombre": "Koby",
+                                                                             "biografia": "Soy perrete muy amigable",
+                                                                             "fechaNacimiento": "2002-02-11",
+                                                                             "avatar": "dksadkjsahkjdhsakjhdksaj.png",
+                                                                             "raza": {
+                                                                                 "nombre": "Golden Retriever"
+                                                                             },
+                                                                             "especie": {
+                                                                                 "nombre": "Canino",
+                                                                                 "localDate": "2025-01-01"
+                                                                             },
+                                                                             "userDTO": {
+                                                                                 "username": "user2",
+                                                                                 "email": "user2@example.com",
+                                                                                 "fechaRegistro": "2025-02-02"
+                                                                             }
+                                                                         }
+                                    """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "400",
+                        description = "¡Error!, Datos incorrectos ",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No estas autorizado",
+                        content = @Content),
+                @ApiResponse(responseCode = "403",
+                        description = "Acceso denegado",
+                        content = @Content)
+        })
         @PostMapping("/usuario/{usuarioId}")
         @PostAuthorize("hasRole('USER')")
         public ResponseEntity<GetMascotaDTO> createMascota(@RequestBody @Valid CreateMascotaDTO mascota, @PathVariable UUID usuarioId) {
@@ -343,6 +388,24 @@
                             mascotaService.save(
                                     mascota.toMascota(raza, especie), usuarioId)
                     ));
+        }
+
+
+        @Operation(summary = "Eliminar una mascota")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "204",
+                        description = "Mascota eliminada correctamente",
+                        content = @Content
+                ),
+                @ApiResponse(responseCode = "401",
+                        description = "No estás autorizado",
+                        content = @Content)
+        })
+        @PreAuthorize("hasRole('USER')")
+        @DeleteMapping("/{id}")
+        public ResponseEntity<?> deleteRaza(@PathVariable UUID id){
+            mascotaService.deleteById(id);
+            return ResponseEntity.noContent().build();
         }
 
     }

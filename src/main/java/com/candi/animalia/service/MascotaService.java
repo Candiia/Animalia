@@ -1,6 +1,7 @@
 package com.candi.animalia.service;
 
 import com.candi.animalia.model.Mascota;
+import com.candi.animalia.model.Raza;
 import com.candi.animalia.model.Usuario;
 import com.candi.animalia.model.UsuarioRepository;
 import com.candi.animalia.repository.MascotaRepository;
@@ -10,6 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -49,6 +53,18 @@ public class MascotaService {
         usuario.addMascota(mascota);
 
         return mascotaRepository.save(mascota);
+    }
+
+
+    public void deleteById(UUID id){
+        Mascota mascota = mascotaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No hay mascota con esa id " + id));
+        Usuario usuario = mascota.getUsuario();
+
+        if (usuario != null) {
+            usuario.getMascotaList().remove(mascota);
+        }
+        mascotaRepository.deleteById(id);
     }
 
 }
