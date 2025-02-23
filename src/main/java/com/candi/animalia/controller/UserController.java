@@ -9,6 +9,7 @@ import com.candi.animalia.security.jwt.refresh.RefreshToken;
 import com.candi.animalia.security.jwt.refresh.RefreshTokenRequest;
 import com.candi.animalia.security.jwt.refresh.RefreshTokenService;
 import com.candi.animalia.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +58,7 @@ public class UserController {
                     content = @Content)
     })
     @PostMapping("/auth/register")
-    public ResponseEntity<UserResponse> register(@RequestBody CreateUserRequest createUserRequest) {
+    public ResponseEntity<UserResponse> register(@RequestBody @Valid CreateUserRequest createUserRequest) {
         Usuario user = userService.createUser(createUserRequest);
         System.out.println(user.getActivationToken());
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -173,7 +174,7 @@ public class UserController {
                     content = @Content)
     })
     @PostMapping("/auth/register/admin")
-    public ResponseEntity<UserResponse> registerAdmin(@RequestBody CreateUserRequest createUserRequest) {
+    public ResponseEntity<UserResponse> registerAdmin(@RequestBody @Valid CreateUserRequest createUserRequest) {
         Usuario user = userService.createAdmin(createUserRequest);
         System.out.println(user.getActivationToken());
         return ResponseEntity.status(HttpStatus.CREATED)
