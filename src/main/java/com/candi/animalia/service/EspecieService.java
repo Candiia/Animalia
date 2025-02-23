@@ -1,7 +1,7 @@
 package com.candi.animalia.service;
 
+import com.candi.animalia.dto.especie.CreateEspecieDTO;
 import com.candi.animalia.model.Especie;
-import com.candi.animalia.model.Raza;
 import com.candi.animalia.repository.EspecieRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
@@ -29,5 +30,14 @@ public class EspecieService {
                 .orElseThrow(() -> new EntityNotFoundException("No hay especie con esa id " + id));
 
     }
+
+    public Especie save(CreateEspecieDTO especieDTO) {
+        return especieRepository
+                .save(Especie.builder()
+                        .fechaRegistro(LocalDate.now())
+                        .nombre(especieDTO.nombre())
+                        .build());
+    }
+
 
 }

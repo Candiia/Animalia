@@ -1,10 +1,10 @@
 package com.candi.animalia.dto.raza;
 
 import com.candi.animalia.model.Raza;
-import com.candi.animalia.validation.UniqueNombre;
+import com.candi.animalia.validation.UniqueNombreRaza;
 
 public record EditRazaDTO(
-        @UniqueNombre
+        @UniqueNombreRaza
         String nombre
 ){
     public static EditRazaDTO of(Raza raza){

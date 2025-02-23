@@ -1,9 +1,9 @@
 package com.candi.animalia.dto.raza;
 
-import com.candi.animalia.validation.UniqueNombre;
+import com.candi.animalia.validation.UniqueNombreRaza;
 
 public record CreateRazaDTO(
-        @UniqueNombre
+        @UniqueNombreRaza
         String nombre
 ) {
 }

@@ -1,6 +1,9 @@
     package com.candi.animalia.controller;
 
+    import com.candi.animalia.dto.especie.CreateEspecieDTO;
     import com.candi.animalia.dto.especie.GetEspecieDTO;
+    import com.candi.animalia.dto.raza.CreateRazaDTO;
+    import com.candi.animalia.dto.raza.GetRazaDTO;
     import com.candi.animalia.model.Especie;
     import com.candi.animalia.service.EspecieService;
     import io.swagger.v3.oas.annotations.Operation;
@@ -112,4 +115,36 @@
         }
 
 
+
+        @Operation(summary = "Creación de una nueva especie")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "201",
+                        description = "Se ha creado la espcie",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = CreateEspecieDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                                                {
+                                                                    "nombre": "León",
+                                                                    "localDate": "2025-02-23"
+                                                                }
+                                                            """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "400",
+                        description = "¡Error!, Datos incorrectos ",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No estas autorizado",
+                        content = @Content)
+        })
+        @PostMapping()
+        @PostAuthorize("hasRole('ADMIN')")
+        public ResponseEntity<GetEspecieDTO> createEspecie(@RequestBody @Valid CreateEspecieDTO especieDTO){
+            return ResponseEntity.status(201)
+                    .body(GetEspecieDTO.of(especieService.save(especieDTO)));
+        }
     }

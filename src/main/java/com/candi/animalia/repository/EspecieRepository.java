@@ -11,7 +11,12 @@ import java.util.UUID;
 
 public interface EspecieRepository extends  JpaRepository<Especie, UUID> {
 
-    @Query(value = "SELECT e FROM Especie e")
+    @Query("""
+            SELECT e
+            FROM Especie e
+            """)
     Page<Especie> findAllEspecie(Pageable pageable);
+
+    boolean existsByNombre(String nombre);
 
 }
