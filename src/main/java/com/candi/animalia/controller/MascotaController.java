@@ -1,6 +1,7 @@
     package com.candi.animalia.controller;
 
     import com.candi.animalia.dto.mascota.CreateMascotaDTO;
+    import com.candi.animalia.dto.mascota.EditMascotaDTO;
     import com.candi.animalia.dto.mascota.GetMascotaDTO;
     import com.candi.animalia.dto.raza.CreateRazaDTO;
     import com.candi.animalia.model.Especie;
@@ -328,7 +329,7 @@
         })
         @GetMapping("/usuario/{id}")
         @PostAuthorize("hasRole('USER')")
-        public Page<GetMascotaDTO> getIncidenciasByUsuario(@PathVariable UUID id, @PageableDefault(page=0, size=5) Pageable pageable) {
+        public Page<GetMascotaDTO> getMascotaByUsuario(@PathVariable UUID id, @PageableDefault(page=0, size=5) Pageable pageable) {
             Page<Mascota> mascotas = mascotaService.findByUsuarioIdMascota(id,pageable);
             return mascotas.map(GetMascotaDTO::of);
         }
@@ -391,6 +392,41 @@
         }
 
 
+        @Operation(summary = "Editar datos de una mascota")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Mascota editada correctamente",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = EditMascotaDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                             {
+                                              "titulo":"Nuevo Título",
+                                              "descripcion":"Nueva Descripción",
+                                              "categoria": {"id": 1}
+                                             }
+                                    """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "404",
+                        description = "Mascota no encontrada",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No estas autorizado",
+                        content = @Content),
+                @ApiResponse(responseCode = "403",
+                        description = "Acceso denegado",
+                        content = @Content)
+        })
+        @PutMapping("/{id}")
+        public GetMascotaDTO edit(@RequestBody @Valid EditMascotaDTO edit, @PathVariable UUID id) {
+            return GetMascotaDTO.of(mascotaService.edit(edit, id));
+        }
+
+
         @Operation(summary = "Eliminar una mascota")
         @ApiResponses(value = {
                 @ApiResponse(responseCode = "204",
@@ -401,9 +437,9 @@
                         description = "No estás autorizado",
                         content = @Content)
         })
-        @PreAuthorize("hasRole('USER')")
         @DeleteMapping("/{id}")
-        public ResponseEntity<?> deleteRaza(@PathVariable UUID id){
+        @PreAuthorize("hasRole('USER')")
+        public ResponseEntity<?> deleteMascota(@PathVariable UUID id){
             mascotaService.deleteById(id);
             return ResponseEntity.noContent().build();
         }
