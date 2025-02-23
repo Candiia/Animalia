@@ -199,10 +199,6 @@
                         description = "Raza eliminada correctamente",
                         content = @Content
                 ),
-                @ApiResponse(responseCode = "404",
-                        description = "Raza no encontrado",
-                        content = @Content
-                ),
                 @ApiResponse(responseCode = "401",
                         description = "No estás autorizado",
                         content = @Content)
