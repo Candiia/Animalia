@@ -207,4 +207,21 @@
         public GetEspecieDTO edit(@RequestBody @Valid EditEspecieDTO edit, @PathVariable UUID id) {
             return GetEspecieDTO.of(especieService.edit(edit, id));
         }
+
+        @Operation(summary = "Eliminar una especie")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "204",
+                        description = "Especie eliminada correctamente",
+                        content = @Content
+                ),
+                @ApiResponse(responseCode = "401",
+                        description = "No estás autorizado",
+                        content = @Content)
+        })
+        @PreAuthorize("hasRole('ADMIN')")
+        @DeleteMapping("/{id}")
+        public ResponseEntity<?> deleteEspecie(@PathVariable UUID id){
+            especieService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
     }
