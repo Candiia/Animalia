@@ -71,7 +71,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/raza/admin", "/raza/{id}").hasRole("ADMIN")
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .requestMatchers(HttpMethod.POST, "/raza").hasRole("ADMIN")
-
+                .requestMatchers(HttpMethod.GET, "/mascota/{id}").permitAll()
                 .anyRequest().authenticated());
 
 
