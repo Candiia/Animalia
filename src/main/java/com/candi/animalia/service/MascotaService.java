@@ -1,6 +1,6 @@
 package com.candi.animalia.service;
 
-import com.candi.animalia.model.mascota.Mascota;
+import com.candi.animalia.model.Mascota;
 import com.candi.animalia.repository.MascotaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -8,10 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -25,6 +21,13 @@ public class MascotaService {
         if (result.isEmpty())
             throw new EntityNotFoundException("No hay mascota con esos criterios de búsqueda");
         return result;
+    }
+
+
+    public Mascota findById(UUID id) {
+        return mascotaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No hay mascota con esa id " + id));
+
     }
 
 }
