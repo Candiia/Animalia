@@ -1,4 +1,5 @@
 package com.candi.animalia.controller;
+import com.candi.animalia.dto.mascota.GetMascotaDTO;
 import com.candi.animalia.dto.raza.GetRazaDTO;
 import com.candi.animalia.dto.user.*;
 import com.candi.animalia.model.Raza;
@@ -30,6 +31,8 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -251,49 +254,59 @@ public class UserController {
                                                     value = """
                                             [
                                                 {
-                                                                             "content": [
-                                                                                 {
-                                                                                     "nombre": "Beagle"
-                                                                                 },
-                                                                                 {
-                                                                                     "nombre": "Husky Siberiano"
-                                                                                 },
-                                                                                 {
-                                                                                     "nombre": "Rottweiler"
-                                                                                 },
-                                                                                 {
-                                                                                     "nombre": "DÃ¡lmata"
-                                                                                 },
-                                                                                 {
-                                                                                     "nombre": "Golden Retriever"
-                                                                                 }
-                                                                             ],
-                                                                             "pageable": {
-                                                                                 "pageNumber": 1,
-                                                                                 "pageSize": 5,
-                                                                                 "sort": {
-                                                                                     "empty": true,
-                                                                                     "sorted": false,
-                                                                                     "unsorted": true
-                                                                                 },
-                                                                                 "offset": 5,
-                                                                                 "paged": true,
-                                                                                 "unpaged": false
-                                                                             },
-                                                                             "last": false,
-                                                                             "totalPages": 4,
-                                                                             "totalElements": 16,
-                                                                             "size": 5,
-                                                                             "number": 1,
-                                                                             "sort": {
-                                                                                 "empty": true,
-                                                                                 "sorted": false,
-                                                                                 "unsorted": true
-                                                                             },
-                                                                             "first": false,
-                                                                             "numberOfElements": 5,
-                                                                             "empty": false
-                                                                         }
+                                                                        "content": [
+                                                                            {
+                                                                                "username": "admin",
+                                                                                "email": "admin@example.com",
+                                                                                "fechaRegistro": "2025-02-05"
+                                                                            },
+                                                                            {
+                                                                                "username": "user1",
+                                                                                "email": "user1@example.com",
+                                                                                "fechaRegistro": "2025-02-01"
+                                                                            },
+                                                                            {
+                                                                                "username": "user2",
+                                                                                "email": "user2@example.com",
+                                                                                "fechaRegistro": "2025-02-02"
+                                                                            },
+                                                                            {
+                                                                                "username": "user3",
+                                                                                "email": "user3@example.com",
+                                                                                "fechaRegistro": "2025-02-03"
+                                                                            },
+                                                                            {
+                                                                                "username": "user4",
+                                                                                "email": "user4@example.com",
+                                                                                "fechaRegistro": "2025-02-04"
+                                                                            }
+                                                                        ],
+                                                                        "pageable": {
+                                                                            "pageNumber": 0,
+                                                                            "pageSize": 5,
+                                                                            "sort": {
+                                                                                "empty": true,
+                                                                                "sorted": false,
+                                                                                "unsorted": true
+                                                                            },
+                                                                            "offset": 0,
+                                                                            "paged": true,
+                                                                            "unpaged": false
+                                                                        },
+                                                                        "last": true,
+                                                                        "totalElements": 5,
+                                                                        "totalPages": 1,
+                                                                        "size": 5,
+                                                                        "number": 0,
+                                                                        "sort": {
+                                                                            "empty": true,
+                                                                            "sorted": false,
+                                                                            "unsorted": true
+                                                                        },
+                                                                        "first": true,
+                                                                        "numberOfElements": 5,
+                                                                        "empty": false
+                                                                    }
                                             ]
                                         """
                                             )
@@ -312,8 +325,55 @@ public class UserController {
     @PostAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin")
     public Page<GetUserDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable){
-        Page<Usuario> usuarios = usuarioRepository.findAll(pageable);
+        Page<Usuario> usuarios = userService.findAll(pageable);
         return usuarios.map(GetUserDTO::of);
+    }
+
+    @Operation(summary = "Obtiene un usuario determinada")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha obtenido al usuario",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation = GetUserDTO.class)),
+                                    examples = {
+                                            @ExampleObject(
+                                                    value = """
+                                       {
+                                                                       "nombre": "Max",
+                                                                       "biografia": "Un perro muy juguetÃ³n y amigable.",
+                                                                       "fechaNacimiento": "2020-05-15",
+                                                                       "avatar": "https://example.com/avatars/max.jpg",
+                                                                       "raza": {
+                                                                           "nombre": "Labrador Retriever"
+                                                                       },
+                                                                       "especie": {
+                                                                           "nombre": "Canino",
+                                                                           "localDate": "2025-01-01"
+                                                                       },
+                                                                       "userDTO": {
+                                                                           "username": "user1",
+                                                                           "email": "user1@example.com",
+                                                                           "fechaRegistro": "2025-02-01"
+                                                                       }
+                                                                   }
+                                    """
+                                            )
+                                    })
+                    }),
+            @ApiResponse(responseCode = "404",
+                    description = "Usuario no encontrado",
+                    content = @Content),
+            @ApiResponse(responseCode = "401",
+                    description = "No autorizado",
+                    content = @Content),
+            @ApiResponse(responseCode = "403",
+                    description = "Acceso denegado",
+                    content = @Content),
+    })
+    @GetMapping("/{id}")
+    public GetUserDTO findByid(@PathVariable UUID id){
+        return GetUserDTO.of(userService.findById(id));
     }
 
 }
