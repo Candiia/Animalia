@@ -2,10 +2,8 @@ package com.candi.animalia.service;
 
 import com.candi.animalia.dto.especie.CreateEspecieDTO;
 import com.candi.animalia.dto.especie.EditEspecieDTO;
-import com.candi.animalia.dto.raza.EditRazaDTO;
 import com.candi.animalia.model.Especie;
-import com.candi.animalia.model.Mascota;
-import com.candi.animalia.model.Raza;
+import com.candi.animalia.model.mascota.Mascota;
 import com.candi.animalia.repository.EspecieRepository;
 import com.candi.animalia.repository.MascotaRepository;
 import jakarta.persistence.EntityNotFoundException;

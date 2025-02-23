@@ -2,8 +2,7 @@ package com.candi.animalia.service;
 
 import com.candi.animalia.dto.raza.CreateRazaDTO;
 import com.candi.animalia.dto.raza.EditRazaDTO;
-import com.candi.animalia.model.Especie;
-import com.candi.animalia.model.Mascota;
+import com.candi.animalia.model.mascota.Mascota;
 import com.candi.animalia.model.Raza;
 import com.candi.animalia.repository.MascotaRepository;
 import com.candi.animalia.repository.RazaRepository;
