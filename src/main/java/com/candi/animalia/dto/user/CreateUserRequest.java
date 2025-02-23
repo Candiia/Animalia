@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotBlank;
 public record CreateUserRequest(
         @UniqueUsername
         String username,
-        
+
         @NotBlank
         String email,
         String password,
