@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -53,5 +54,16 @@ public class LikesService {
                 .build());
 
 
+    }
+
+
+    public void deleteLike(UUID publicacionId, Usuario usuario) {
+        Publicacion publicacion = publicacionRepository.findById(publicacionId)
+                .orElseThrow(() -> new EntityNotFoundException("No se ha encontrado la publicación"));
+
+        Like like = likeRepository.findByPublicacionAndUsuario(publicacion, usuario)
+                .orElseThrow(() -> new EntityNotFoundException("No has dado like a esta publicación"));
+
+        likeRepository.delete(like);
     }
 }
