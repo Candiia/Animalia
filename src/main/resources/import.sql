@@ -1,3 +1,4 @@
+
 INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440000', 'Podenco');
 INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440001', 'Labrador Retriever');
 INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440002', 'Siamés');
@@ -52,3 +53,21 @@ INSERT INTO mascota (id, nombre, fecha_nacimiento, biografia, avatar, raza_id, e
 VALUES ('550e8400-e29b-41d4-a716-446655440104', 'Thor', '2018-07-21', 'Husky siberiano con mucha energía.', 'https://example.com/avatars/thor.jpg', '550e8400-e29b-41d4-a716-446655440006', '550e8400-e29b-41d4-a716-446655440000', '550e8400-e29b-41d4-a716-446655440002');
 INSERT INTO mascota (id, nombre, fecha_nacimiento, biografia, avatar, raza_id, especie_id, usuario_id)
 VALUES ('550e8400-e29b-41d4-a716-446655440105', 'Milo', '2023-01-15', 'Un pez dorado que adora nadar.', 'https://example.com/avatars/milo.jpg', NULL, '550e8400-e29b-41d4-a716-446655440005', '550e8400-e29b-41d4-a716-446655440003');
+
+
+INSERT INTO publicacion (id, tipo, descripcion, fecha_publicacion, usuario_id, mascota_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440200', 'Image', 'Max disfrutando del parque en un día soleado.', '2025-02-20', '550e8400-e29b-41d4-a716-446655440001', '550e8400-e29b-41d4-a716-446655440100');
+INSERT INTO publicacion (id, tipo, descripcion, fecha_publicacion, usuario_id, mascota_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440201', 'Image', 'Luna se escondió en una caja hoy, ¡es tan adorable!', '2025-02-21', '550e8400-e29b-41d4-a716-446655440002', '550e8400-e29b-41d4-a716-446655440101');
+INSERT INTO publicacion (id, tipo, descripcion, fecha_publicacion, usuario_id, mascota_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440202', 'Image', 'Rocky participará en una carrera de perros este fin de semana.', '2025-02-22', '550e8400-e29b-41d4-a716-446655440003', '550e8400-e29b-41d4-a716-446655440102');
+INSERT INTO publicacion (id, tipo, descripcion, fecha_publicacion, usuario_id, mascota_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440203', 'Image', 'Nala cazando una pelota en el jardín.', '2025-02-23', '550e8400-e29b-41d4-a716-446655440004', '550e8400-e29b-41d4-a716-446655440103');
+INSERT INTO publicacion (id, tipo, descripcion, fecha_publicacion, usuario_id, mascota_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440204', 'Image', 'Thor ladrando a la nieve como si fuera la primera vez.', '2025-02-24', '550e8400-e29b-41d4-a716-446655440002', '550e8400-e29b-41d4-a716-446655440104');
+INSERT INTO publicacion (id, tipo, descripcion, fecha_publicacion, usuario_id, mascota_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440205', 'Image', 'Milo nadando en su nueva pecera decorada.', '2025-02-19', '550e8400-e29b-41d4-a716-446655440003', '550e8400-e29b-41d4-a716-446655440105');
+INSERT INTO publicacion (id, tipo, descripcion, fecha_publicacion, usuario_id, mascota_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440206', 'Image', 'Max irá a una sesión de entrenamiento mañana.', '2025-02-23', '550e8400-e29b-41d4-a716-446655440001', '550e8400-e29b-41d4-a716-446655440100');
+INSERT INTO publicacion (id, tipo, descripcion, fecha_publicacion, usuario_id, mascota_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440207', 'Image', 'Luna durmiendo en el sofá, parece una reina.', '2025-02-18', '550e8400-e29b-41d4-a716-446655440002', '550e8400-e29b-41d4-a716-446655440101');

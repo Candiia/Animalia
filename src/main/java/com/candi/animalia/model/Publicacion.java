@@ -3,11 +3,8 @@ package com.candi.animalia.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -18,38 +15,22 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Mascota {
+public class Publicacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String nombre;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate fechaNacimiento;
-
-    @Column(length = 500)
-    private String biografia;
-
-    @Column(length = 650)
-    private String avatar;
-
-    @ManyToOne(
-            fetch = FetchType.EAGER
-    )
-    @JoinColumn(
-            name = "raza_id",
-            foreignKey = @ForeignKey(name = "fk_mascota_raza")
-    )
-    private Raza raza;
+    private String tipo;
+    private String descripcion;
+    private LocalDate fechaPublicacion;
 
     @ManyToOne(
             fetch = FetchType.EAGER
     )
     @JoinColumn(
             name = "usuario_id",
-            foreignKey = @ForeignKey(name = "fk_mascota_usuario")
+            foreignKey = @ForeignKey(name = "fk_publicacion_usuario")
     )
     private Usuario usuario;
 
@@ -57,22 +38,10 @@ public class Mascota {
             fetch = FetchType.EAGER
     )
     @JoinColumn(
-            name = "especie_id",
-            foreignKey = @ForeignKey(name = "fk_mascota_especie")
+            name = "mascota_id",
+            foreignKey = @ForeignKey(name = "fk_publicacion_mascota")
     )
-    private Especie especie;
-
-
-
-    @OneToMany(
-            mappedBy="mascota",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    @ToString.Exclude
-    @Builder.Default
-    List<Publicacion> publicacions = new ArrayList<>();
+    private Mascota mascota;
 
     @Override
     public final boolean equals(Object o) {
@@ -81,8 +50,8 @@ public class Mascota {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        Mascota mascota = (Mascota) o;
-        return getId() != null && Objects.equals(getId(), mascota.getId());
+        Publicacion that = (Publicacion) o;
+        return getId() != null && Objects.equals(getId(), that.getId());
     }
 
     @Override

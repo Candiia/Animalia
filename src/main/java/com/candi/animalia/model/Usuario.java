@@ -50,6 +50,16 @@ public class Usuario implements UserDetails {
     @Builder.Default
     List<Mascota> mascotaList = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy="usuario",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @ToString.Exclude
+    @Builder.Default
+    List<Publicacion> publicacions = new ArrayList<>();
+
     @Builder.Default
     private Instant createdAt = Instant.now();
 
