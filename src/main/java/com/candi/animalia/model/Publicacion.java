@@ -21,7 +21,7 @@ public class Publicacion {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private String tipo;
+    private String image;
     private String descripcion;
     private LocalDate fechaPublicacion;
 

@@ -3,6 +3,7 @@
     import com.candi.animalia.dto.mascota.CreateMascotaDTO;
     import com.candi.animalia.dto.mascota.EditMascotaDTO;
     import com.candi.animalia.dto.mascota.GetMascotaDTO;
+    import com.candi.animalia.dto.publicacion.CreatePublicacionDTO;
     import com.candi.animalia.dto.publicacion.GetPublicacionDTO;
     import com.candi.animalia.model.*;
     import com.candi.animalia.service.EspecieService;
@@ -22,11 +23,14 @@
     import org.springframework.data.domain.Page;
     import org.springframework.data.domain.Pageable;
     import org.springframework.data.web.PageableDefault;
+    import org.springframework.http.HttpStatus;
     import org.springframework.http.ResponseEntity;
     import org.springframework.security.access.prepost.PostAuthorize;
     import org.springframework.security.access.prepost.PreAuthorize;
     import org.springframework.security.core.annotation.AuthenticationPrincipal;
     import org.springframework.web.bind.annotation.*;
+    import org.springframework.web.multipart.MultipartFile;
+    import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
     import java.util.UUID;
 
@@ -130,7 +134,9 @@
         @PostAuthorize("hasRole('ADMIN')")
         public Page<GetPublicacionDTO> getAll(@PageableDefault(page=0, size=5) Pageable pageable) {
             Page<Publicacion> publicacions = publicacionService.findAll(pageable);
-            return publicacions.map(GetPublicacionDTO::of);
+            return publicacions.map(p -> {
+                return GetPublicacionDTO.of(p, getImageUrl(p.getImage()));
+            });
         }
 
 
@@ -190,9 +196,29 @@
         @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
         @GetMapping("/{id}")
         public GetPublicacionDTO findByid(@PathVariable UUID id){
-            return GetPublicacionDTO.of(publicacionService.findById(id));
+
+            Publicacion publicacion = publicacionService.findById(id);
+            return GetPublicacionDTO.of(publicacion, getImageUrl(publicacion.getImage()));
         }
 
+
+        @PostMapping("/{mascotaId}")
+        @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+        public ResponseEntity<GetPublicacionDTO> create(@RequestPart("file") MultipartFile file, @RequestPart("post") CreatePublicacionDTO newPost,
+                                                        @AuthenticationPrincipal Usuario usuario, @PathVariable UUID mascotaId
+        ) {
+            Publicacion publicacion = publicacionService.save(newPost,file, usuario, mascotaId);
+
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(GetPublicacionDTO.of(publicacion, getImageUrl(publicacion.getImage())));
+        }
+
+        public String getImageUrl(String filename) {
+            return ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/download/")
+                    .path(filename)
+                    .toUriString();
+        }
 
 
 

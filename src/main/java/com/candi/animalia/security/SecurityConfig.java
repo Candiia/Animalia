@@ -67,7 +67,7 @@ public class SecurityConfig {
                 .accessDeniedHandler(accessDeniedHandler)
         );
         http.authorizeHttpRequests(authz -> authz
-                .requestMatchers(HttpMethod.POST, "/usuario/register", "/usuario/login", "/usuario/refresh/token", "/error", "/activate/account/", "/usuario/register/admin", "/usuario/login/admin").permitAll()
+                .requestMatchers(HttpMethod.POST, "/usuario/register", "/usuario/login", "/usuario/refresh/token", "/error", "usuario/activate/account/", "/usuario/register/admin", "/usuario/login/admin").permitAll()
                 .requestMatchers(HttpMethod.GET, "/raza/admin", "/raza/{id}").hasRole("ADMIN")
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .requestMatchers(HttpMethod.POST, "/raza").hasRole("ADMIN")

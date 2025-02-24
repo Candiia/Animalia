@@ -81,4 +81,14 @@ public class Usuario implements UserDetails {
         m.setUsuario(null);
     }
 
+    public void addPublicacion (Publicacion p){
+        p.setUsuario(this);
+        this.publicacions.add(p);
+    }
+
+    public void removePublicacion(Publicacion p){
+        this.publicacions.remove(p);
+        p.setUsuario(null);
+    }
+
 }
