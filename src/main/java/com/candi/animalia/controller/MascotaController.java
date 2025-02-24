@@ -7,6 +7,7 @@
     import com.candi.animalia.model.Especie;
     import com.candi.animalia.model.Mascota;
     import com.candi.animalia.model.Raza;
+    import com.candi.animalia.model.Usuario;
     import com.candi.animalia.service.EspecieService;
     import com.candi.animalia.service.MascotaService;
     import com.candi.animalia.service.RazaService;
@@ -26,6 +27,7 @@
     import org.springframework.http.ResponseEntity;
     import org.springframework.security.access.prepost.PostAuthorize;
     import org.springframework.security.access.prepost.PreAuthorize;
+    import org.springframework.security.core.annotation.AuthenticationPrincipal;
     import org.springframework.web.bind.annotation.*;
 
     import java.util.UUID;
@@ -378,16 +380,15 @@
                         description = "Acceso denegado",
                         content = @Content)
         })
-        @PostMapping("/usuario/{usuarioId}")
-        @PostAuthorize("hasRole('USER')")
-        public ResponseEntity<GetMascotaDTO> createMascota(@RequestBody @Valid CreateMascotaDTO mascota, @PathVariable UUID usuarioId) {
+        @PostMapping("/usuario")
+        public ResponseEntity<GetMascotaDTO> createMascota(@RequestBody @Valid CreateMascotaDTO mascota, @AuthenticationPrincipal Usuario usuario) {
             Raza raza = razaService.findById(mascota.razaId());
             Especie especie = especieService.findById(mascota.especieId());
 
             return ResponseEntity.status(201)
                     .body(GetMascotaDTO.of(
                             mascotaService.save(
-                                    mascota.toMascota(raza, especie), usuarioId)
+                                    mascota.toMascota(raza, especie), usuario)
                     ));
         }
 

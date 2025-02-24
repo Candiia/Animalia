@@ -1,5 +1,7 @@
 package com.candi.animalia.service;
+import com.candi.animalia.dto.especie.EditEspecieDTO;
 import com.candi.animalia.dto.user.CreateUserRequest;
+import com.candi.animalia.dto.user.EditUserDTO;
 import com.candi.animalia.error.ActivationExpiredException;
 import com.candi.animalia.model.Especie;
 import com.candi.animalia.model.Role;
@@ -98,6 +100,13 @@ public class UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No hay usuario con esa id " + id));
 
+    }
+
+    public Usuario editUser(EditUserDTO userDTO, Usuario usuario) {
+        usuario.setEmail(userDTO.email());
+        usuario.setPassword(passwordEncoder.encode(userDTO.password()));
+
+        return userRepository.save(usuario);
     }
 
 }

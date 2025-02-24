@@ -53,11 +53,9 @@ public class MascotaService {
     }
 
 
-    public Mascota save(Mascota mascota, UUID usuarioId) {
-        Usuario usuario = usuarioRepository.buscarConMascotas(usuarioId)
-                .orElseThrow(() -> new EntityNotFoundException("Usuario con ID " + usuarioId + " no encontrado"));
-        usuario.addMascota(mascota);
-
+    public Mascota save(Mascota mascota, Usuario usuario) {
+        Usuario user = usuarioRepository.buscarConMascotas(usuario.getId());
+        user.addMascota(mascota);
         return mascotaRepository.save(mascota);
     }
 
