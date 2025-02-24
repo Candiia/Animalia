@@ -135,5 +135,65 @@
 
 
 
+        @Operation(summary = "Obtiene una publicación determinada")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Se ha obtenido la publicación correctamente",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = GetPublicacionDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                       {
+                                                                       "tipo": "Image",
+                                                                       "descripcion": "Max disfrutando del parque en un día soleado.",
+                                                                       "fechaRegistro": "2025-02-20",
+                                                                       "usuario": {
+                                                                           "username": "user1",
+                                                                           "email": "user1@example.com",
+                                                                           "fechaRegistro": "2025-02-01"
+                                                                       },
+                                                                       "mascotaDTO": {
+                                                                           "nombre": "Max",
+                                                                           "biografia": "Un perro muy juguetón y amigable.",
+                                                                           "fechaNacimiento": "2020-05-15",
+                                                                           "avatar": "https://example.com/avatars/max.jpg",
+                                                                           "raza": {
+                                                                               "nombre": "Labrador Retriever"
+                                                                           },
+                                                                           "especie": {
+                                                                               "nombre": "Canino",
+                                                                               "localDate": "2025-01-01"
+                                                                           },
+                                                                           "userDTO": {
+                                                                               "username": "user1",
+                                                                               "email": "user1@example.com",
+                                                                               "fechaRegistro": "2025-02-01"
+                                                                           }
+                                                                       }
+                                                                   }
+                                    """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "404",
+                        description = "Publicación no encontrada",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No autorizado",
+                        content = @Content),
+                @ApiResponse(responseCode = "403",
+                        description = "Acceso denegado",
+                        content = @Content),
+        })
+        @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+        @GetMapping("/{id}")
+        public GetPublicacionDTO findByid(@PathVariable UUID id){
+            return GetPublicacionDTO.of(publicacionService.findById(id));
+        }
+
+
+
 
     }

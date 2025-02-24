@@ -31,6 +31,12 @@ public class PublicacionService {
         return result;
     }
 
+    public Publicacion findById(UUID id) {
+        return publicacionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No hay publicación con esa id " + id));
+
+    }
+
 
     /*public Page<Publicacion> findByUsuarioIdPublicacion(Usuario usuario, Pageable pageable) {
         Page<Publicacion> publicacions = publicacionRepository.findAllPublicacionByMe(usuario.getId(), pageable);
