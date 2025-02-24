@@ -15,7 +15,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
             LEFT JOIN FETCH u.mascotaList
             WHERE u.id = :id
             """)
-  Optional<Usuario> buscarConMascotas(@Param("id") UUID id);
+  Usuario buscarConMascotas(@Param("id") UUID id);
 
   boolean existsByUsername(String nombre);
 }

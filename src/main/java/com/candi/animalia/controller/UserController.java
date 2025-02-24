@@ -1,5 +1,6 @@
 package com.candi.animalia.controller;
 import com.candi.animalia.dto.mascota.GetMascotaDTO;
+import com.candi.animalia.dto.raza.EditRazaDTO;
 import com.candi.animalia.dto.raza.GetRazaDTO;
 import com.candi.animalia.dto.user.*;
 import com.candi.animalia.model.Raza;
@@ -19,9 +20,11 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -375,5 +378,36 @@ public class UserController {
     public GetUserDTO findByid(@PathVariable UUID id){
         return GetUserDTO.of(userService.findById(id));
     }
+
+
+    @Operation(summary = "Editar un usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Usuario editado correctamente",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation = EditUserDTO.class)),
+                                    examples = {
+                                            @ExampleObject(
+                                                    value = """
+                                            {
+                                             "nombre":"Cocodrilo"
+                                            }
+                                    """
+                                            )
+                                    })
+                    }),
+            @ApiResponse(responseCode = "404",
+                    description = "Usuario no encontrado",
+                    content = @Content),
+            @ApiResponse(responseCode = "401",
+                    description = "No autorizado",
+                    content = @Content)
+    })
+    @PutMapping("/me")
+    public GetUserDTO edit(@RequestBody @Valid EditUserDTO edit, @AuthenticationPrincipal Usuario usuario) {
+        return GetUserDTO.of(userService.editUser(edit, usuario));
+    }
+
 
 }
