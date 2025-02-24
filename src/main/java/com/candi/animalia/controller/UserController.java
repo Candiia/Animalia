@@ -419,9 +419,10 @@ public class UserController {
                     description = "No estás autorizado",
                     content = @Content)
     })
-    @DeleteMapping("/me")
+    @DeleteMapping()
+    @PostAuthorize("hasRole('USER')")
     public ResponseEntity<?> deleteUser(@AuthenticationPrincipal Usuario usuario){
-        userService.deleteById(usuario);
+        userService.deleteUsuarioCuenta(usuario);
         return ResponseEntity.noContent().build();
     }
 

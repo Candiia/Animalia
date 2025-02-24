@@ -5,6 +5,7 @@ import com.candi.animalia.error.ActivationExpiredException;
 import com.candi.animalia.model.Role;
 import com.candi.animalia.model.Usuario;
 import com.candi.animalia.repository.UserRepository;
+import com.candi.animalia.security.jwt.refresh.RefreshTokenRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Instant;
@@ -29,6 +31,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final SendGridMailSender mailSender;
+    private final RefreshTokenRepository refreshTokenRepository;
     @Value("${activation.duration}")
     private int activationDuration;
 
@@ -107,8 +110,12 @@ public class UserService {
         return userRepository.save(usuario);
     }
 
-    public void deleteById(Usuario usuario){
-        userRepository.deleteById(usuario.getId());
+    @Transactional
+    public void deleteUsuarioCuenta(Usuario usuario) {
+        if (usuario != null) {
+            refreshTokenRepository.deleteByUser(usuario);
+            userRepository.delete(usuario);
+        }
     }
 
 }
