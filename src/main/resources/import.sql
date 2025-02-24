@@ -71,3 +71,29 @@ INSERT INTO publicacion (id, image, descripcion, fecha_publicacion, usuario_id, 
 VALUES ('550e8400-e29b-41d4-a716-446655440206', 'Image', 'Max irá a una sesión de entrenamiento mañana.', '2025-02-23', '550e8400-e29b-41d4-a716-446655440001', '550e8400-e29b-41d4-a716-446655440100');
 INSERT INTO publicacion (id, image, descripcion, fecha_publicacion, usuario_id, mascota_id)
 VALUES ('550e8400-e29b-41d4-a716-446655440207', 'Image', 'Luna durmiendo en el sofá, parece una reina.', '2025-02-18', '550e8400-e29b-41d4-a716-446655440002', '550e8400-e29b-41d4-a716-446655440101');
+
+
+INSERT INTO likes (publicacion_id, usuario_id, fecha_realizada)
+VALUES ('550e8400-e29b-41d4-a716-446655440200', '550e8400-e29b-41d4-a716-446655440002', '2025-02-20');
+INSERT INTO likes (publicacion_id, usuario_id, fecha_realizada)
+VALUES ('550e8400-e29b-41d4-a716-446655440200', '550e8400-e29b-41d4-a716-446655440003', '2025-02-21');
+INSERT INTO likes (publicacion_id, usuario_id, fecha_realizada)
+VALUES ('550e8400-e29b-41d4-a716-446655440200', '550e8400-e29b-41d4-a716-446655440004', '2025-02-22');
+INSERT INTO likes (publicacion_id, usuario_id, fecha_realizada)
+VALUES ('550e8400-e29b-41d4-a716-446655440201', '550e8400-e29b-41d4-a716-446655440001', '2025-02-21');
+INSERT INTO likes(publicacion_id, usuario_id, fecha_realizada)
+VALUES ('550e8400-e29b-41d4-a716-446655440201', '550e8400-e29b-41d4-a716-446655440004', '2025-02-23');
+INSERT INTO likes (publicacion_id, usuario_id, fecha_realizada)
+VALUES ('550e8400-e29b-41d4-a716-446655440202', '550e8400-e29b-41d4-a716-446655440001', '2025-02-22');
+INSERT INTO likes (publicacion_id, usuario_id, fecha_realizada)
+VALUES ('550e8400-e29b-41d4-a716-446655440202', '550e8400-e29b-41d4-a716-446655440002', '2025-02-23');
+INSERT INTO likes (publicacion_id, usuario_id, fecha_realizada)
+VALUES ('550e8400-e29b-41d4-a716-446655440203', '550e8400-e29b-41d4-a716-446655440003', '2025-02-23');
+INSERT INTO likes (publicacion_id, usuario_id, fecha_realizada)
+VALUES ('550e8400-e29b-41d4-a716-446655440203', '550e8400-e29b-41d4-a716-446655440002', '2025-02-24');
+INSERT INTO likes (publicacion_id, usuario_id, fecha_realizada)
+VALUES ('550e8400-e29b-41d4-a716-446655440204', '550e8400-e29b-41d4-a716-446655440001', '2025-02-24');
+INSERT INTO likes (publicacion_id, usuario_id, fecha_realizada)
+VALUES ('550e8400-e29b-41d4-a716-446655440204', '550e8400-e29b-41d4-a716-446655440003', '2025-02-24');
+INSERT INTO likes (publicacion_id, usuario_id, fecha_realizada)
+VALUES ('550e8400-e29b-41d4-a716-446655440205', '550e8400-e29b-41d4-a716-446655440002', '2025-02-19');

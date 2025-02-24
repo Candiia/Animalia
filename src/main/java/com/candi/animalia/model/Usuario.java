@@ -60,6 +60,16 @@ public class Usuario implements UserDetails {
     @Builder.Default
     List<Publicacion> publicacions = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "usuario",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @Builder.Default
+    @ToString.Exclude
+    private List<Like> likes = new ArrayList<>();
+
     @Builder.Default
     private Instant createdAt = Instant.now();
 
@@ -90,5 +100,7 @@ public class Usuario implements UserDetails {
         this.publicacions.remove(p);
         p.setUsuario(null);
     }
+
+
 
 }
