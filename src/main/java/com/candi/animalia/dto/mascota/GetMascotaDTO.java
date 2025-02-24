@@ -17,14 +17,14 @@ public record GetMascotaDTO(
         GetUserDTO userDTO
 ) {
 
-    public static GetMascotaDTO of(Mascota mascota){
+    public static GetMascotaDTO of(Mascota mascota, String url){
         return new GetMascotaDTO(
                 mascota.getNombre(),
                 mascota.getBiografia(),
                 mascota.getFechaNacimiento(),
-                mascota.getAvatar(),
-                mascota.getRaza() != null ? GetRazaDTO.of(mascota.getRaza()) : null,
-                mascota.getEspecie() != null ? GetEspecieDTO.of(mascota.getEspecie()) : null,
+                url,
+                GetRazaDTO.of(mascota.getRaza()),
+                GetEspecieDTO.of(mascota.getEspecie()),
                 GetUserDTO.of(mascota.getUsuario())
         );
     }

@@ -20,7 +20,7 @@ public record GetPublicacionDTO(
                 publicacion.getDescripcion(),
                 publicacion.getFechaPublicacion(),
                 GetUserDTO.of(publicacion.getUsuario()),
-                GetMascotaDTO.of(publicacion.getMascota())
+                GetMascotaDTO.of(publicacion.getMascota(), publicacion.getImage())
         );
     }
 }
