@@ -1,6 +1,6 @@
 package com.candi.animalia.validation;
 
-import com.candi.animalia.model.UsuarioRepository;
+import com.candi.animalia.repository.UsuarioRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;

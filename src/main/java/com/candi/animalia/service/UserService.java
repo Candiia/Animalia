@@ -4,7 +4,7 @@ import com.candi.animalia.dto.user.EditUserDTO;
 import com.candi.animalia.error.ActivationExpiredException;
 import com.candi.animalia.model.Role;
 import com.candi.animalia.model.Usuario;
-import com.candi.animalia.repository.UserRepository;
+import com.candi.animalia.repository.UsuarioRepository;
 import com.candi.animalia.security.jwt.refresh.RefreshTokenRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
     private final SendGridMailSender mailSender;
     private final RefreshTokenRepository refreshTokenRepository;
@@ -51,7 +51,7 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error al enviar el email de activación");
         }
 
-        return userRepository.save(user);
+        return usuarioRepository.save(user);
     }
 
     public String generatedVerificationCode(){
@@ -61,12 +61,12 @@ public class UserService {
 
     public Usuario activateAccount(String token) {
 
-        return userRepository.findByActivationToken(token)
+        return usuarioRepository.findByActivationToken(token)
                 .filter(user -> ChronoUnit.MINUTES.between(Instant.now(), user.getCreatedAt()) - activationDuration < 0)
                 .map(user -> {
                     user.setEnabled(true);
                     user.setActivationToken(null);
-                    return userRepository.save(user);
+                    return usuarioRepository.save(user);
                 })
                 .orElseThrow(() -> new ActivationExpiredException("El código de activación no existe o ha caducado"));
     }
@@ -87,18 +87,18 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error al enviar el email de activación");
         }
 
-        return userRepository.save(user);
+        return usuarioRepository.save(user);
     }
 
     public Page<Usuario> findAll(Pageable pageable) {
-        Page<Usuario> result = userRepository.findAllUsuario(pageable);
+        Page<Usuario> result = usuarioRepository.findAllUsuario(pageable);
         if (result.isEmpty())
             throw new EntityNotFoundException("No hay usuario con esos criterios de búsqueda");
         return result;
     }
 
     public Usuario findById(UUID id) {
-        return userRepository.findById(id)
+        return usuarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No hay usuario con esa id " + id));
 
     }
@@ -107,14 +107,14 @@ public class UserService {
         usuario.setEmail(userDTO.email());
         usuario.setPassword(passwordEncoder.encode(userDTO.password()));
 
-        return userRepository.save(usuario);
+        return usuarioRepository.save(usuario);
     }
 
     @Transactional
     public void deleteUsuarioCuenta(Usuario usuario) {
         if (usuario != null) {
             refreshTokenRepository.deleteByUser(usuario);
-            userRepository.delete(usuario);
+            usuarioRepository.delete(usuario);
         }
     }
 

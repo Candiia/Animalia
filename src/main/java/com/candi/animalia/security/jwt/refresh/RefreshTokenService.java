@@ -2,7 +2,7 @@ package com.candi.animalia.security.jwt.refresh;
 
 import com.candi.animalia.dto.user.UserResponse;
 import com.candi.animalia.model.Usuario;
-import com.candi.animalia.repository.UserRepository;
+import com.candi.animalia.repository.UsuarioRepository;
 import com.candi.animalia.security.jwt.access.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +17,7 @@ public class RefreshTokenService {
 
 
     private final RefreshTokenRepository refreshTokenRepository;
-    private final UserRepository userRepository;
+    private final UsuarioRepository userRepository;
     private final JwtService jwtService;
 
     @Value("${jwt.refresh.duration}")

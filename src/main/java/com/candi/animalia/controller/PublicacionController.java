@@ -233,7 +233,7 @@
                         content = @Content)
         })
         @DeleteMapping("/{id}")
-        @PreAuthorize("hasRole('USER')")
+        @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
         public ResponseEntity<?> deletePublicacion(@PathVariable UUID id, @AuthenticationPrincipal Usuario usuario){
             publicacionService.deleteById(id, usuario);
             return ResponseEntity.noContent().build();
@@ -270,6 +270,7 @@
                         content = @Content)
         })
         @PutMapping("/{id}")
+        @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
         public GetPublicacionEditDTO edit(@RequestPart("post") @Valid EditPublicacionDTO edit, @PathVariable UUID id, @AuthenticationPrincipal Usuario usuari) {
             return GetPublicacionEditDTO.of(publicacionService.edit(edit, id, usuari));
 

@@ -1,11 +1,7 @@
 package com.candi.animalia.controller;
-import com.candi.animalia.dto.mascota.GetMascotaDTO;
-import com.candi.animalia.dto.raza.EditRazaDTO;
-import com.candi.animalia.dto.raza.GetRazaDTO;
 import com.candi.animalia.dto.user.*;
-import com.candi.animalia.model.Raza;
 import com.candi.animalia.model.Usuario;
-import com.candi.animalia.model.UsuarioRepository;
+import com.candi.animalia.repository.UsuarioRepository;
 import com.candi.animalia.security.jwt.access.JwtService;
 import com.candi.animalia.security.jwt.refresh.RefreshToken;
 import com.candi.animalia.security.jwt.refresh.RefreshTokenRequest;
@@ -375,6 +371,7 @@ public class UserController {
                     content = @Content),
     })
     @GetMapping("/{id}")
+    @PostMapping("hasAnyRole('ADMIN', 'USER')")
     public GetUserDTO findByid(@PathVariable UUID id){
         return GetUserDTO.of(userService.findById(id));
     }
@@ -405,6 +402,7 @@ public class UserController {
                     content = @Content)
     })
     @PutMapping("/me")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public GetUserDTO edit(@RequestBody @Valid EditUserDTO edit, @AuthenticationPrincipal Usuario usuario) {
         return GetUserDTO.of(userService.editUser(edit, usuario));
     }
@@ -420,7 +418,7 @@ public class UserController {
                     content = @Content)
     })
     @DeleteMapping()
-    @PostAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<?> deleteUser(@AuthenticationPrincipal Usuario usuario){
         userService.deleteUsuarioCuenta(usuario);
         return ResponseEntity.noContent().build();

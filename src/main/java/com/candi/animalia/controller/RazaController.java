@@ -20,6 +20,7 @@
     import org.springframework.data.web.PageableDefault;
 
     import org.springframework.http.ResponseEntity;
+    import org.springframework.security.access.prepost.PostAuthorize;
     import org.springframework.security.access.prepost.PreAuthorize;
     import org.springframework.web.bind.annotation.*;
 
@@ -157,6 +158,7 @@
                         content = @Content)
         })
         @PostMapping()
+        @PreAuthorize("hasRole('ADMIN')")
         public ResponseEntity<GetRazaDTO> createRaza(@RequestBody @Valid CreateRazaDTO razaDTO){
             return ResponseEntity.status(201)
                     .body(GetRazaDTO.of(razaService.save(razaDTO)));

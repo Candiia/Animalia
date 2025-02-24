@@ -191,9 +191,7 @@
         @GetMapping("/admin")
         public Page<GetMascotaDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable){
             Page<Mascota> mascotas = mascotaService.findAll(pageable);
-            return mascotas.map(m -> {
-                return GetMascotaDTO.of(m, getImageUrl(m.getAvatar()));
-            });
+            return mascotas.map(m -> GetMascotaDTO.of(m, getImageUrl(m.getAvatar())));
         }
 
         @Operation(summary = "Obtiene una mascota determinada")
@@ -238,6 +236,7 @@
                         description = "Acceso denegado",
                         content = @Content),
         })
+        @PostAuthorize("hasRole('ADMIN')")
         @GetMapping("/{id}")
         public GetMascotaDTO findByid(@PathVariable UUID id){
             Mascota mascota = mascotaService.findById(id);
@@ -335,9 +334,7 @@
         @PostAuthorize("hasRole('ADMIN')")
         public Page<GetMascotaDTO> getMascotaByUsuario(@PathVariable UUID id, @PageableDefault(page=0, size=5) Pageable pageable) {
             Page<Mascota> mascotas = mascotaService.findByUsuarioIdMascota(id,pageable);
-            return mascotas.map(m -> {
-                return GetMascotaDTO.of(m, getImageUrl(m.getAvatar()));
-            });
+            return mascotas.map(m -> GetMascotaDTO.of(m, getImageUrl(m.getAvatar())));
         }
 
         @Operation(summary = "Obtiene todos las mascotas del usuario")
@@ -427,12 +424,10 @@
                         content = @Content),
         })
         @GetMapping("/me")
-        @PostAuthorize("hasRole('USER')")
+        @PostAuthorize("hasAnyRole('USER', 'ADMIN')")
         public Page<GetMascotaDTO> getMascotaByMe(@AuthenticationPrincipal Usuario usuario, @PageableDefault(page=0, size=5) Pageable pageable) {
             Page<Mascota> mascotas = mascotaService.findByUsuarioIdMascota(usuario,pageable);
-            return mascotas.map(m -> {
-                return GetMascotaDTO.of(m, getImageUrl(m.getAvatar()));
-            });
+            return mascotas.map(m -> GetMascotaDTO.of(m, getImageUrl(m.getAvatar())));
         }
 
 
@@ -480,6 +475,7 @@
                         content = @Content)
         })
         @PostMapping("/usuario")
+        @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
         public ResponseEntity<GetMascotaDTO> createMascota(@Valid @RequestPart("post")CreateMascotaDTO mascotaDto, @RequestPart("file")MultipartFile file,
                                                            @AuthenticationPrincipal Usuario usuario) {
 
@@ -520,6 +516,7 @@
                         content = @Content)
         })
         @PutMapping("/{id}")
+        @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
         public GetMascotaDTO edit(@RequestPart("post") @Valid EditMascotaDTO edit, @PathVariable UUID id, @RequestPart("file")MultipartFile file, @AuthenticationPrincipal Usuario usuari) {
             Mascota updatedMascota = mascotaService.edit(edit, id, file, usuari);
             return GetMascotaDTO.of(updatedMascota, getImageUrl(updatedMascota.getAvatar()));
@@ -538,7 +535,7 @@
                         content = @Content)
         })
         @DeleteMapping("/{id}")
-        @PreAuthorize("hasRole('USER')")
+        @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
         public ResponseEntity<?> deleteMascota(@PathVariable UUID id){
             mascotaService.deleteById(id);
             return ResponseEntity.noContent().build();

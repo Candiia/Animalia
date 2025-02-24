@@ -3,6 +3,7 @@
     import com.candi.animalia.dto.especie.CreateEspecieDTO;
     import com.candi.animalia.dto.especie.EditEspecieDTO;
     import com.candi.animalia.dto.especie.GetEspecieDTO;
+    import com.candi.animalia.dto.like.CreateLikeDTO;
     import com.candi.animalia.dto.like.GetLikeDTO;
     import com.candi.animalia.model.Especie;
     import com.candi.animalia.model.Like;
@@ -22,6 +23,7 @@
     import org.springframework.data.domain.Page;
     import org.springframework.data.domain.Pageable;
     import org.springframework.data.web.PageableDefault;
+    import org.springframework.http.HttpStatus;
     import org.springframework.http.ResponseEntity;
     import org.springframework.security.access.prepost.PostAuthorize;
     import org.springframework.security.access.prepost.PreAuthorize;
@@ -199,11 +201,17 @@
                 description = "No tienes autorización",
                 content = @Content)
         })
-        @PostAuthorize("hasRole('USER')")
+        @PostAuthorize("hasAnyRole('ADMIN', 'USER')")
         @GetMapping("/admin")
         public Page<GetLikeDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable, @AuthenticationPrincipal Usuario usuario){
             Page<Like> likes = likesService.findAll(pageable, usuario);
             return likes.map(GetLikeDTO::of);
+        }
+
+        @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+        @PostMapping()
+        public ResponseEntity<GetLikeDTO> createLike(@RequestBody @Valid CreateLikeDTO likeDTO, @AuthenticationPrincipal Usuario usuario) {
+            return ResponseEntity.ok(GetLikeDTO.of(likesService.save(likeDTO, usuario)));
         }
 
     }
