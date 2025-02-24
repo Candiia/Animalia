@@ -220,6 +220,22 @@
                     .toUriString();
         }
 
+        @Operation(summary = "Eliminar una publicación")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "204",
+                        description = "Publicación eliminada correctamente",
+                        content = @Content
+                ),
+                @ApiResponse(responseCode = "401",
+                        description = "No estás autorizado",
+                        content = @Content)
+        })
+        @DeleteMapping("/{id}")
+        @PreAuthorize("hasRole('USER')")
+        public ResponseEntity<?> deletePublicacion(@PathVariable UUID id, @AuthenticationPrincipal Usuario usuario){
+            publicacionService.deleteById(id, usuario);
+            return ResponseEntity.noContent().build();
+        }
 
 
     }
