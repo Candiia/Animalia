@@ -53,6 +53,14 @@ public class MascotaService {
     }
 
 
+    public Page<Mascota> findByUsuarioIdMascota(Usuario usuario, Pageable pageable) {
+        Page<Mascota> mascotas = mascotaRepository.findByUsuarioIdMascotas(usuario.getId(), pageable);
+        if (mascotas.isEmpty()) {
+            throw new EntityNotFoundException("No hay mascotas");
+        }
+        return mascotas;
+    }
+
     public Mascota save(Mascota mascota, Usuario usuario) {
         Usuario user = usuarioRepository.buscarConMascotas(usuario.getId());
         user.addMascota(mascota);
