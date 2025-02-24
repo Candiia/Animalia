@@ -3,9 +3,7 @@ package com.candi.animalia.service;
 import com.candi.animalia.dto.publicacion.CreatePublicacionDTO;
 import com.candi.animalia.files.model.FileMetadata;
 import com.candi.animalia.files.service.StorageService;
-import com.candi.animalia.model.Mascota;
-import com.candi.animalia.model.Publicacion;
-import com.candi.animalia.model.Usuario;
+import com.candi.animalia.model.*;
 import com.candi.animalia.repository.MascotaRepository;
 import com.candi.animalia.repository.PublicacionRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -70,8 +71,20 @@ public class PublicacionService {
     }
 
 
+    @Transactional
+    public void deleteById(UUID publicacionid, Usuario usuario) {
 
-    /*public Page<Publicacion> findByUsuarioIdPublicacion(Usuario usuario, Pageable pageable) {
+        Publicacion publicacionOpt = publicacionRepository.findById(publicacionid)
+                .orElseThrow(() -> new EntityNotFoundException("Publicacion no encontrada"));
+
+        if (publicacionOpt.getUsuario().getId().equals(usuario.getId())) {
+            publicacionRepository.delete(publicacionOpt);
+        }else{
+            throw new EntityNotFoundException("No puedes eliminar una publicación que no es tuya");
+        }
+
+    }
+     /*public Page<Publicacion> findByUsuarioIdPublicacion(Usuario usuario, Pageable pageable) {
         Page<Publicacion> publicacions = publicacionRepository.findAllPublicacionByMe(usuario.getId(), pageable);
         if (publicacions.isEmpty()) {
             throw new EntityNotFoundException("No se encontraron publicaciones");
@@ -79,8 +92,13 @@ public class PublicacionService {
         return publicacions;
     }*/
 
-
-
-
-
 }
+
+
+
+
+
+
+
+
+
