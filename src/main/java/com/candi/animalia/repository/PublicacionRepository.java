@@ -28,4 +28,13 @@ public interface PublicacionRepository extends JpaRepository<Publicacion, UUID> 
             """)
     Page<Publicacion> findAllPublicacion(Pageable pageable);
 
+    @Query(""" 
+            SELECT u
+            FROM Usuario u
+            LEFT JOIN FETCH u.publicacions
+            WHERE u.id = :id
+            """)
+    Optional<Usuario> findByIdConPublicacions(@Param("id") UUID id);
+
+
 }

@@ -89,4 +89,15 @@ public class Mascota {
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
     }
+
+
+    public void addPublicacion (Publicacion p){
+        p.setMascota(this);
+        this.publicacions.add(p);
+    }
+
+    public void removePublicacion(Publicacion p){
+        this.publicacions.remove(p);
+        p.setMascota(null);
+    }
 }
