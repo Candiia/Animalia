@@ -1,9 +1,7 @@
 package com.candi.animalia.service;
-import com.candi.animalia.dto.especie.EditEspecieDTO;
 import com.candi.animalia.dto.user.CreateUserRequest;
 import com.candi.animalia.dto.user.EditUserDTO;
 import com.candi.animalia.error.ActivationExpiredException;
-import com.candi.animalia.model.Especie;
 import com.candi.animalia.model.Role;
 import com.candi.animalia.model.Usuario;
 import com.candi.animalia.repository.UserRepository;
@@ -107,6 +105,10 @@ public class UserService {
         usuario.setPassword(passwordEncoder.encode(userDTO.password()));
 
         return userRepository.save(usuario);
+    }
+
+    public void deleteById(Usuario usuario){
+        userRepository.deleteById(usuario.getId());
     }
 
 }
