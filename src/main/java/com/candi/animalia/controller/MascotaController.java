@@ -330,9 +330,102 @@
                         content = @Content),
         })
         @GetMapping("/usuario/{id}")
-        @PostAuthorize("hasRole('USER')")
+        @PostAuthorize("hasRole('ADMIN')")
         public Page<GetMascotaDTO> getMascotaByUsuario(@PathVariable UUID id, @PageableDefault(page=0, size=5) Pageable pageable) {
             Page<Mascota> mascotas = mascotaService.findByUsuarioIdMascota(id,pageable);
+            return mascotas.map(GetMascotaDTO::of);
+        }
+
+        @Operation(summary = "Obtiene todos las mascotas del usuario")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Se ha obtenido todas las mascotas del usuario",
+                        content = {
+                                @Content(mediaType = "application/json",
+
+                                        array = @ArraySchema(schema = @Schema(implementation = GetMascotaDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                        [{
+                                                                              "content": [
+                                                                                  {
+                                                                                      "nombre": "Rocky",
+                                                                                      "biografia": "Beagle aventurero y curioso.",
+                                                                                      "fechaNacimiento": "2021-01-10",
+                                                                                      "avatar": "https://example.com/avatars/rocky.jpg",
+                                                                                      "raza": {
+                                                                                          "nombre": "Beagle"
+                                                                                      },
+                                                                                      "especie": {
+                                                                                          "nombre": "Canino",
+                                                                                          "localDate": "2025-01-01"
+                                                                                      },
+                                                                                      "userDTO": {
+                                                                                          "username": "user3",
+                                                                                          "email": "user3@example.com",
+                                                                                          "fechaRegistro": "2025-02-03"
+                                                                                      }
+                                                                                  },
+                                                                                  {
+                                                                                      "nombre": "Milo",
+                                                                                      "biografia": "Un pez dorado que adora nadar.",
+                                                                                      "fechaNacimiento": "2023-01-15",
+                                                                                      "avatar": "https://example.com/avatars/milo.jpg",
+                                                                                      "raza": null,
+                                                                                      "especie": {
+                                                                                          "nombre": "Peces",
+                                                                                          "localDate": "2023-01-01"
+                                                                                      },
+                                                                                      "userDTO": {
+                                                                                          "username": "user3",
+                                                                                          "email": "user3@example.com",
+                                                                                          "fechaRegistro": "2025-02-03"
+                                                                                      }
+                                                                                  }
+                                                                              ],
+                                                                              "pageable": {
+                                                                                  "pageNumber": 0,
+                                                                                  "pageSize": 5,
+                                                                                  "sort": {
+                                                                                      "empty": true,
+                                                                                      "sorted": false,
+                                                                                      "unsorted": true
+                                                                                  },
+                                                                                  "offset": 0,
+                                                                                  "paged": true,
+                                                                                  "unpaged": false
+                                                                              },
+                                                                              "last": true,
+                                                                              "totalElements": 2,
+                                                                              "totalPages": 1,
+                                                                              "size": 5,
+                                                                              "number": 0,
+                                                                              "sort": {
+                                                                                  "empty": true,
+                                                                                  "sorted": false,
+                                                                                  "unsorted": true
+                                                                              },
+                                                                              "first": true,
+                                                                              "numberOfElements": 2,
+                                                                              "empty": false
+                                                                          }
+                                        ]
+                                    """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "404",
+                        description = "No se ha encontrado ninguna mascota para el usuario",
+                        content = @Content),
+                @ApiResponse(responseCode = "403",
+                        description = "Acceso denegado",
+                        content = @Content),
+        })
+        @GetMapping("/me")
+        @PostAuthorize("hasRole('USER')")
+        public Page<GetMascotaDTO> getMascotaByMe(@AuthenticationPrincipal Usuario usuario, @PageableDefault(page=0, size=5) Pageable pageable) {
+            Page<Mascota> mascotas = mascotaService.findByUsuarioIdMascota(usuario,pageable);
             return mascotas.map(GetMascotaDTO::of);
         }
 

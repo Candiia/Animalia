@@ -50,6 +50,26 @@ public class Usuario implements UserDetails {
     @Builder.Default
     List<Mascota> mascotaList = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy="usuario",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @ToString.Exclude
+    @Builder.Default
+    List<Publicacion> publicacions = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "usuario",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @Builder.Default
+    @ToString.Exclude
+    private List<Like> likes = new ArrayList<>();
+
     @Builder.Default
     private Instant createdAt = Instant.now();
 
@@ -70,5 +90,17 @@ public class Usuario implements UserDetails {
         this.mascotaList.remove(m);
         m.setUsuario(null);
     }
+
+    public void addPublicacion (Publicacion p){
+        p.setUsuario(this);
+        this.publicacions.add(p);
+    }
+
+    public void removePublicacion(Publicacion p){
+        this.publicacions.remove(p);
+        p.setUsuario(null);
+    }
+
+
 
 }
