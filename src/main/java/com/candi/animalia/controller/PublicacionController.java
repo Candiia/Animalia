@@ -4,7 +4,9 @@
     import com.candi.animalia.dto.mascota.EditMascotaDTO;
     import com.candi.animalia.dto.mascota.GetMascotaDTO;
     import com.candi.animalia.dto.publicacion.CreatePublicacionDTO;
+    import com.candi.animalia.dto.publicacion.EditPublicacionDTO;
     import com.candi.animalia.dto.publicacion.GetPublicacionDTO;
+    import com.candi.animalia.dto.publicacion.GetPublicacionEditDTO;
     import com.candi.animalia.model.*;
     import com.candi.animalia.service.EspecieService;
     import com.candi.animalia.service.MascotaService;
@@ -235,6 +237,42 @@
         public ResponseEntity<?> deletePublicacion(@PathVariable UUID id, @AuthenticationPrincipal Usuario usuario){
             publicacionService.deleteById(id, usuario);
             return ResponseEntity.noContent().build();
+        }
+
+
+        @Operation(summary = "Editar datos de una publicación")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Publicación editada correctamente",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = EditPublicacionDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                             {
+                                              "titulo":"Nuevo Título",
+                                              "descripcion":"Nueva Descripción",
+                                              "categoria": {"id": 1}
+                                             }
+                                    """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "404",
+                        description = "No tienes permiso para editar esta publicación",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No estas autorizado",
+                        content = @Content),
+                @ApiResponse(responseCode = "403",
+                        description = "Acceso denegado",
+                        content = @Content)
+        })
+        @PutMapping("/{id}")
+        public GetPublicacionEditDTO edit(@RequestPart("post") @Valid EditPublicacionDTO edit, @PathVariable UUID id, @AuthenticationPrincipal Usuario usuari) {
+            return GetPublicacionEditDTO.of(publicacionService.edit(edit, id, usuari));
+
         }
 
 

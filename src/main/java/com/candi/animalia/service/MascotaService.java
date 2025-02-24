@@ -116,7 +116,7 @@ public class MascotaService {
             throw new EntityNotFoundException("No tienes permiso para editar esta mascota");
         }
             return mascotaRepository.save(mascota);
-        }
+    }
 
 
     public void deleteById(UUID id){
