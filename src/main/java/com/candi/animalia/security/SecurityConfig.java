@@ -75,9 +75,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.PUT, "/mascota/{id}").permitAll()
                 .anyRequest().authenticated());
 
-
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
 
         http.headers(headers ->
                 headers.frameOptions(frameOptions -> frameOptions.disable()));

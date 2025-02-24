@@ -2,13 +2,13 @@ package com.candi.animalia.service;
 
 import com.candi.animalia.dto.mascota.CreateMascotaDTO;
 import com.candi.animalia.dto.mascota.EditMascotaDTO;
-import com.candi.animalia.dto.raza.EditRazaDTO;
 import com.candi.animalia.files.model.FileMetadata;
 import com.candi.animalia.files.service.StorageService;
 import com.candi.animalia.model.*;
 import com.candi.animalia.repository.EspecieRepository;
 import com.candi.animalia.repository.MascotaRepository;
 import com.candi.animalia.repository.RazaRepository;
+import com.candi.animalia.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,9 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

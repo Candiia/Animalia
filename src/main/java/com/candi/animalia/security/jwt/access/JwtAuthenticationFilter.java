@@ -1,7 +1,7 @@
 package com.candi.animalia.security.jwt.access;
 
 import com.candi.animalia.model.Usuario;
-import com.candi.animalia.repository.UserRepository;
+import com.candi.animalia.repository.UsuarioRepository;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,7 +27,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final UserRepository userRepository;
+    private final UsuarioRepository userRepository;
     private final JwtService jwtService;
 
     @Autowired

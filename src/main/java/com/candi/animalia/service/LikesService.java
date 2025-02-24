@@ -1,14 +1,13 @@
 package com.candi.animalia.service;
 
-import com.candi.animalia.dto.especie.CreateEspecieDTO;
-import com.candi.animalia.dto.especie.EditEspecieDTO;
-import com.candi.animalia.model.Especie;
-import com.candi.animalia.model.Like;
-import com.candi.animalia.model.Mascota;
-import com.candi.animalia.model.Usuario;
-import com.candi.animalia.repository.EspecieRepository;
+
+import com.candi.animalia.dto.like.CreateLikeDTO;
+import com.candi.animalia.model.*;
+
 import com.candi.animalia.repository.LikeRepository;
-import com.candi.animalia.repository.MascotaRepository;
+
+import com.candi.animalia.repository.PublicacionRepository;
+import com.candi.animalia.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,16 +15,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class LikesService {
 
     private final LikeRepository likeRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final PublicacionRepository publicacionRepository;
 
     public Page<Like> findAll(Pageable pageable, Usuario usuario) {
 
@@ -35,4 +32,26 @@ public class LikesService {
         return result;
     }
 
+
+    public Like save(CreateLikeDTO like, Usuario usuario) {
+        Publicacion publicacion = publicacionRepository.findById(like.publicacionId())
+                .orElseThrow(() -> new EntityNotFoundException("No se ha enocntrado la publicación"));
+        LikePK likePK = new LikePK();
+
+        if (likeRepository.existsByPublicacionAndUsuario(publicacion, usuario)) {
+            throw new EntityNotFoundException("El usuario ya dio like a esta publicación");
+        }
+
+        likePK.setPublicacionId(publicacion.getId());
+        likePK.setUsuarioId(usuario.getId());
+
+        return likeRepository.save(Like.builder()
+                .publicacion(publicacion)
+                .likePK(likePK)
+                .usuario(usuario)
+                .fechaRealizada(LocalDate.now())
+                .build());
+
+
+    }
 }

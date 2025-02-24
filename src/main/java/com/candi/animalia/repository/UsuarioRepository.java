@@ -1,5 +1,8 @@
-package com.candi.animalia.model;
+package com.candi.animalia.repository;
 
+import com.candi.animalia.model.Usuario;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,4 +21,14 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID> {
   Usuario buscarConMascotas(@Param("id") UUID id);
 
   boolean existsByUsername(String nombre);
+
+  Optional<Usuario> findFirstByUsername(String username);
+
+  Optional<Usuario> findByActivationToken(String activationToken);
+
+  @Query("""
+            SELECT u
+            FROM Usuario u
+            """)
+  Page<Usuario> findAllUsuario(Pageable pageable);
 }
