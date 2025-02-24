@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -42,6 +44,16 @@ public class Publicacion {
             foreignKey = @ForeignKey(name = "fk_publicacion_mascota")
     )
     private Mascota mascota;
+
+    @OneToMany(
+            mappedBy = "publicacion",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @Builder.Default
+    @ToString.Exclude
+    private List<Like> likes = new ArrayList<>();
 
     @Override
     public final boolean equals(Object o) {
