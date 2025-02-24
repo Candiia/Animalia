@@ -13,7 +13,6 @@ public record CreateMascotaDTO(
         @NotBlank
         String nombre,
         LocalDate fechaNacimiento,
-        String avatar,
         String biografia,
         @NotNull
         UUID razaId,
@@ -21,14 +20,4 @@ public record CreateMascotaDTO(
         UUID especieId
 ) {
 
-        public Mascota toMascota(Raza raza, Especie especie) {
-                return Mascota.builder()
-                        .nombre(this.nombre)
-                        .fechaNacimiento(this.fechaNacimiento)
-                        .avatar(this.avatar)
-                        .biografia(this.biografia)
-                        .raza(raza)
-                        .especie(especie)
-                        .build();
-        }
 }

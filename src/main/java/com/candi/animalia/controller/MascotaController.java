@@ -3,11 +3,9 @@
     import com.candi.animalia.dto.mascota.CreateMascotaDTO;
     import com.candi.animalia.dto.mascota.EditMascotaDTO;
     import com.candi.animalia.dto.mascota.GetMascotaDTO;
+    import com.candi.animalia.dto.publicacion.GetPublicacionDTO;
     import com.candi.animalia.dto.raza.CreateRazaDTO;
-    import com.candi.animalia.model.Especie;
-    import com.candi.animalia.model.Mascota;
-    import com.candi.animalia.model.Raza;
-    import com.candi.animalia.model.Usuario;
+    import com.candi.animalia.model.*;
     import com.candi.animalia.service.EspecieService;
     import com.candi.animalia.service.MascotaService;
     import com.candi.animalia.service.RazaService;
@@ -24,11 +22,14 @@
     import org.springframework.data.domain.Page;
     import org.springframework.data.domain.Pageable;
     import org.springframework.data.web.PageableDefault;
+    import org.springframework.http.HttpStatus;
     import org.springframework.http.ResponseEntity;
     import org.springframework.security.access.prepost.PostAuthorize;
     import org.springframework.security.access.prepost.PreAuthorize;
     import org.springframework.security.core.annotation.AuthenticationPrincipal;
     import org.springframework.web.bind.annotation.*;
+    import org.springframework.web.multipart.MultipartFile;
+    import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
     import java.util.UUID;
 
@@ -40,8 +41,6 @@
     public class MascotaController {
 
         private final MascotaService mascotaService;
-        private final RazaService razaService;
-        private final EspecieService especieService;
 
         @Operation(summary = "Obtiene todas las mascotas")
         @ApiResponses(value = {
@@ -192,7 +191,9 @@
         @GetMapping("/admin")
         public Page<GetMascotaDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable){
             Page<Mascota> mascotas = mascotaService.findAll(pageable);
-            return mascotas.map(GetMascotaDTO::of);
+            return mascotas.map(m -> {
+                return GetMascotaDTO.of(m, getImageUrl(m.getAvatar()));
+            });
         }
 
         @Operation(summary = "Obtiene una mascota determinada")
@@ -239,7 +240,8 @@
         })
         @GetMapping("/{id}")
         public GetMascotaDTO findByid(@PathVariable UUID id){
-            return GetMascotaDTO.of(mascotaService.findById(id));
+            Mascota mascota = mascotaService.findById(id);
+            return GetMascotaDTO.of(mascota, getImageUrl(mascota.getAvatar()));
         }
 
 
@@ -333,7 +335,9 @@
         @PostAuthorize("hasRole('ADMIN')")
         public Page<GetMascotaDTO> getMascotaByUsuario(@PathVariable UUID id, @PageableDefault(page=0, size=5) Pageable pageable) {
             Page<Mascota> mascotas = mascotaService.findByUsuarioIdMascota(id,pageable);
-            return mascotas.map(GetMascotaDTO::of);
+            return mascotas.map(m -> {
+                return GetMascotaDTO.of(m, getImageUrl(m.getAvatar()));
+            });
         }
 
         @Operation(summary = "Obtiene todos las mascotas del usuario")
@@ -426,7 +430,9 @@
         @PostAuthorize("hasRole('USER')")
         public Page<GetMascotaDTO> getMascotaByMe(@AuthenticationPrincipal Usuario usuario, @PageableDefault(page=0, size=5) Pageable pageable) {
             Page<Mascota> mascotas = mascotaService.findByUsuarioIdMascota(usuario,pageable);
-            return mascotas.map(GetMascotaDTO::of);
+            return mascotas.map(m -> {
+                return GetMascotaDTO.of(m, getImageUrl(m.getAvatar()));
+            });
         }
 
 
@@ -474,15 +480,13 @@
                         content = @Content)
         })
         @PostMapping("/usuario")
-        public ResponseEntity<GetMascotaDTO> createMascota(@RequestBody @Valid CreateMascotaDTO mascota, @AuthenticationPrincipal Usuario usuario) {
-            Raza raza = razaService.findById(mascota.razaId());
-            Especie especie = especieService.findById(mascota.especieId());
+        public ResponseEntity<GetMascotaDTO> createMascota(@Valid @RequestPart("post")CreateMascotaDTO mascotaDto, @RequestPart("file")MultipartFile file,
+                                                           @AuthenticationPrincipal Usuario usuario) {
 
-            return ResponseEntity.status(201)
-                    .body(GetMascotaDTO.of(
-                            mascotaService.save(
-                                    mascota.toMascota(raza, especie), usuario)
-                    ));
+            Mascota mascota = mascotaService.save(mascotaDto, file, usuario);
+
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(GetMascotaDTO.of(mascota, getImageUrl(mascota.getAvatar())));
         }
 
 
@@ -506,7 +510,7 @@
                                         })
                         }),
                 @ApiResponse(responseCode = "404",
-                        description = "Mascota no encontrada",
+                        description = "No tienes permiso para editar esta mascota",
                         content = @Content),
                 @ApiResponse(responseCode = "401",
                         description = "No estas autorizado",
@@ -516,8 +520,10 @@
                         content = @Content)
         })
         @PutMapping("/{id}")
-        public GetMascotaDTO edit(@RequestBody @Valid EditMascotaDTO edit, @PathVariable UUID id) {
-            return GetMascotaDTO.of(mascotaService.edit(edit, id));
+        public GetMascotaDTO edit(@RequestPart("post") @Valid EditMascotaDTO edit, @PathVariable UUID id, @RequestPart("file")MultipartFile file, @AuthenticationPrincipal Usuario usuari) {
+            Mascota updatedMascota = mascotaService.edit(edit, id, file, usuari);
+            return GetMascotaDTO.of(updatedMascota, getImageUrl(updatedMascota.getAvatar()));
+
         }
 
 
@@ -536,6 +542,13 @@
         public ResponseEntity<?> deleteMascota(@PathVariable UUID id){
             mascotaService.deleteById(id);
             return ResponseEntity.noContent().build();
+        }
+
+        public String getImageUrl(String filename) {
+            return ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/download/")
+                    .path(filename)
+                    .toUriString();
         }
 
     }
