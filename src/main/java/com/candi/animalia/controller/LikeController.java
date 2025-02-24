@@ -42,70 +42,158 @@
         @Operation(summary = "Obtiene todas los likes")
         @ApiResponses(value = {
                 @ApiResponse(responseCode = "200",
-                        description = "Se ha obtenido todas las especies",
+                        description = "Se ha obtenido todas los likes",
                         content = {
                                 @Content(mediaType = "application/json",
 
-                                        array = @ArraySchema(schema = @Schema(implementation = GetEspecieDTO.class)),
+                                        array = @ArraySchema(schema = @Schema(implementation = GetLikeDTO.class)),
                                         examples = {
                                                 @ExampleObject(
                                                         value = """
-                                                                    [
-                                                                        {
-                                                                                               "content": [
-                                                                                                      {
-                                                                                                          "nombre": "Peces",
-                                                                                                          "localDate": "2023-01-01"
-                                                                                                      },
-                                                                                                      {
-                                                                                                          "nombre": "Invertebrados",
-                                                                                                          "localDate": "2024-06-22"
-                                                                                                      },
-                                                                                                      {
-                                                                                                          "nombre": "Equino",
-                                                                                                          "localDate": "2025-02-01"
-                                                                                                      },
-                                                                                                      {
-                                                                                                          "nombre": "Rumiantes",
-                                                                                                          "localDate": "2025-01-01"
-                                                                                                      },
-                                                                                                      {
-                                                                                                          "nombre": "Roedores",
-                                                                                                          "localDate": "2025-01-01"
-                                                                                                      }
-                                                                                                  ],
-                                                                                                  "pageable": {
-                                                                                                      "pageNumber": 1,
-                                                                                                      "pageSize": 5,
-                                                                                                      "sort": {
-                                                                                                          "empty": true,
-                                                                                                          "sorted": false,
-                                                                                                          "unsorted": true
-                                                                                                      },
-                                                                                                      "offset": 5,
-                                                                                                      "paged": true,
-                                                                                                      "unpaged": false
-                                                                                                  },
-                                                                                                  "last": false,
-                                                                                                  "totalElements": 11,
-                                                                                                  "totalPages": 3,
-                                                                                                  "size": 5,
-                                                                                                  "number": 1,
-                                                                                                  "sort": {
-                                                                                                      "empty": true,
-                                                                                                      "sorted": false,
-                                                                                                      "unsorted": true
-                                                                                                  },
-                                                                                                  "first": false,
-                                                                                                  "numberOfElements": 5,
-                                                                                                  "empty": false
-                                                                                                  }
+                                                                    [{
+                                                                                                       "content": [
+                                                                                                           {
+                                                                                                               "fechaRealizada": "2025-02-21",
+                                                                                                               "publicacionDTO": {
+                                                                                                                   "imageURL": "Image",
+                                                                                                                   "descripcion": "Max disfrutando del parque en un dÃ­a soleado.",
+                                                                                                                   "fechaRegistro": "2025-02-20",
+                                                                                                                   "usuario": {
+                                                                                                                       "username": "user1",
+                                                                                                                       "email": "user1@example.com",
+                                                                                                                       "fechaRegistro": "2025-02-01"
+                                                                                                                   },
+                                                                                                                   "mascotaDTO": {
+                                                                                                                       "nombre": "Max",
+                                                                                                                       "biografia": "Un perro muy juguetÃ³n y amigable.",
+                                                                                                                       "fechaNacimiento": "2020-05-15",
+                                                                                                                       "avatar": "https://example.com/avatars/max.jpg",
+                                                                                                                       "raza": {
+                                                                                                                           "nombre": "Labrador Retriever"
+                                                                                                                       },
+                                                                                                                       "especie": {
+                                                                                                                           "nombre": "Canino",
+                                                                                                                           "localDate": "2025-01-01"
+                                                                                                                       },
+                                                                                                                       "userDTO": {
+                                                                                                                           "username": "user1",
+                                                                                                                           "email": "user1@example.com",
+                                                                                                                           "fechaRegistro": "2025-02-01"
+                                                                                                                       }
+                                                                                                                   }
+                                                                                                               },
+                                                                                                               "userDTO": {
+                                                                                                                   "username": "user3",
+                                                                                                                   "email": "user3@example.com",
+                                                                                                                   "fechaRegistro": "2025-02-03"
+                                                                                                               }
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "fechaRealizada": "2025-02-23",
+                                                                                                               "publicacionDTO": {
+                                                                                                                   "imageURL": "Image",
+                                                                                                                   "descripcion": "Nala cazando una pelota en el jardÃ­n.",
+                                                                                                                   "fechaRegistro": "2025-02-23",
+                                                                                                                   "usuario": {
+                                                                                                                       "username": "user4",
+                                                                                                                       "email": "user4@example.com",
+                                                                                                                       "fechaRegistro": "2025-02-04"
+                                                                                                                   },
+                                                                                                                   "mascotaDTO": {
+                                                                                                                       "nombre": "Nala",
+                                                                                                                       "biografia": "BengalÃ­ activa y juguetona.",
+                                                                                                                       "fechaNacimiento": "2022-03-05",
+                                                                                                                       "avatar": "https://example.com/avatars/nala.jpg",
+                                                                                                                       "raza": {
+                                                                                                                           "nombre": "BengalÃ­"
+                                                                                                                       },
+                                                                                                                       "especie": {
+                                                                                                                           "nombre": "Felino",
+                                                                                                                           "localDate": "2025-01-01"
+                                                                                                                       },
+                                                                                                                       "userDTO": {
+                                                                                                                           "username": "user4",
+                                                                                                                           "email": "user4@example.com",
+                                                                                                                           "fechaRegistro": "2025-02-04"
+                                                                                                                       }
+                                                                                                                   }
+                                                                                                               },
+                                                                                                               "userDTO": {
+                                                                                                                   "username": "user3",
+                                                                                                                   "email": "user3@example.com",
+                                                                                                                   "fechaRegistro": "2025-02-03"
+                                                                                                               }
+                                                                                                           },
+                                                                                                           {
+                                                                                                               "fechaRealizada": "2025-02-24",
+                                                                                                               "publicacionDTO": {
+                                                                                                                   "imageURL": "Image",
+                                                                                                                   "descripcion": "Thor ladrando a la nieve como si fuera la primera vez.",
+                                                                                                                   "fechaRegistro": "2025-02-24",
+                                                                                                                   "usuario": {
+                                                                                                                       "username": "user2",
+                                                                                                                       "email": "user2@example.com",
+                                                                                                                       "fechaRegistro": "2025-02-02"
+                                                                                                                   },
+                                                                                                                   "mascotaDTO": {
+                                                                                                                       "nombre": "Thor",
+                                                                                                                       "biografia": "Husky siberiano con mucha energÃ­a.",
+                                                                                                                       "fechaNacimiento": "2018-07-21",
+                                                                                                                       "avatar": "https://example.com/avatars/thor.jpg",
+                                                                                                                       "raza": {
+                                                                                                                           "nombre": "Husky Siberiano"
+                                                                                                                       },
+                                                                                                                       "especie": {
+                                                                                                                           "nombre": "Canino",
+                                                                                                                           "localDate": "2025-01-01"
+                                                                                                                       },
+                                                                                                                       "userDTO": {
+                                                                                                                           "username": "user2",
+                                                                                                                           "email": "user2@example.com",
+                                                                                                                           "fechaRegistro": "2025-02-02"
+                                                                                                                       }
+                                                                                                                   }
+                                                                                                               },
+                                                                                                               "userDTO": {
+                                                                                                                   "username": "user3",
+                                                                                                                   "email": "user3@example.com",
+                                                                                                                   "fechaRegistro": "2025-02-03"
+                                                                                                               }
+                                                                                                           }
+                                                                                                       ],
+                                                                                                       "pageable": {
+                                                                                                           "pageNumber": 0,
+                                                                                                           "pageSize": 5,
+                                                                                                           "sort": {
+                                                                                                               "empty": true,
+                                                                                                               "sorted": false,
+                                                                                                               "unsorted": true
+                                                                                                           },
+                                                                                                           "offset": 0,
+                                                                                                           "paged": true,
+                                                                                                           "unpaged": false
+                                                                                                       },
+                                                                                                       "last": true,
+                                                                                                       "totalElements": 3,
+                                                                                                       "totalPages": 1,
+                                                                                                       "size": 5,
+                                                                                                       "number": 0,
+                                                                                                       "sort": {
+                                                                                                           "empty": true,
+                                                                                                           "sorted": false,
+                                                                                                           "unsorted": true
+                                                                                                       },
+                                                                                                       "first": true,
+                                                                                                       "numberOfElements": 3,
+                                                                                                       "empty": false
+                                                                                                   }
                                                                     ]
                                                                 """
                                                 )
                                         })
-                        }), @ApiResponse(responseCode = "404",
-                description = "No se ha encontrado ninguna especie",
+                        }),
+                @ApiResponse(responseCode = "404",
+                description = "No se ha encontrado ninguna like",
                 content = @Content)
                 , @ApiResponse(responseCode = "401",
                 description = "No tienes autorización",

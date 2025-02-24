@@ -1,6 +1,5 @@
 package com.candi.animalia.repository;
 
-import com.candi.animalia.model.Raza;
 import com.candi.animalia.model.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

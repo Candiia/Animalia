@@ -409,5 +409,22 @@ public class UserController {
         return GetUserDTO.of(userService.editUser(edit, usuario));
     }
 
+    @Operation(summary = "Eliminar un usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Usuario eliminada correctamente",
+                    content = @Content
+            ),
+            @ApiResponse(responseCode = "401",
+                    description = "No estás autorizado",
+                    content = @Content)
+    })
+    @DeleteMapping()
+    @PostAuthorize("hasRole('USER')")
+    public ResponseEntity<?> deleteUser(@AuthenticationPrincipal Usuario usuario){
+        userService.deleteUsuarioCuenta(usuario);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
