@@ -1,6 +1,8 @@
 package com.candi.animalia.service;
 
+import com.candi.animalia.dto.mascota.EditMascotaDTO;
 import com.candi.animalia.dto.publicacion.CreatePublicacionDTO;
+import com.candi.animalia.dto.publicacion.EditPublicacionDTO;
 import com.candi.animalia.files.model.FileMetadata;
 import com.candi.animalia.files.service.StorageService;
 import com.candi.animalia.model.*;
@@ -82,8 +84,22 @@ public class PublicacionService {
         }else{
             throw new EntityNotFoundException("No puedes eliminar una publicación que no es tuya");
         }
-
     }
+
+    public Publicacion edit(EditPublicacionDTO editPublicacionDTO, UUID id, Usuario usuario) {
+
+        Publicacion publicacion = publicacionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Publicación no encontrada"));
+
+        if (!publicacion.getUsuario().getId().equals(usuario.getId())) {
+            throw new EntityNotFoundException("No tienes permiso para editar esta publicación");
+        }
+
+        publicacion.setDescripcion(editPublicacionDTO.descripcion());
+
+        return publicacionRepository.save(publicacion);
+    }
+
      /*public Page<Publicacion> findByUsuarioIdPublicacion(Usuario usuario, Pageable pageable) {
         Page<Publicacion> publicacions = publicacionRepository.findAllPublicacionByMe(usuario.getId(), pageable);
         if (publicacions.isEmpty()) {
