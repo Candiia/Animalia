@@ -207,4 +207,26 @@
             return GetComentarioDTO.of(comentarioService.edit(edit, id, usuario));
         }
 
+
+        @Operation(summary = "Elimina un comentario de una publicación")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "204",
+                        description = "El comentario ha sido eliminado correctamente",
+                        content = @Content),
+                @ApiResponse(responseCode = "404",
+                        description = "No se encontró la publicación o el comentario",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No tienes autorización",
+                        content = @Content),
+                @ApiResponse(responseCode = "403",
+                        description = "Acceso denegado",
+                        content = @Content)
+        })
+        @PreAuthorize("hasRole('USER')")
+        @DeleteMapping("/{comentarioId}")
+        public ResponseEntity<Void> deleteComentario(@PathVariable UUID comentarioId, @AuthenticationPrincipal Usuario usuario) {
+            comentarioService.deleteComentarioByUser(usuario, comentarioId);
+            return ResponseEntity.noContent().build();
+        }
     }
