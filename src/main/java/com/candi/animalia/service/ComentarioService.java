@@ -2,6 +2,8 @@ package com.candi.animalia.service;
 
 
 import com.candi.animalia.dto.comentario.CreateComentarioDTO;
+import com.candi.animalia.dto.comentario.EditComentarioDTO;
+import com.candi.animalia.dto.especie.EditEspecieDTO;
 import com.candi.animalia.dto.like.CreateLikeDTO;
 import com.candi.animalia.model.*;
 import com.candi.animalia.repository.ComentarioRepository;
@@ -41,11 +43,24 @@ public class ComentarioService {
         Comentario nuevoComentario = Comentario.builder()
                 .publicacion(publicacion)
                 .usuario(usuario)
-                .texto(comentario.texto())
+                .comentario(comentario.texto())
                 .fechaRealizada(LocalDate.now())
                 .build();
 
         return comentarioRepository.save(nuevoComentario);
+    }
+
+    public Comentario edit(EditComentarioDTO comentarioDTO, UUID idComet, Usuario usuario) {
+
+        return comentarioRepository.findById(idComet)
+                .map(old -> {
+                    if (!old.getUsuario().getId().equals(usuario.getId())) {
+                        throw new EntityNotFoundException("No puedes editar un comentario que no es tuyo");
+                    }
+                    old.setComentario(comentarioDTO.comentario());
+                    return comentarioRepository.save(old);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("No hay comentario con esa id " + idComet));
     }
 
 

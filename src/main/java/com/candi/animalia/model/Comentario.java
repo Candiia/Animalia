@@ -20,7 +20,7 @@ public class Comentario {
     @Id
     @GeneratedValue
     private UUID id;
-    private String texto;
+    private String comentario;
     private LocalDate fechaRealizada;
 
 

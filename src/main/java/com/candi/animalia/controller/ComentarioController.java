@@ -1,7 +1,10 @@
     package com.candi.animalia.controller;
 
     import com.candi.animalia.dto.comentario.CreateComentarioDTO;
+    import com.candi.animalia.dto.comentario.EditComentarioDTO;
     import com.candi.animalia.dto.comentario.GetComentarioDTO;
+    import com.candi.animalia.dto.especie.EditEspecieDTO;
+    import com.candi.animalia.dto.especie.GetEspecieDTO;
     import com.candi.animalia.dto.like.CreateLikeDTO;
     import com.candi.animalia.dto.like.GetLikeDTO;
     import com.candi.animalia.model.Comentario;
@@ -129,10 +132,79 @@
         }
 
 
+        @Operation(summary = "Se ha creado el comentario")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Se ha creado un comentario",
+                        content = {
+                                @Content(mediaType = "application/json",
+
+                                        array = @ArraySchema(schema = @Schema(implementation = GetComentarioDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                                                  {
+                                                                        "texto": "¡Que guapo!",
+                                                                        "fechaRealizada": "2025-02-25",
+                                                                        "userDTO": {
+                                                                            "username": "user3",
+                                                                            "email": "user3@example.com",
+                                                                            "fechaRegistro": "2025-02-03"
+                                                                        }
+                                                                    }
+                                                              """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "404",
+                        description = "No se ha podido crear el comentario",
+                        content = @Content)
+                ,
+                @ApiResponse(responseCode = "401",
+                description = "No tienes autorización",
+                content = @Content)
+        })
         @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
         @PostMapping("/publicacion/{publicacionId}")
-        public ResponseEntity<GetComentarioDTO> createLike(@PathVariable UUID publicacionId, @RequestBody @Valid CreateComentarioDTO comentarioDTO, @AuthenticationPrincipal Usuario usuario) {
+        public ResponseEntity<GetComentarioDTO> createComentario(@PathVariable UUID publicacionId,
+                                                                 @RequestBody @Valid CreateComentarioDTO comentarioDTO, @AuthenticationPrincipal Usuario usuario) {
             return ResponseEntity.ok(GetComentarioDTO.of(comentarioService.save(comentarioDTO, usuario, publicacionId)));
+        }
+
+        @Operation(summary = "Editar un comentario")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Comentario editado correctamente",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = EditComentarioDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                                           {
+                                                             "texto": "¡Que guapo!",
+                                                             "fechaRealizada": "2025-02-25",
+                                                             "userDTO": {
+                                                                 "username": "user3",
+                                                                 "email": "user3@example.com",
+                                                                 "fechaRegistro": "2025-02-03"
+                                                             }
+                                                           }
+                                    """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "404",
+                        description = "Comentario no encontrado",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No autorizado",
+                        content = @Content)
+        })
+        @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+        @PutMapping("/{id}")
+        public GetComentarioDTO edit(@RequestBody @Valid EditComentarioDTO edit, @PathVariable UUID id, @AuthenticationPrincipal Usuario usuario) {
+            return GetComentarioDTO.of(comentarioService.edit(edit, id, usuario));
         }
 
     }
