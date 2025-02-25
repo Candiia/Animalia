@@ -63,5 +63,15 @@ public class ComentarioService {
                 .orElseThrow(() -> new EntityNotFoundException("No hay comentario con esa id " + idComet));
     }
 
+    public void deleteComentarioByUser(Usuario usuario, UUID comentarioId) {
+        Comentario comentario = comentarioRepository.findById(comentarioId)
+                .orElseThrow(() -> new EntityNotFoundException("No se ha encontrado el comentario con ID " + comentarioId));
+
+        if (!comentario.getUsuario().getId().equals(usuario.getId())) {
+            throw new EntityNotFoundException("No puedes eliminar un comentario que no es tuyo");
+        }
+
+        comentarioRepository.delete(comentario);
+    }
 
 }
