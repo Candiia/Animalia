@@ -74,4 +74,11 @@ public class ComentarioService {
         comentarioRepository.delete(comentario);
     }
 
+    public void deleteComentarioByAdmin(UUID comentarioId) {
+        Comentario comentario = comentarioRepository.findById(comentarioId)
+                .orElseThrow(() -> new EntityNotFoundException("No se ha encontrado el comentario con ID " + comentarioId));
+
+        comentarioRepository.delete(comentario);
+    }
+
 }

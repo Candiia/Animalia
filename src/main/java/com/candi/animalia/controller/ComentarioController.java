@@ -214,7 +214,7 @@
                         description = "El comentario ha sido eliminado correctamente",
                         content = @Content),
                 @ApiResponse(responseCode = "404",
-                        description = "No se encontró la publicación o el comentario",
+                        description = "No se encontró el comentario",
                         content = @Content),
                 @ApiResponse(responseCode = "401",
                         description = "No tienes autorización",
@@ -223,10 +223,34 @@
                         description = "Acceso denegado",
                         content = @Content)
         })
-        @PreAuthorize("hasRole('USER')")
+        @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
         @DeleteMapping("/{comentarioId}")
         public ResponseEntity<Void> deleteComentario(@PathVariable UUID comentarioId, @AuthenticationPrincipal Usuario usuario) {
             comentarioService.deleteComentarioByUser(usuario, comentarioId);
+            return ResponseEntity.noContent().build();
+        }
+
+
+
+        @Operation(summary = "Elimina cualquier comentario de una publicación")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "204",
+                        description = "El comentario ha sido eliminado correctamente",
+                        content = @Content),
+                @ApiResponse(responseCode = "404",
+                        description = "No se encontró el comentario",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No tienes autorización",
+                        content = @Content),
+                @ApiResponse(responseCode = "403",
+                        description = "Acceso denegado",
+                        content = @Content)
+        })
+        @PreAuthorize("hasRole('ADMIN')")
+        @DeleteMapping("/admin/{comentarioId}")
+        public ResponseEntity<Void> deleteComentarioByAdmin(@PathVariable UUID comentarioId) {
+            comentarioService.deleteComentarioByAdmin(comentarioId);
             return ResponseEntity.noContent().build();
         }
     }
