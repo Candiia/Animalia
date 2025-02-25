@@ -55,6 +55,17 @@ public class Publicacion {
     @ToString.Exclude
     private List<Like> likes = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "publicacion",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @Builder.Default
+    @ToString.Exclude
+    private List<Comentario> comentarios = new ArrayList<>();
+
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
