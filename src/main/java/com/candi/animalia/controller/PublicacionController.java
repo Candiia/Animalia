@@ -207,7 +207,7 @@
 
         @Operation(summary = "Se ha creado la publicación")
         @ApiResponses(value = {
-                @ApiResponse(responseCode = "200",
+                @ApiResponse(responseCode = "201",
                         description = "Se ha creado una publicación",
                         content = {
                                 @Content(mediaType = "application/json",

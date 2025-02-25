@@ -2,17 +2,19 @@ package com.candi.animalia.repository;
 
 import com.candi.animalia.model.Like;
 import com.candi.animalia.model.Publicacion;
+import com.candi.animalia.model.Raza;
 import com.candi.animalia.model.Usuario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 import java.util.UUID;
 
-public interface LikeRepository extends JpaRepository<Like, UUID> {
+public interface LikeRepository extends JpaRepository<Like, UUID>, JpaSpecificationExecutor<Like> {
 
 
     @Query("""

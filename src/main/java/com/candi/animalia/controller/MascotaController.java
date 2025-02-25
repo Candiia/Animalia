@@ -20,6 +20,7 @@
     import jakarta.validation.Valid;
     import lombok.RequiredArgsConstructor;
     import org.springframework.data.domain.Page;
+    import org.springframework.data.domain.PageRequest;
     import org.springframework.data.domain.Pageable;
     import org.springframework.data.web.PageableDefault;
     import org.springframework.http.HttpStatus;
@@ -546,6 +547,13 @@
                     .path("/download/")
                     .path(filename)
                     .toUriString();
+        }
+
+        @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+        @GetMapping("/buscar")
+        public Page<Mascota> buscarPorEspecieYRaza(@RequestParam("especie") String nombreEspecie, @RequestParam("raza") String nombreRaza,
+                                                   @PageableDefault(page=0, size=5) Pageable pageable) {
+            return mascotaService.buscarEspecieYRaza(nombreRaza, nombreEspecie, pageable);
         }
 
     }
