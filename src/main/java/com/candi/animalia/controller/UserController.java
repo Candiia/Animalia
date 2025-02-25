@@ -1,4 +1,6 @@
 package com.candi.animalia.controller;
+import com.candi.animalia.dto.paginacion.PaginacionDto;
+import com.candi.animalia.dto.raza.GetRazaDTO;
 import com.candi.animalia.dto.user.*;
 import com.candi.animalia.model.Usuario;
 import com.candi.animalia.repository.UsuarioRepository;
@@ -43,7 +45,6 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final RefreshTokenService refreshTokenService;
-    private final UsuarioRepository usuarioRepository;
 
     @Operation(summary = "Creación de un nuevo usuario")
     @ApiResponses(value = {
@@ -253,7 +254,11 @@ public class UserController {
                                                     value = """
                                             [
                                                 {
-                                                                        "content": [
+                                                                        "numPagina": 0,
+                                                                        "tamanioPagina": 5,
+                                                                        "elementosEncontrados": 5,
+                                                                        "paginasTotales": 1,
+                                                                        "contenido": [
                                                                             {
                                                                                 "username": "admin",
                                                                                 "email": "admin@example.com",
@@ -279,34 +284,9 @@ public class UserController {
                                                                                 "email": "user4@example.com",
                                                                                 "fechaRegistro": "2025-02-04"
                                                                             }
-                                                                        ],
-                                                                        "pageable": {
-                                                                            "pageNumber": 0,
-                                                                            "pageSize": 5,
-                                                                            "sort": {
-                                                                                "empty": true,
-                                                                                "sorted": false,
-                                                                                "unsorted": true
-                                                                            },
-                                                                            "offset": 0,
-                                                                            "paged": true,
-                                                                            "unpaged": false
-                                                                        },
-                                                                        "last": true,
-                                                                        "totalElements": 5,
-                                                                        "totalPages": 1,
-                                                                        "size": 5,
-                                                                        "number": 0,
-                                                                        "sort": {
-                                                                            "empty": true,
-                                                                            "sorted": false,
-                                                                            "unsorted": true
-                                                                        },
-                                                                        "first": true,
-                                                                        "numberOfElements": 5,
-                                                                        "empty": false
+                                                                        ]
                                                                     }
-                                            ]
+                                                                ]
                                         """
                                             )
                                     })
@@ -323,9 +303,9 @@ public class UserController {
     })
     @PostAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin")
-    public Page<GetUserDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable){
-        Page<Usuario> usuarios = userService.findAll(pageable);
-        return usuarios.map(GetUserDTO::of);
+    public PaginacionDto<GetUserDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable){
+        return PaginacionDto.of(userService.findAll(pageable)
+                .map(GetUserDTO::of));
     }
 
     @Operation(summary = "Obtiene un usuario determinada")

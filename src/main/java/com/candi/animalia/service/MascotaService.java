@@ -134,26 +134,32 @@ public class MascotaService {
     }
 
 
-    public Page<Mascota> buscarEspecieYRaza(String nombreEspecie, String nombreRaza, Pageable pageable) {
+    public Page<Mascota> filtrarMascotas(String nombreEspecie, String nombreRaza, String nombreMascota, Pageable pageable) {
 
-        List<SearchCriteria> criteriaList = new ArrayList<>();
+            List<SearchCriteria> criteriaList = new ArrayList<>();
 
-        if (nombreEspecie != null && !nombreEspecie.trim().isEmpty()) {
-            criteriaList.add(new SearchCriteria("especie", ":", nombreEspecie));
-        }
+            if (nombreEspecie != null && !nombreEspecie.trim().isEmpty()) {
+                criteriaList.add(new SearchCriteria("especie", ":", nombreEspecie));
+            }
 
-        if (nombreRaza != null && !nombreRaza.trim().isEmpty()) {
-            criteriaList.add(new SearchCriteria("raza", ":", nombreRaza));
-        }
+            if (nombreRaza != null && !nombreRaza.trim().isEmpty()) {
+                criteriaList.add(new SearchCriteria("raza", ":", nombreRaza));
+            }
 
-        if (criteriaList.isEmpty()) {
-            return mascotaRepository.findAll(pageable);
-        }
+            if (nombreMascota != null && !nombreMascota.trim().isEmpty()) {
+                criteriaList.add(new SearchCriteria("nombre", ":", nombreMascota));
+            }
 
-        MascotaSpecificationBuilder builder = new MascotaSpecificationBuilder(criteriaList);
-        Specification<Mascota> spec = builder.build();
+            MascotaSpecificationBuilder<Mascota> builder = new MascotaSpecificationBuilder<>(criteriaList);
+            Specification<Mascota> spec = builder.build();
 
-        return mascotaRepository.findAll(spec, pageable);
+            Page<Mascota> resultado = mascotaRepository.findAll(spec, pageable);
+
+            if (resultado.isEmpty()) {
+                throw new EntityNotFoundException("No se encontraron mascotas con los criterios especificados.");
+            }
+
+            return resultado;
     }
 
 }

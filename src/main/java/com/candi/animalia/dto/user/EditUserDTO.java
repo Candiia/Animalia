@@ -11,7 +11,7 @@ import jakarta.validation.constraints.NotBlank;
 })
 public record EditUserDTO(
 
-        @NotBlank
+        @NotBlank(message = "{editUserRequest.email.notblank}")
         String email,
         String password,
         String verifyPassword

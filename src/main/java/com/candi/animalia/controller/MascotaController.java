@@ -3,6 +3,7 @@
     import com.candi.animalia.dto.mascota.CreateMascotaDTO;
     import com.candi.animalia.dto.mascota.EditMascotaDTO;
     import com.candi.animalia.dto.mascota.GetMascotaDTO;
+    import com.candi.animalia.dto.paginacion.PaginacionDto;
     import com.candi.animalia.dto.publicacion.GetPublicacionDTO;
     import com.candi.animalia.dto.raza.CreateRazaDTO;
     import com.candi.animalia.model.*;
@@ -10,6 +11,7 @@
     import com.candi.animalia.service.MascotaService;
     import com.candi.animalia.service.RazaService;
     import io.swagger.v3.oas.annotations.Operation;
+    import io.swagger.v3.oas.annotations.Parameter;
     import io.swagger.v3.oas.annotations.media.ArraySchema;
     import io.swagger.v3.oas.annotations.media.Content;
     import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -185,14 +187,14 @@
                 description = "No tienes autorización",
                 content = @Content),
                 @ApiResponse(responseCode = "403",
-                description = "Acceso denegado",
-                content = @Content)
+                        description = "Acceso denegado",
+                        content = @Content)
         })
         @PostAuthorize("hasRole('ADMIN')")
         @GetMapping("/admin")
-        public Page<GetMascotaDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable){
-            Page<Mascota> mascotas = mascotaService.findAll(pageable);
-            return mascotas.map(m -> GetMascotaDTO.of(m, getImageUrl(m.getAvatar())));
+        public PaginacionDto<GetMascotaDTO> findAll(@PageableDefault(page = 0, size = 5) Pageable pageable) {
+            return PaginacionDto.of(mascotaService.findAll(pageable)
+                    .map(m -> GetMascotaDTO.of(m, getImageUrl(m.getAvatar()))));
         }
 
         @Operation(summary = "Obtiene una mascota determinada")
@@ -205,31 +207,31 @@
                                         examples = {
                                                 @ExampleObject(
                                                         value = """
-                                       {
-                                                                       "nombre": "Max",
-                                                                       "biografia": "Un perro muy juguetÃ³n y amigable.",
-                                                                       "fechaNacimiento": "2020-05-15",
-                                                                       "avatar": "https://example.com/avatars/max.jpg",
-                                                                       "raza": {
-                                                                           "nombre": "Labrador Retriever"
-                                                                       },
-                                                                       "especie": {
-                                                                           "nombre": "Canino",
-                                                                           "localDate": "2025-01-01"
-                                                                       },
-                                                                       "userDTO": {
-                                                                           "username": "user1",
-                                                                           "email": "user1@example.com",
-                                                                           "fechaRegistro": "2025-02-01"
-                                                                       }
-                                                                   }
-                                    """
+                                                                   {
+                                                                                                   "nombre": "Max",
+                                                                                                   "biografia": "Un perro muy juguetÃ³n y amigable.",
+                                                                                                   "fechaNacimiento": "2020-05-15",
+                                                                                                   "avatar": "https://example.com/avatars/max.jpg",
+                                                                                                   "raza": {
+                                                                                                       "nombre": "Labrador Retriever"
+                                                                                                   },
+                                                                                                   "especie": {
+                                                                                                       "nombre": "Canino",
+                                                                                                       "localDate": "2025-01-01"
+                                                                                                   },
+                                                                                                   "userDTO": {
+                                                                                                       "username": "user1",
+                                                                                                       "email": "user1@example.com",
+                                                                                                       "fechaRegistro": "2025-02-01"
+                                                                                                   }
+                                                                                               }
+                                                                """
                                                 )
                                         })
                         }),
                 @ApiResponse(responseCode = "404",
-                description = "Mascota no encontrada",
-                content = @Content),
+                        description = "Mascota no encontrada",
+                        content = @Content),
                 @ApiResponse(responseCode = "401",
                         description = "No autorizado",
                         content = @Content),
@@ -239,7 +241,7 @@
         })
         @PostAuthorize("hasRole('ADMIN')")
         @GetMapping("/{id}")
-        public GetMascotaDTO findByid(@PathVariable UUID id){
+        public GetMascotaDTO findByid(@PathVariable UUID id) {
             Mascota mascota = mascotaService.findById(id);
             return GetMascotaDTO.of(mascota, getImageUrl(mascota.getAvatar()));
         }
@@ -256,86 +258,68 @@
                                         examples = {
                                                 @ExampleObject(
                                                         value = """
-                                        [{
-                                                                              "content": [
-                                                                                  {
-                                                                                      "nombre": "Rocky",
-                                                                                      "biografia": "Beagle aventurero y curioso.",
-                                                                                      "fechaNacimiento": "2021-01-10",
-                                                                                      "avatar": "https://example.com/avatars/rocky.jpg",
-                                                                                      "raza": {
-                                                                                          "nombre": "Beagle"
-                                                                                      },
-                                                                                      "especie": {
-                                                                                          "nombre": "Canino",
-                                                                                          "localDate": "2025-01-01"
-                                                                                      },
-                                                                                      "userDTO": {
-                                                                                          "username": "user3",
-                                                                                          "email": "user3@example.com",
-                                                                                          "fechaRegistro": "2025-02-03"
-                                                                                      }
-                                                                                  },
-                                                                                  {
-                                                                                      "nombre": "Milo",
-                                                                                      "biografia": "Un pez dorado que adora nadar.",
-                                                                                      "fechaNacimiento": "2023-01-15",
-                                                                                      "avatar": "https://example.com/avatars/milo.jpg",
-                                                                                      "raza": null,
-                                                                                      "especie": {
-                                                                                          "nombre": "Peces",
-                                                                                          "localDate": "2023-01-01"
-                                                                                      },
-                                                                                      "userDTO": {
-                                                                                          "username": "user3",
-                                                                                          "email": "user3@example.com",
-                                                                                          "fechaRegistro": "2025-02-03"
-                                                                                      }
-                                                                                  }
-                                                                              ],
-                                                                              "pageable": {
-                                                                                  "pageNumber": 0,
-                                                                                  "pageSize": 5,
-                                                                                  "sort": {
-                                                                                      "empty": true,
-                                                                                      "sorted": false,
-                                                                                      "unsorted": true
-                                                                                  },
-                                                                                  "offset": 0,
-                                                                                  "paged": true,
-                                                                                  "unpaged": false
-                                                                              },
-                                                                              "last": true,
-                                                                              "totalElements": 2,
-                                                                              "totalPages": 1,
-                                                                              "size": 5,
-                                                                              "number": 0,
-                                                                              "sort": {
-                                                                                  "empty": true,
-                                                                                  "sorted": false,
-                                                                                  "unsorted": true
-                                                                              },
-                                                                              "first": true,
-                                                                              "numberOfElements": 2,
-                                                                              "empty": false
-                                                                          }
-                                        ]
-                                    """
+                                                                    [
+                                                                    {
+                                                                        "numPagina": 0,
+                                                                        "tamanioPagina": 5,
+                                                                        "elementosEncontrados": 2,
+                                                                        "paginasTotales": 1,
+                                                                        "contenido": [
+                                                                            {
+                                                                                "nombre": "Rocky",
+                                                                                "biografia": "Beagle aventurero y curioso.",
+                                                                                "fechaNacimiento": "2021-01-10",
+                                                                                "avatar": "http://localhost:8080/download/https:/example.com/avatars/rocky.jpg",
+                                                                                "raza": {
+                                                                                    "nombre": "Beagle"
+                                                                                },
+                                                                                "especie": {
+                                                                                    "nombre": "Canino",
+                                                                                    "localDate": "2025-01-01"
+                                                                                },
+                                                                                "userDTO": {
+                                                                                    "username": "user3",
+                                                                                    "email": "user3@example.com",
+                                                                                    "fechaRegistro": "2025-02-03"
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "nombre": "Milo",
+                                                                                "biografia": "Un pez dorado que adora nadar.",
+                                                                                "fechaNacimiento": "2023-01-15",
+                                                                                "avatar": "http://localhost:8080/download/https:/example.com/avatars/milo.jpg",
+                                                                                "raza": {
+                                                                                    "nombre": "Beagle"
+                                                                                },
+                                                                                "especie": {
+                                                                                    "nombre": "Peces",
+                                                                                    "localDate": "2023-01-01"
+                                                                                },
+                                                                                "userDTO": {
+                                                                                    "username": "user3",
+                                                                                    "email": "user3@example.com",
+                                                                                    "fechaRegistro": "2025-02-03"
+                                                                                }
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                    ]
+                                                                """
                                                 )
                                         })
                         }),
                 @ApiResponse(responseCode = "404",
-                description = "No se ha encontrado ninguna mascota para el usuario",
-                content = @Content),
+                        description = "No se ha encontrado ninguna mascota para el usuario",
+                        content = @Content),
                 @ApiResponse(responseCode = "403",
                         description = "Acceso denegado",
                         content = @Content),
         })
         @GetMapping("/usuario/{id}")
         @PostAuthorize("hasRole('ADMIN')")
-        public Page<GetMascotaDTO> getMascotaByUsuario(@PathVariable UUID id, @PageableDefault(page=0, size=5) Pageable pageable) {
-            Page<Mascota> mascotas = mascotaService.findByUsuarioIdMascota(id,pageable);
-            return mascotas.map(m -> GetMascotaDTO.of(m, getImageUrl(m.getAvatar())));
+        public PaginacionDto<GetMascotaDTO> getMascotaByUsuario(@PathVariable UUID id, @PageableDefault(page = 0, size = 5) Pageable pageable) {
+            return PaginacionDto.of(mascotaService.findByUsuarioIdMascota(id, pageable)
+                    .map(m -> GetMascotaDTO.of(m, getImageUrl(m.getAvatar()))));
         }
 
         @Operation(summary = "Obtiene todos las mascotas del usuario")
@@ -349,88 +333,48 @@
                                         examples = {
                                                 @ExampleObject(
                                                         value = """
-                                        [{
-                                                                              "content": [
-                                                                                  {
-                                                                                      "nombre": "Rocky",
-                                                                                      "biografia": "Beagle aventurero y curioso.",
-                                                                                      "fechaNacimiento": "2021-01-10",
-                                                                                      "avatar": "https://example.com/avatars/rocky.jpg",
-                                                                                      "raza": {
-                                                                                          "nombre": "Beagle"
-                                                                                      },
-                                                                                      "especie": {
-                                                                                          "nombre": "Canino",
-                                                                                          "localDate": "2025-01-01"
-                                                                                      },
-                                                                                      "userDTO": {
-                                                                                          "username": "user3",
-                                                                                          "email": "user3@example.com",
-                                                                                          "fechaRegistro": "2025-02-03"
-                                                                                      }
-                                                                                  },
-                                                                                  {
-                                                                                      "nombre": "Milo",
-                                                                                      "biografia": "Un pez dorado que adora nadar.",
-                                                                                      "fechaNacimiento": "2023-01-15",
-                                                                                      "avatar": "https://example.com/avatars/milo.jpg",
-                                                                                      "raza": null,
-                                                                                      "especie": {
-                                                                                          "nombre": "Peces",
-                                                                                          "localDate": "2023-01-01"
-                                                                                      },
-                                                                                      "userDTO": {
-                                                                                          "username": "user3",
-                                                                                          "email": "user3@example.com",
-                                                                                          "fechaRegistro": "2025-02-03"
-                                                                                      }
-                                                                                  }
-                                                                              ],
-                                                                              "pageable": {
-                                                                                  "pageNumber": 0,
-                                                                                  "pageSize": 5,
-                                                                                  "sort": {
-                                                                                      "empty": true,
-                                                                                      "sorted": false,
-                                                                                      "unsorted": true
-                                                                                  },
-                                                                                  "offset": 0,
-                                                                                  "paged": true,
-                                                                                  "unpaged": false
-                                                                              },
-                                                                              "last": true,
-                                                                              "totalElements": 2,
-                                                                              "totalPages": 1,
-                                                                              "size": 5,
-                                                                              "number": 0,
-                                                                              "sort": {
-                                                                                  "empty": true,
-                                                                                  "sorted": false,
-                                                                                  "unsorted": true
-                                                                              },
-                                                                              "first": true,
-                                                                              "numberOfElements": 2,
-                                                                              "empty": false
-                                                                          }
-                                        ]
-                                    """
+                                                                    [
+                                                                    {
+                                                                        "numPagina": 0,
+                                                                        "tamanioPagina": 5,
+                                                                        "elementosEncontrados": 1,
+                                                                        "paginasTotales": 1,
+                                                                        "contenido": [
+                                                                            {
+                                                                                "nombre": "Max",
+                                                                                "biografia": "Un perro muy juguetÃ³n y amigable.",
+                                                                                "fechaNacimiento": "2020-05-15",
+                                                                                "avatar": "http://localhost:8080/download/https:/example.com/avatars/max.jpg",
+                                                                                "raza": {
+                                                                                    "nombre": "Labrador Retriever"
+                                                                                },
+                                                                                "especie": {
+                                                                                    "nombre": "Canino",
+                                                                                    "localDate": "2025-01-01"
+                                                                                },
+                                                                                "userDTO": {
+                                                                                    "username": "user1",
+                                                                                    "email": "user1@example.com",
+                                                                                    "fechaRegistro": "2025-02-01"
+                                                                                }
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                    ]
+                                                                """
                                                 )
                                         })
                         }),
                 @ApiResponse(responseCode = "404",
                         description = "No se ha encontrado ninguna mascota para el usuario",
-                        content = @Content),
-                @ApiResponse(responseCode = "403",
-                        description = "Acceso denegado",
-                        content = @Content),
+                        content = @Content)
         })
         @GetMapping("/me")
         @PostAuthorize("hasAnyRole('USER', 'ADMIN')")
-        public Page<GetMascotaDTO> getMascotaByMe(@AuthenticationPrincipal Usuario usuario, @PageableDefault(page=0, size=5) Pageable pageable) {
-            Page<Mascota> mascotas = mascotaService.findByUsuarioIdMascota(usuario,pageable);
-            return mascotas.map(m -> GetMascotaDTO.of(m, getImageUrl(m.getAvatar())));
+        public PaginacionDto<GetMascotaDTO> getMascotaByMe(@AuthenticationPrincipal Usuario usuario, @PageableDefault(page = 0, size = 5) Pageable pageable) {
+            return PaginacionDto.of(mascotaService.findByUsuarioIdMascota(usuario, pageable)
+                    .map(m -> GetMascotaDTO.of(m, getImageUrl(m.getAvatar()))));
         }
-
 
 
         @Operation(summary = "Creación de una nueva mascota")
@@ -443,25 +387,25 @@
                                         examples = {
                                                 @ExampleObject(
                                                         value = """
-                                            {
-                                                                             "nombre": "Koby",
-                                                                             "biografia": "Soy perrete muy amigable",
-                                                                             "fechaNacimiento": "2002-02-11",
-                                                                             "avatar": "dksadkjsahkjdhsakjhdksaj.png",
-                                                                             "raza": {
-                                                                                 "nombre": "Golden Retriever"
-                                                                             },
-                                                                             "especie": {
-                                                                                 "nombre": "Canino",
-                                                                                 "localDate": "2025-01-01"
-                                                                             },
-                                                                             "userDTO": {
-                                                                                 "username": "user2",
-                                                                                 "email": "user2@example.com",
-                                                                                 "fechaRegistro": "2025-02-02"
-                                                                             }
-                                                                         }
-                                    """
+                                                                        {
+                                                                                                         "nombre": "Koby",
+                                                                                                         "biografia": "Soy perrete muy amigable",
+                                                                                                         "fechaNacimiento": "2002-02-11",
+                                                                                                         "avatar": "dksadkjsahkjdhsakjhdksaj.png",
+                                                                                                         "raza": {
+                                                                                                             "nombre": "Golden Retriever"
+                                                                                                         },
+                                                                                                         "especie": {
+                                                                                                             "nombre": "Canino",
+                                                                                                             "localDate": "2025-01-01"
+                                                                                                         },
+                                                                                                         "userDTO": {
+                                                                                                             "username": "user2",
+                                                                                                             "email": "user2@example.com",
+                                                                                                             "fechaRegistro": "2025-02-02"
+                                                                                                         }
+                                                                                                     }
+                                                                """
                                                 )
                                         })
                         }),
@@ -470,14 +414,11 @@
                         content = @Content),
                 @ApiResponse(responseCode = "401",
                         description = "No estas autorizado",
-                        content = @Content),
-                @ApiResponse(responseCode = "403",
-                        description = "Acceso denegado",
                         content = @Content)
         })
         @PostMapping("/usuario")
         @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-        public ResponseEntity<GetMascotaDTO> createMascota(@Valid @RequestPart("post")CreateMascotaDTO mascotaDto, @RequestPart("file")MultipartFile file,
+        public ResponseEntity<GetMascotaDTO> createMascota(@Valid @RequestPart("post") CreateMascotaDTO mascotaDto, @RequestPart("file") MultipartFile file,
                                                            @AuthenticationPrincipal Usuario usuario) {
 
             Mascota mascota = mascotaService.save(mascotaDto, file, usuario);
@@ -497,12 +438,12 @@
                                         examples = {
                                                 @ExampleObject(
                                                         value = """
-                                             {
-                                              "titulo":"Nuevo Título",
-                                              "descripcion":"Nueva Descripción",
-                                              "categoria": {"id": 1}
-                                             }
-                                    """
+                                                                         {
+                                                                          "titulo":"Nuevo Título",
+                                                                          "descripcion":"Nueva Descripción",
+                                                                          "categoria": {"id": 1}
+                                                                         }
+                                                                """
                                                 )
                                         })
                         }),
@@ -511,14 +452,11 @@
                         content = @Content),
                 @ApiResponse(responseCode = "401",
                         description = "No estas autorizado",
-                        content = @Content),
-                @ApiResponse(responseCode = "403",
-                        description = "Acceso denegado",
                         content = @Content)
         })
         @PutMapping("/{id}")
         @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-        public GetMascotaDTO edit(@RequestPart("post") @Valid EditMascotaDTO edit, @PathVariable UUID id, @RequestPart("file")MultipartFile file, @AuthenticationPrincipal Usuario usuari) {
+        public GetMascotaDTO edit(@RequestPart("post") @Valid EditMascotaDTO edit, @PathVariable UUID id, @RequestPart("file") MultipartFile file, @AuthenticationPrincipal Usuario usuari) {
             Mascota updatedMascota = mascotaService.edit(edit, id, file, usuari);
             return GetMascotaDTO.of(updatedMascota, getImageUrl(updatedMascota.getAvatar()));
 
@@ -537,7 +475,7 @@
         })
         @DeleteMapping("/{id}")
         @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-        public ResponseEntity<?> deleteMascota(@PathVariable UUID id){
+        public ResponseEntity<?> deleteMascota(@PathVariable UUID id) {
             mascotaService.deleteById(id);
             return ResponseEntity.noContent().build();
         }
@@ -549,11 +487,69 @@
                     .toUriString();
         }
 
-        @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+
+        @Operation(summary = "Obtiene las mascotas con la raza o especie que hayas buscado",
+                parameters = {
+                        @Parameter(name = "especie", description = "Nombre de la especie de la mascota (opcional)", required = false, example = "Felino"),
+                        @Parameter(name = "raza", description = "Nombre de la raza de la mascota (opcional", required = false, example = "Persa"),
+                        @Parameter(name = "nombre", description = "Nombre la mascota (opcional)", required = false, example = "Luna"),
+                })
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Se ha obtenido las mascostas deseadas",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = GetMascotaDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                                                  [
+                                                                       {
+                                                                               "numPagina": 0,
+                                                                               "tamanioPagina": 5,
+                                                                               "elementosEncontrados": 1,
+                                                                               "paginasTotales": 1,
+                                                                               "contenido": [
+                                                                                   {
+                                                                                       "nombre": "Luna",
+                                                                                       "biografia": "Gata persa tranquila y cariÃ±osa.",
+                                                                                       "fechaNacimiento": "2019-08-20",
+                                                                                       "avatar": "http://localhost:8080/download/https:/example.com/avatars/luna.jpg",
+                                                                                       "raza": {
+                                                                                           "nombre": "Persa"
+                                                                                       },
+                                                                                       "especie": {
+                                                                                           "nombre": "Felino",
+                                                                                           "localDate": "2025-01-01"
+                                                                                       },
+                                                                                       "userDTO": {
+                                                                                           "username": "user2",
+                                                                                           "email": "user2@example.com",
+                                                                                           "fechaRegistro": "2025-02-02"
+                                                                                       }
+                                                                                   }
+                                                                               ]
+                                                                           }
+                                                                  ]
+                                                                """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "404",
+                        description = "Mascota no encontrada con esos criterios",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No autorizado",
+                        content = @Content),
+        })
+        @PostAuthorize("hasAnyRole('USER', 'ADMIN')")
         @GetMapping("/buscar")
-        public Page<Mascota> buscarPorEspecieYRaza(@RequestParam("especie") String nombreEspecie, @RequestParam("raza") String nombreRaza,
-                                                   @PageableDefault(page=0, size=5) Pageable pageable) {
-            return mascotaService.buscarEspecieYRaza(nombreRaza, nombreEspecie, pageable);
+        public PaginacionDto<GetMascotaDTO> buscarPorEspecieYRazaYNombre(@RequestParam(value = "especie", required = false) String nombreEspecie,
+                                                                         @RequestParam(value = "raza", required = false) String nombreRaza,
+                                                                         @RequestParam(value = "nombre", required = false) String nombreMascota,
+                                                                         @PageableDefault(page = 0, size = 5) Pageable pageable) {
+            return PaginacionDto.of(mascotaService.filtrarMascotas(nombreEspecie, nombreRaza, nombreMascota,pageable)
+                    .map(m -> GetMascotaDTO.of(m, getImageUrl(m.getAvatar()))));
         }
 
     }

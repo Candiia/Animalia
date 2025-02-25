@@ -47,7 +47,7 @@ public class MascotaSpecificationBuilder<U> {
                 Predicate predicate = builder.conjunction();
 
                 if (criteria.key().equalsIgnoreCase("especie")) {
-                    Join<Mascota, Especie> especieJoin = root.join("especie"); // Join with Especie
+                    Join<Mascota, Especie> especieJoin = root.join("especie");
                     if (criteria.operation().equalsIgnoreCase(":")) {
                         predicate = builder.and(predicate,
                                 builder.equal(especieJoin.get("nombre"), criteria.value()));
@@ -71,6 +71,20 @@ public class MascotaSpecificationBuilder<U> {
                     } else if (criteria.operation().equalsIgnoreCase("<")) {
                         predicate = builder.and(predicate,
                                 builder.lessThanOrEqualTo(razaJoin.get("nombre"), criteria.value().toString()));
+                    }
+
+                }
+
+                if (criteria.key().equalsIgnoreCase("nombre")) {
+                    if (criteria.operation().equalsIgnoreCase(":")) {
+                        predicate = builder.and(predicate,
+                                builder.equal(root.get("nombre"), criteria.value()));
+                    } else if (criteria.operation().equalsIgnoreCase(">")) {
+                        predicate = builder.and(predicate,
+                                builder.greaterThanOrEqualTo(root.get("nombre"), criteria.value().toString()));
+                    } else if (criteria.operation().equalsIgnoreCase("<")) {
+                        predicate = builder.and(predicate,
+                                builder.lessThanOrEqualTo(root.get("nombre"), criteria.value().toString()));
                     }
                 }
 

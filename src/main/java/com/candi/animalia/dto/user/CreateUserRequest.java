@@ -13,7 +13,7 @@ public record CreateUserRequest(
         @UniqueUsername
         String username,
 
-        @NotBlank
+        @NotBlank(message = "{createUserRequest.email.notblank}")
         String email,
         String password,
         String verifyPassword
