@@ -277,4 +277,27 @@
         }
 
 
+        @Operation(summary = "Elimina cualquier publicación")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "204",
+                        description = "La publicación ha sido eliminado correctamente",
+                        content = @Content),
+                @ApiResponse(responseCode = "404",
+                        description = "No se encontró la publicación",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No tienes autorización",
+                        content = @Content),
+                @ApiResponse(responseCode = "403",
+                        description = "Acceso denegado",
+                        content = @Content)
+        })
+        @PreAuthorize("hasRole('ADMIN')")
+        @DeleteMapping("/admin/{publicacionId}")
+        public ResponseEntity<Void> deletepublicacionByAdmin(@PathVariable UUID publicacionId) {
+            publicacionService.deletePublicacionByAdmin(publicacionId);
+            return ResponseEntity.noContent().build();
+        }
+
+
     }

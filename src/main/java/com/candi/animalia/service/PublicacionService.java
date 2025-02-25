@@ -1,6 +1,5 @@
 package com.candi.animalia.service;
 
-import com.candi.animalia.dto.mascota.EditMascotaDTO;
 import com.candi.animalia.dto.publicacion.CreatePublicacionDTO;
 import com.candi.animalia.dto.publicacion.EditPublicacionDTO;
 import com.candi.animalia.files.model.FileMetadata;
@@ -17,9 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -100,6 +96,12 @@ public class PublicacionService {
         return publicacionRepository.save(publicacion);
     }
 
+    public void deletePublicacionByAdmin(UUID publicacionId) {
+        Publicacion publicacion = publicacionRepository.findById(publicacionId)
+                .orElseThrow(() -> new EntityNotFoundException("No se ha encontrado el comentario con ID " + publicacionId));
+
+        publicacionRepository.delete(publicacion);
+    }
 }
 
 
