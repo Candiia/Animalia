@@ -102,45 +102,45 @@ INSERT INTO likes (publicacion_id, usuario_id, fecha_realizada)
 VALUES ('550e8400-e29b-41d4-a716-446655440205', '550e8400-e29b-41d4-a716-446655440002', '2025-02-19');
 
 --Comentarios
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('¡Max se ve súper feliz en el parque!', '2025-02-20', '550e8400-e29b-41d4-a716-446655440200', '550e8400-e29b-41d4-a716-446655440002');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('Qué energía tiene Max, ¡increíble!', '2025-02-21', '550e8400-e29b-41d4-a716-446655440200', '550e8400-e29b-41d4-a716-446655440003');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('Max siempre robándose el show.', '2025-02-22', '550e8400-e29b-41d4-a716-446655440200', '550e8400-e29b-41d4-a716-446655440004');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('Luna en una caja, ¡qué ternura!', '2025-02-21', '550e8400-e29b-41d4-a716-446655440201', '550e8400-e29b-41d4-a716-446655440001');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('¡Luna es la reina de las cajas!', '2025-02-22', '550e8400-e29b-41d4-a716-446655440201', '550e8400-e29b-41d4-a716-446655440004');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('¿Cómo hace Luna para ser tan adorable?', '2025-02-23', '550e8400-e29b-41d4-a716-446655440201', '550e8400-e29b-41d4-a716-446655440003');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('¡Suerte a Rocky en la carrera!', '2025-02-22', '550e8400-e29b-41d4-a716-446655440202', '550e8400-e29b-41d4-a716-446655440001');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('Rocky va a arrasar este fin de semana.', '2025-02-23', '550e8400-e29b-41d4-a716-446655440202', '550e8400-e29b-41d4-a716-446655440002');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('Rocky es todo un atleta, ¡increíble!', '2025-02-24', '550e8400-e29b-41d4-a716-446655440202', '550e8400-e29b-41d4-a716-446655440004');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('Nala cazando es lo más divertido.', '2025-02-23', '550e8400-e29b-41d4-a716-446655440203', '550e8400-e29b-41d4-a716-446655440003');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('¡Qué ágil es Nala! Me encanta.', '2025-02-24', '550e8400-e29b-41d4-a716-446655440203', '550e8400-e29b-41d4-a716-446655440002');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('Nala es una cazadora nata.', '2025-02-24', '550e8400-e29b-41d4-a716-446655440203', '550e8400-e29b-41d4-a716-446655440001');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('Thor y la nieve, ¡qué combinación!', '2025-02-24', '550e8400-e29b-41d4-a716-446655440204', '550e8400-e29b-41d4-a716-446655440001');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('Thor parece un cachorro con la nieve.', '2025-02-24', '550e8400-e29b-41d4-a716-446655440204', '550e8400-e29b-41d4-a716-446655440003');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('Thor ladrando a la nieve es épico.', '2025-02-24', '550e8400-e29b-41d4-a716-446655440204', '550e8400-e29b-41d4-a716-446655440002');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('La pecera de Milo está genial.', '2025-02-19', '550e8400-e29b-41d4-a716-446655440205', '550e8400-e29b-41d4-a716-446655440002');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('Milo parece muy feliz nadando.', '2025-02-20', '550e8400-e29b-41d4-a716-446655440205', '550e8400-e29b-41d4-a716-446655440004');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('¡Max va a aprender nuevos trucos!', '2025-02-23', '550e8400-e29b-41d4-a716-446655440206', '550e8400-e29b-41d4-a716-446655440003');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('Qué bien que Max entrene mañana.', '2025-02-24', '550e8400-e29b-41d4-a716-446655440206', '550e8400-e29b-41d4-a716-446655440002');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('Luna durmiendo es un amor.', '2025-02-18', '550e8400-e29b-41d4-a716-446655440207', '550e8400-e29b-41d4-a716-446655440001');
-INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
-VALUES ('¡Luna parece tan cómoda en el sofá!', '2025-02-19', '550e8400-e29b-41d4-a716-446655440207', '550e8400-e29b-41d4-a716-446655440004');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440300', '¡Max se ve súper feliz en el parque!', '2025-02-20', '550e8400-e29b-41d4-a716-446655440200', '550e8400-e29b-41d4-a716-446655440002');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440301', 'Qué energía tiene Max, ¡increíble!', '2025-02-21', '550e8400-e29b-41d4-a716-446655440200', '550e8400-e29b-41d4-a716-446655440003');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440302', 'Max siempre robándose el show.', '2025-02-22', '550e8400-e29b-41d4-a716-446655440200', '550e8400-e29b-41d4-a716-446655440004');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440303', 'Luna en una caja, ¡qué ternura!', '2025-02-21', '550e8400-e29b-41d4-a716-446655440201', '550e8400-e29b-41d4-a716-446655440001');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440304', '¡Luna es la reina de las cajas!', '2025-02-22', '550e8400-e29b-41d4-a716-446655440201', '550e8400-e29b-41d4-a716-446655440004');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440305', '¿Cómo hace Luna para ser tan adorable?', '2025-02-23', '550e8400-e29b-41d4-a716-446655440201', '550e8400-e29b-41d4-a716-446655440003');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440306', '¡Suerte a Rocky en la carrera!', '2025-02-22', '550e8400-e29b-41d4-a716-446655440202', '550e8400-e29b-41d4-a716-446655440001');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440307', 'Rocky va a arrasar este fin de semana.', '2025-02-23', '550e8400-e29b-41d4-a716-446655440202', '550e8400-e29b-41d4-a716-446655440002');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440308', 'Rocky es todo un atleta, ¡increíble!', '2025-02-24', '550e8400-e29b-41d4-a716-446655440202', '550e8400-e29b-41d4-a716-446655440004');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440309', 'Nala cazando es lo más divertido.', '2025-02-23', '550e8400-e29b-41d4-a716-446655440203', '550e8400-e29b-41d4-a716-446655440003');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440310', '¡Qué ágil es Nala! Me encanta.', '2025-02-24', '550e8400-e29b-41d4-a716-446655440203', '550e8400-e29b-41d4-a716-446655440002');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440311', 'Nala es una cazadora nata.', '2025-02-24', '550e8400-e29b-41d4-a716-446655440203', '550e8400-e29b-41d4-a716-446655440001');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440312', 'Thor y la nieve, ¡qué combinación!', '2025-02-24', '550e8400-e29b-41d4-a716-446655440204', '550e8400-e29b-41d4-a716-446655440001');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440313', 'Thor parece un cachorro con la nieve.', '2025-02-24', '550e8400-e29b-41d4-a716-446655440204', '550e8400-e29b-41d4-a716-446655440003');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440314', 'Thor ladrando a la nieve es épico.', '2025-02-24', '550e8400-e29b-41d4-a716-446655440204', '550e8400-e29b-41d4-a716-446655440002');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440315', 'La pecera de Milo está genial.', '2025-02-19', '550e8400-e29b-41d4-a716-446655440205', '550e8400-e29b-41d4-a716-446655440002');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440316', 'Milo parece muy feliz nadando.', '2025-02-20', '550e8400-e29b-41d4-a716-446655440205', '550e8400-e29b-41d4-a716-446655440004');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440317', '¡Max va a aprender nuevos trucos!', '2025-02-23', '550e8400-e29b-41d4-a716-446655440206', '550e8400-e29b-41d4-a716-446655440003');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440318', 'Qué bien que Max entrene mañana.', '2025-02-24', '550e8400-e29b-41d4-a716-446655440206', '550e8400-e29b-41d4-a716-446655440002');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440319', 'Luna durmiendo es un amor.', '2025-02-18', '550e8400-e29b-41d4-a716-446655440207', '550e8400-e29b-41d4-a716-446655440001');
+INSERT INTO comentario (id, texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440320', '¡Luna parece tan cómoda en el sofá!', '2025-02-19', '550e8400-e29b-41d4-a716-446655440207', '550e8400-e29b-41d4-a716-446655440004');

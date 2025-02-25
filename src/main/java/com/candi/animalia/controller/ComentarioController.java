@@ -1,5 +1,6 @@
     package com.candi.animalia.controller;
 
+    import com.candi.animalia.dto.comentario.CreateComentarioDTO;
     import com.candi.animalia.dto.comentario.GetComentarioDTO;
     import com.candi.animalia.dto.like.CreateLikeDTO;
     import com.candi.animalia.dto.like.GetLikeDTO;
@@ -127,5 +128,11 @@
             return comentario.map(GetComentarioDTO::of);
         }
 
+
+        @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+        @PostMapping("/publicacion/{publicacionId}")
+        public ResponseEntity<GetComentarioDTO> createLike(@PathVariable UUID publicacionId, @RequestBody @Valid CreateComentarioDTO comentarioDTO, @AuthenticationPrincipal Usuario usuario) {
+            return ResponseEntity.ok(GetComentarioDTO.of(comentarioService.save(comentarioDTO, usuario, publicacionId)));
+        }
 
     }
