@@ -100,6 +100,13 @@ public class PublicacionService {
         return publicacionRepository.save(publicacion);
     }
 
+
+    public void deletePublicacionByAdmin(UUID publicacionId) {
+        Publicacion publicacion = publicacionRepository.findById(publicacionId)
+                .orElseThrow(() -> new EntityNotFoundException("No se ha encontrado el comentario con ID " + publicacionId));
+
+        publicacionRepository.delete(publicacion);
+    }
 }
 
 
