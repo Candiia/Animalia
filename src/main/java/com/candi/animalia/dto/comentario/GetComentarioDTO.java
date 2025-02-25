@@ -16,7 +16,7 @@ public record GetComentarioDTO(
 
     public static GetComentarioDTO of(Comentario comentario){
         return new GetComentarioDTO(
-                comentario.getTexto(), 
+                comentario.getComentario(),
                 comentario.getFechaRealizada(),
                 GetUserDTO.of(comentario.getUsuario())
 
