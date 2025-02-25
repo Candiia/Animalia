@@ -66,4 +66,11 @@ public class LikesService {
 
         likeRepository.delete(like);
     }
+
+    public Page<Like> findAllLikeByPublication(Pageable pageable,UUID idPublicacion) {
+        Page<Like> result = likeRepository.findAllByPublicacionId(pageable, idPublicacion);
+        if (result.isEmpty())
+            throw new EntityNotFoundException("No hay ningún like");
+        return result;
+    }
 }

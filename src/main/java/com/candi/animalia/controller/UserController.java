@@ -319,23 +319,10 @@ public class UserController {
                                             @ExampleObject(
                                                     value = """
                                        {
-                                                                       "nombre": "Max",
-                                                                       "biografia": "Un perro muy juguetÃ³n y amigable.",
-                                                                       "fechaNacimiento": "2020-05-15",
-                                                                       "avatar": "https://example.com/avatars/max.jpg",
-                                                                       "raza": {
-                                                                           "nombre": "Labrador Retriever"
-                                                                       },
-                                                                       "especie": {
-                                                                           "nombre": "Canino",
-                                                                           "localDate": "2025-01-01"
-                                                                       },
-                                                                       "userDTO": {
-                                                                           "username": "user1",
-                                                                           "email": "user1@example.com",
-                                                                           "fechaRegistro": "2025-02-01"
-                                                                       }
-                                                                   }
+                                                                   "username": "user1",
+                                                                   "email": "user1@example.com",
+                                                                   "fechaRegistro": "2025-02-01"
+                                                               }
                                     """
                                             )
                                     })
@@ -367,9 +354,11 @@ public class UserController {
                                     examples = {
                                             @ExampleObject(
                                                     value = """
-                                            {
-                                             "nombre":"Cocodrilo"
-                                            }
+                                           {
+                                                                       "username": "user3",
+                                                                       "email": "candicalado@gmail.com",
+                                                                       "fechaRegistro": "2025-02-03"
+                                                                   }
                                     """
                                             )
                                     })
