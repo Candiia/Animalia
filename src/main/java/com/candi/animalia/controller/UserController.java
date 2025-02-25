@@ -424,5 +424,25 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Eliminar cualquier usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Usuario eliminada correctamente",
+                    content = @Content
+            ),
+            @ApiResponse(responseCode = "401",
+                    description = "No tienes acceso",
+                    content = @Content),
+            @ApiResponse(responseCode = "403",
+                    description = "No estás autorizado",
+                    content = @Content)
+    })
+    @DeleteMapping("/admin/{usuarioId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteUserByAdmin(@PathVariable UUID usuarioId){
+        userService.deleteUserByAdmin(usuarioId);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
