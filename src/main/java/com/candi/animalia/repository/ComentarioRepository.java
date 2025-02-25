@@ -16,7 +16,7 @@ public interface ComentarioRepository extends JpaRepository<Comentario, UUID> {
             FROM Comentario c
             LEFT JOIN FETCH c.publicacion p
             LEFT JOIN FETCH c.usuario u
-            WHERE c.comentarioPK.publicacionId = :id
-            """)
+            WHERE c.publicacion.id = :id
+           """)
     Page<Comentario> findAllByPublicacionId(Pageable pageable, @Param("id") UUID publicacionId);
 }

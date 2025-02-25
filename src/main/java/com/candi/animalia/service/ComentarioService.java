@@ -1,6 +1,7 @@
 package com.candi.animalia.service;
 
 
+import com.candi.animalia.dto.comentario.CreateComentarioDTO;
 import com.candi.animalia.dto.like.CreateLikeDTO;
 import com.candi.animalia.model.*;
 import com.candi.animalia.repository.ComentarioRepository;
@@ -21,6 +22,7 @@ import java.util.UUID;
 public class ComentarioService {
 
     private final ComentarioRepository comentarioRepository;
+    private final PublicacionRepository publicacionRepository;
 
 
     public Page<Comentario> findAllComentByPublication(Pageable pageable,UUID idPublicacion) {
@@ -28,6 +30,22 @@ public class ComentarioService {
         if (result.isEmpty())
             throw new EntityNotFoundException("No hay ningún comentario");
         return result;
+    }
+
+
+    public Comentario save(CreateComentarioDTO comentario, Usuario usuario, UUID publicacionId) {
+
+        Publicacion publicacion = publicacionRepository.findById(publicacionId)
+                .orElseThrow(() -> new EntityNotFoundException("No se ha encontrado la publicación con ID: " + publicacionId));
+
+        Comentario nuevoComentario = Comentario.builder()
+                .publicacion(publicacion)
+                .usuario(usuario)
+                .texto(comentario.texto())
+                .fechaRealizada(LocalDate.now())
+                .build();
+
+        return comentarioRepository.save(nuevoComentario);
     }
 
 
