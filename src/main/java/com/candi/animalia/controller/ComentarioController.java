@@ -223,7 +223,7 @@
                         description = "Acceso denegado",
                         content = @Content)
         })
-        @PreAuthorize("hasRole('USER')")
+        @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
         @DeleteMapping("/{comentarioId}")
         public ResponseEntity<Void> deleteComentario(@PathVariable UUID comentarioId, @AuthenticationPrincipal Usuario usuario) {
             comentarioService.deleteComentarioByUser(usuario, comentarioId);
