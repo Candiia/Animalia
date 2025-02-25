@@ -271,7 +271,7 @@
         })
         @PutMapping("/{id}")
         @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-        public GetPublicacionEditDTO edit(@RequestPart("post") @Valid EditPublicacionDTO edit, @PathVariable UUID id, @AuthenticationPrincipal Usuario usuari) {
+        public GetPublicacionEditDTO edit(@RequestBody EditPublicacionDTO edit, @PathVariable UUID id, @AuthenticationPrincipal Usuario usuari) {
             return GetPublicacionEditDTO.of(publicacionService.edit(edit, id, usuari));
 
         }
