@@ -5,17 +5,23 @@ import com.candi.animalia.dto.mascota.EditMascotaDTO;
 import com.candi.animalia.files.model.FileMetadata;
 import com.candi.animalia.files.service.StorageService;
 import com.candi.animalia.model.*;
+import com.candi.animalia.query.MascotaSpecificationBuilder;
 import com.candi.animalia.repository.EspecieRepository;
 import com.candi.animalia.repository.MascotaRepository;
 import com.candi.animalia.repository.RazaRepository;
 import com.candi.animalia.repository.UsuarioRepository;
+import com.candi.animalia.util.SearchCriteria;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -125,6 +131,35 @@ public class MascotaService {
             usuario.getMascotaList().remove(mascota);
         }
         mascotaRepository.deleteById(id);
+    }
+
+
+    public Page<Mascota> filtrarMascotas(String nombreEspecie, String nombreRaza, String nombreMascota, Pageable pageable) {
+
+            List<SearchCriteria> criteriaList = new ArrayList<>();
+
+            if (nombreEspecie != null && !nombreEspecie.trim().isEmpty()) {
+                criteriaList.add(new SearchCriteria("especie", ":", nombreEspecie));
+            }
+
+            if (nombreRaza != null && !nombreRaza.trim().isEmpty()) {
+                criteriaList.add(new SearchCriteria("raza", ":", nombreRaza));
+            }
+
+            if (nombreMascota != null && !nombreMascota.trim().isEmpty()) {
+                criteriaList.add(new SearchCriteria("nombre", ":", nombreMascota));
+            }
+
+            MascotaSpecificationBuilder<Mascota> builder = new MascotaSpecificationBuilder<>(criteriaList);
+            Specification<Mascota> spec = builder.build();
+
+            Page<Mascota> resultado = mascotaRepository.findAll(spec, pageable);
+
+            if (resultado.isEmpty()) {
+                throw new EntityNotFoundException("No se encontraron mascotas con los criterios especificados.");
+            }
+
+            return resultado;
     }
 
 }

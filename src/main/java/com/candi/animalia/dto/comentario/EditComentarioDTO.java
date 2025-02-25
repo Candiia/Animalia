@@ -4,7 +4,7 @@ import com.candi.animalia.model.Comentario;
 import jakarta.validation.constraints.NotBlank;
 
 public record EditComentarioDTO(
-        @NotBlank(message = "No puede estar vacío el comentario")
+        @NotBlank(message = "{editComentarioDTO.texto.notblank}")
         String comentario
 ){
     public static EditComentarioDTO of(Comentario comentario){

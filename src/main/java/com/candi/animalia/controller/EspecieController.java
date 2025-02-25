@@ -1,8 +1,10 @@
     package com.candi.animalia.controller;
 
+    import com.candi.animalia.dto.comentario.GetComentarioDTO;
     import com.candi.animalia.dto.especie.CreateEspecieDTO;
     import com.candi.animalia.dto.especie.EditEspecieDTO;
     import com.candi.animalia.dto.especie.GetEspecieDTO;
+    import com.candi.animalia.dto.paginacion.PaginacionDto;
     import com.candi.animalia.dto.raza.EditRazaDTO;
     import com.candi.animalia.dto.raza.GetRazaDTO;
     import com.candi.animalia.model.Especie;
@@ -49,54 +51,33 @@
                                                         value = """
                                                                     [
                                                                         {
-                                                                                               "content": [
-                                                                                                      {
-                                                                                                          "nombre": "Peces",
-                                                                                                          "localDate": "2023-01-01"
-                                                                                                      },
-                                                                                                      {
-                                                                                                          "nombre": "Invertebrados",
-                                                                                                          "localDate": "2024-06-22"
-                                                                                                      },
-                                                                                                      {
-                                                                                                          "nombre": "Equino",
-                                                                                                          "localDate": "2025-02-01"
-                                                                                                      },
-                                                                                                      {
-                                                                                                          "nombre": "Rumiantes",
-                                                                                                          "localDate": "2025-01-01"
-                                                                                                      },
-                                                                                                      {
-                                                                                                          "nombre": "Roedores",
-                                                                                                          "localDate": "2025-01-01"
-                                                                                                      }
-                                                                                                  ],
-                                                                                                  "pageable": {
-                                                                                                      "pageNumber": 1,
-                                                                                                      "pageSize": 5,
-                                                                                                      "sort": {
-                                                                                                          "empty": true,
-                                                                                                          "sorted": false,
-                                                                                                          "unsorted": true
-                                                                                                      },
-                                                                                                      "offset": 5,
-                                                                                                      "paged": true,
-                                                                                                      "unpaged": false
-                                                                                                  },
-                                                                                                  "last": false,
-                                                                                                  "totalElements": 11,
-                                                                                                  "totalPages": 3,
-                                                                                                  "size": 5,
-                                                                                                  "number": 1,
-                                                                                                  "sort": {
-                                                                                                      "empty": true,
-                                                                                                      "sorted": false,
-                                                                                                      "unsorted": true
-                                                                                                  },
-                                                                                                  "first": false,
-                                                                                                  "numberOfElements": 5,
-                                                                                                  "empty": false
-                                                                                                  }
+                                                                            "numPagina": 0,
+                                                                            "tamanioPagina": 5,
+                                                                            "elementosEncontrados": 11,
+                                                                            "paginasTotales": 3,
+                                                                            "contenido": [
+                                                                                {
+                                                                                    "nombre": "Canino",
+                                                                                    "localDate": "2025-01-01"
+                                                                                },
+                                                                                {
+                                                                                    "nombre": "Felino",
+                                                                                    "localDate": "2025-01-01"
+                                                                                },
+                                                                                {
+                                                                                    "nombre": "Aves",
+                                                                                    "localDate": "2022-07-22"
+                                                                                },
+                                                                                {
+                                                                                    "nombre": "Reptiles",
+                                                                                    "localDate": "2025-01-11"
+                                                                                },
+                                                                                {
+                                                                                    "nombre": "Anfibios",
+                                                                                    "localDate": "2022-01-01"
+                                                                                }
+                                                                            ]
+                                                                        }
                                                                     ]
                                                                 """
                                                 )
@@ -110,9 +91,9 @@
         })
         @PostAuthorize("hasRole('ADMIN')")
         @GetMapping("/admin")
-        public Page<GetEspecieDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable){
-            Page<Especie> especies = especieService.findAll(pageable);
-            return especies.map(GetEspecieDTO::of);
+        public PaginacionDto<GetEspecieDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable){
+            return PaginacionDto.of(especieService.findAll(pageable)
+                    .map(GetEspecieDTO::of));
         }
 
         @Operation(summary = "Obtiene una especie determinada")

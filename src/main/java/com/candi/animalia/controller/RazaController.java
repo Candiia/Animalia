@@ -1,5 +1,8 @@
     package com.candi.animalia.controller;
 
+    import com.candi.animalia.dto.especie.GetEspecieDTO;
+    import com.candi.animalia.dto.paginacion.PaginacionDto;
+    import com.candi.animalia.dto.publicacion.GetPublicacionDTO;
     import com.candi.animalia.dto.raza.CreateRazaDTO;
     import com.candi.animalia.dto.raza.EditRazaDTO;
     import com.candi.animalia.dto.raza.GetRazaDTO;
@@ -48,49 +51,28 @@
                                                         value = """
                                             [
                                                 {
-                                                                             "content": [
-                                                                                 {
-                                                                                     "nombre": "Beagle"
-                                                                                 },
-                                                                                 {
-                                                                                     "nombre": "Husky Siberiano"
-                                                                                 },
-                                                                                 {
-                                                                                     "nombre": "Rottweiler"
-                                                                                 },
-                                                                                 {
-                                                                                     "nombre": "DÃ¡lmata"
-                                                                                 },
-                                                                                 {
-                                                                                     "nombre": "Golden Retriever"
-                                                                                 }
-                                                                             ],
-                                                                             "pageable": {
-                                                                                 "pageNumber": 1,
-                                                                                 "pageSize": 5,
-                                                                                 "sort": {
-                                                                                     "empty": true,
-                                                                                     "sorted": false,
-                                                                                     "unsorted": true
-                                                                                 },
-                                                                                 "offset": 5,
-                                                                                 "paged": true,
-                                                                                 "unpaged": false
-                                                                             },
-                                                                             "last": false,
-                                                                             "totalPages": 4,
-                                                                             "totalElements": 16,
-                                                                             "size": 5,
-                                                                             "number": 1,
-                                                                             "sort": {
-                                                                                 "empty": true,
-                                                                                 "sorted": false,
-                                                                                 "unsorted": true
-                                                                             },
-                                                                             "first": false,
-                                                                             "numberOfElements": 5,
-                                                                             "empty": false
-                                                                         }
+                                                                            "numPagina": 0,
+                                                                            "tamanioPagina": 5,
+                                                                            "elementosEncontrados": 11,
+                                                                            "paginasTotales": 3,
+                                                                            "contenido": [
+                                                                                {
+                                                                                    "nombre": "Podenco"
+                                                                                },
+                                                                                {
+                                                                                    "nombre": "Labrador Retriever"
+                                                                                },
+                                                                                {
+                                                                                    "nombre": "SiamÃ©s"
+                                                                                },
+                                                                                {
+                                                                                    "nombre": "Persa"
+                                                                                },
+                                                                                {
+                                                                                    "nombre": "BengalÃ­"
+                                                                                }
+                                                                            ]
+                                                                        }
                                             ]
                                         """
                                                 )
@@ -100,9 +82,9 @@
                 content = @Content),
         })
         @GetMapping("/admin")
-        public Page<GetRazaDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable){
-            Page<Raza> razas = razaService.findAll(pageable);
-            return razas.map(GetRazaDTO::of);
+        public PaginacionDto<GetRazaDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable){
+            return PaginacionDto.of(razaService.findAll(pageable)
+                    .map(GetRazaDTO::of));
         }
 
         @Operation(summary = "Obtiene una raza determinada")

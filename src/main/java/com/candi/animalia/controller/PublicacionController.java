@@ -4,6 +4,7 @@
     import com.candi.animalia.dto.mascota.CreateMascotaDTO;
     import com.candi.animalia.dto.mascota.EditMascotaDTO;
     import com.candi.animalia.dto.mascota.GetMascotaDTO;
+    import com.candi.animalia.dto.paginacion.PaginacionDto;
     import com.candi.animalia.dto.publicacion.CreatePublicacionDTO;
     import com.candi.animalia.dto.publicacion.EditPublicacionDTO;
     import com.candi.animalia.dto.publicacion.GetPublicacionDTO;
@@ -58,69 +59,155 @@
                                         examples = {
                                                 @ExampleObject(
                                                         value = """
-                                        [{
-                                                                              "content": [
-                                                                                  {
-                                                                                      "nombre": "Rocky",
-                                                                                      "biografia": "Beagle aventurero y curioso.",
-                                                                                      "fechaNacimiento": "2021-01-10",
-                                                                                      "avatar": "https://example.com/avatars/rocky.jpg",
-                                                                                      "raza": {
-                                                                                          "nombre": "Beagle"
-                                                                                      },
-                                                                                      "especie": {
-                                                                                          "nombre": "Canino",
-                                                                                          "localDate": "2025-01-01"
-                                                                                      },
-                                                                                      "userDTO": {
-                                                                                          "username": "user3",
-                                                                                          "email": "user3@example.com",
-                                                                                          "fechaRegistro": "2025-02-03"
-                                                                                      }
-                                                                                  },
-                                                                                  {
-                                                                                      "nombre": "Milo",
-                                                                                      "biografia": "Un pez dorado que adora nadar.",
-                                                                                      "fechaNacimiento": "2023-01-15",
-                                                                                      "avatar": "https://example.com/avatars/milo.jpg",
-                                                                                      "raza": null,
-                                                                                      "especie": {
-                                                                                          "nombre": "Peces",
-                                                                                          "localDate": "2023-01-01"
-                                                                                      },
-                                                                                      "userDTO": {
-                                                                                          "username": "user3",
-                                                                                          "email": "user3@example.com",
-                                                                                          "fechaRegistro": "2025-02-03"
-                                                                                      }
-                                                                                  }
-                                                                              ],
-                                                                              "pageable": {
-                                                                                  "pageNumber": 0,
-                                                                                  "pageSize": 5,
-                                                                                  "sort": {
-                                                                                      "empty": true,
-                                                                                      "sorted": false,
-                                                                                      "unsorted": true
-                                                                                  },
-                                                                                  "offset": 0,
-                                                                                  "paged": true,
-                                                                                  "unpaged": false
-                                                                              },
-                                                                              "last": true,
-                                                                              "totalElements": 2,
-                                                                              "totalPages": 1,
-                                                                              "size": 5,
-                                                                              "number": 0,
-                                                                              "sort": {
-                                                                                  "empty": true,
-                                                                                  "sorted": false,
-                                                                                  "unsorted": true
-                                                                              },
-                                                                              "first": true,
-                                                                              "numberOfElements": 2,
-                                                                              "empty": false
-                                                                          }
+                                        [
+                                        {
+                                                                        "numPagina": 0,
+                                                                        "tamanioPagina": 5,
+                                                                        "elementosEncontrados": 8,
+                                                                        "paginasTotales": 2,
+                                                                        "contenido": [
+                                                                            {
+                                                                                "imageURL": "http://localhost:8080/download/Image",
+                                                                                "descripcion": "Max disfrutando del parque en un dÃ­a soleado.",
+                                                                                "fechaRegistro": "2025-02-20",
+                                                                                "usuario": {
+                                                                                    "username": "user1",
+                                                                                    "email": "user1@example.com",
+                                                                                    "fechaRegistro": "2025-02-01"
+                                                                                },
+                                                                                "mascotaDTO": {
+                                                                                    "nombre": "Max",
+                                                                                    "biografia": "Un perro muy juguetÃ³n y amigable.",
+                                                                                    "fechaNacimiento": "2020-05-15",
+                                                                                    "avatar": "Image",
+                                                                                    "raza": {
+                                                                                        "nombre": "Labrador Retriever"
+                                                                                    },
+                                                                                    "especie": {
+                                                                                        "nombre": "Canino",
+                                                                                        "localDate": "2025-01-01"
+                                                                                    },
+                                                                                    "userDTO": {
+                                                                                        "username": "user1",
+                                                                                        "email": "user1@example.com",
+                                                                                        "fechaRegistro": "2025-02-01"
+                                                                                    }
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "imageURL": "http://localhost:8080/download/Image",
+                                                                                "descripcion": "Luna se escondiÃ³ en una caja hoy, Â¡es tan adorable!",
+                                                                                "fechaRegistro": "2025-02-21",
+                                                                                "usuario": {
+                                                                                    "username": "user2",
+                                                                                    "email": "user2@example.com",
+                                                                                    "fechaRegistro": "2025-02-02"
+                                                                                },
+                                                                                "mascotaDTO": {
+                                                                                    "nombre": "Luna",
+                                                                                    "biografia": "Gata persa tranquila y cariÃ±osa.",
+                                                                                    "fechaNacimiento": "2019-08-20",
+                                                                                    "avatar": "Image",
+                                                                                    "raza": {
+                                                                                        "nombre": "Persa"
+                                                                                    },
+                                                                                    "especie": {
+                                                                                        "nombre": "Felino",
+                                                                                        "localDate": "2025-01-01"
+                                                                                    },
+                                                                                    "userDTO": {
+                                                                                        "username": "user2",
+                                                                                        "email": "user2@example.com",
+                                                                                        "fechaRegistro": "2025-02-02"
+                                                                                    }
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "imageURL": "http://localhost:8080/download/Image",
+                                                                                "descripcion": "Rocky participarÃ¡ en una carrera de perros este fin de semana.",
+                                                                                "fechaRegistro": "2025-02-22",
+                                                                                "usuario": {
+                                                                                    "username": "user3",
+                                                                                    "email": "user3@example.com",
+                                                                                    "fechaRegistro": "2025-02-03"
+                                                                                },
+                                                                                "mascotaDTO": {
+                                                                                    "nombre": "Rocky",
+                                                                                    "biografia": "Beagle aventurero y curioso.",
+                                                                                    "fechaNacimiento": "2021-01-10",
+                                                                                    "avatar": "Image",
+                                                                                    "raza": {
+                                                                                        "nombre": "Beagle"
+                                                                                    },
+                                                                                    "especie": {
+                                                                                        "nombre": "Canino",
+                                                                                        "localDate": "2025-01-01"
+                                                                                    },
+                                                                                    "userDTO": {
+                                                                                        "username": "user3",
+                                                                                        "email": "user3@example.com",
+                                                                                        "fechaRegistro": "2025-02-03"
+                                                                                    }
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "imageURL": "http://localhost:8080/download/Image",
+                                                                                "descripcion": "Nala cazando una pelota en el jardÃ­n.",
+                                                                                "fechaRegistro": "2025-02-23",
+                                                                                "usuario": {
+                                                                                    "username": "user4",
+                                                                                    "email": "user4@example.com",
+                                                                                    "fechaRegistro": "2025-02-04"
+                                                                                },
+                                                                                "mascotaDTO": {
+                                                                                    "nombre": "Nala",
+                                                                                    "biografia": "BengalÃ­ activa y juguetona.",
+                                                                                    "fechaNacimiento": "2022-03-05",
+                                                                                    "avatar": "Image",
+                                                                                    "raza": {
+                                                                                        "nombre": "BengalÃ­"
+                                                                                    },
+                                                                                    "especie": {
+                                                                                        "nombre": "Felino",
+                                                                                        "localDate": "2025-01-01"
+                                                                                    },
+                                                                                    "userDTO": {
+                                                                                        "username": "user4",
+                                                                                        "email": "user4@example.com",
+                                                                                        "fechaRegistro": "2025-02-04"
+                                                                                    }
+                                                                                }
+                                                                            },
+                                                                            {
+                                                                                "imageURL": "http://localhost:8080/download/Image",
+                                                                                "descripcion": "Thor ladrando a la nieve como si fuera la primera vez.",
+                                                                                "fechaRegistro": "2025-02-24",
+                                                                                "usuario": {
+                                                                                    "username": "user2",
+                                                                                    "email": "user2@example.com",
+                                                                                    "fechaRegistro": "2025-02-02"
+                                                                                },
+                                                                                "mascotaDTO": {
+                                                                                    "nombre": "Thor",
+                                                                                    "biografia": "Husky siberiano con mucha energÃ­a.",
+                                                                                    "fechaNacimiento": "2018-07-21",
+                                                                                    "avatar": "Image",
+                                                                                    "raza": {
+                                                                                        "nombre": "Husky Siberiano"
+                                                                                    },
+                                                                                    "especie": {
+                                                                                        "nombre": "Canino",
+                                                                                        "localDate": "2025-01-01"
+                                                                                    },
+                                                                                    "userDTO": {
+                                                                                        "username": "user2",
+                                                                                        "email": "user2@example.com",
+                                                                                        "fechaRegistro": "2025-02-02"
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        ]
+                                                                    }
                                         ]
                                     """
                                                 )
@@ -135,11 +222,9 @@
         })
         @GetMapping()
         @PostAuthorize("hasRole('ADMIN')")
-        public Page<GetPublicacionDTO> getAll(@PageableDefault(page=0, size=5) Pageable pageable) {
-            Page<Publicacion> publicacions = publicacionService.findAll(pageable);
-            return publicacions.map(p -> {
-                return GetPublicacionDTO.of(p, getImageUrl(p.getImage()));
-            });
+        public PaginacionDto<GetPublicacionDTO> getAll(@PageableDefault(page=0, size=5) Pageable pageable) {
+            return PaginacionDto.of(publicacionService.findAll(pageable)
+                    .map(m -> GetPublicacionDTO.of(m, getImageUrl(m.getImage()))));
         }
 
 
@@ -199,7 +284,6 @@
         @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
         @GetMapping("/{id}")
         public GetPublicacionDTO findByid(@PathVariable UUID id){
-
             Publicacion publicacion = publicacionService.findById(id);
             return GetPublicacionDTO.of(publicacion, getImageUrl(publicacion.getImage()));
         }
@@ -207,7 +291,7 @@
 
         @Operation(summary = "Se ha creado la publicación")
         @ApiResponses(value = {
-                @ApiResponse(responseCode = "200",
+                @ApiResponse(responseCode = "201",
                         description = "Se ha creado una publicación",
                         content = {
                                 @Content(mediaType = "application/json",

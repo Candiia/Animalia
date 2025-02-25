@@ -7,6 +7,7 @@
     import com.candi.animalia.dto.especie.GetEspecieDTO;
     import com.candi.animalia.dto.like.CreateLikeDTO;
     import com.candi.animalia.dto.like.GetLikeDTO;
+    import com.candi.animalia.dto.paginacion.PaginacionDto;
     import com.candi.animalia.model.Comentario;
     import com.candi.animalia.model.Like;
     import com.candi.animalia.model.Usuario;
@@ -56,62 +57,41 @@
                                                 @ExampleObject(
                                                         value = """
                                                                [
-                                                                    {
-                                                                         "content": [
-                                                                             {
-                                                                                 "texto": "¡Suerte a Rocky en la carrera!",
-                                                                                 "fechaRealizada": "2025-02-22",
-                                                                                 "userDTO": {
-                                                                                     "username": "user1",
-                                                                                     "email": "user1@example.com",
-                                                                                     "fechaRegistro": "2025-02-01"
-                                                                                 }
-                                                                             },
-                                                                             {
-                                                                                 "texto": "Rocky va a arrasar este fin de semana.",
-                                                                                 "fechaRealizada": "2025-02-23",
-                                                                                 "userDTO": {
-                                                                                     "username": "user2",
-                                                                                     "email": "user2@example.com",
-                                                                                     "fechaRegistro": "2025-02-02"
-                                                                                 }
-                                                                             },
-                                                                             {
-                                                                                 "texto": "Rocky es todo un atleta, ¡increíble!",
-                                                                                 "fechaRealizada": "2025-02-24",
-                                                                                 "userDTO": {
-                                                                                     "username": "user4",
-                                                                                     "email": "user4@example.com",
-                                                                                     "fechaRegistro": "2025-02-04"
-                                                                                 }
+                                                               {
+                                                                     "numPagina": 0,
+                                                                     "tamanioPagina": 5,
+                                                                     "elementosEncontrados": 3,
+                                                                     "paginasTotales": 1,
+                                                                     "contenido": [
+                                                                         {
+                                                                             "texto": "Â¡Suerte a Rocky en la carrera!",
+                                                                             "fechaRealizada": "2025-02-22",
+                                                                             "userDTO": {
+                                                                                 "username": "user1",
+                                                                                 "email": "user1@example.com",
+                                                                                 "fechaRegistro": "2025-02-01"
                                                                              }
-                                                                         ],
-                                                                         "pageable": {
-                                                                             "pageNumber": 0,
-                                                                             "pageSize": 5,
-                                                                             "sort": {
-                                                                                 "empty": true,
-                                                                                 "sorted": false,
-                                                                                 "unsorted": true
-                                                                             },
-                                                                             "offset": 0,
-                                                                             "paged": true,
-                                                                             "unpaged": false
                                                                          },
-                                                                         "last": true,
-                                                                         "totalElements": 3,
-                                                                         "totalPages": 1,
-                                                                         "first": true,
-                                                                         "size": 5,
-                                                                         "number": 0,
-                                                                         "sort": {
-                                                                             "empty": true,
-                                                                             "sorted": false,
-                                                                             "unsorted": true
+                                                                         {
+                                                                             "texto": "Rocky va a arrasar este fin de semana.",
+                                                                             "fechaRealizada": "2025-02-23",
+                                                                             "userDTO": {
+                                                                                 "username": "user2",
+                                                                                 "email": "user2@example.com",
+                                                                                 "fechaRegistro": "2025-02-02"
+                                                                             }
                                                                          },
-                                                                         "numberOfElements": 3,
-                                                                         "empty": false
-                                                                     }
+                                                                         {
+                                                                             "texto": "Rocky es todo un atleta, Â¡increÃ­ble!",
+                                                                             "fechaRealizada": "2025-02-24",
+                                                                             "userDTO": {
+                                                                                 "username": "user4",
+                                                                                 "email": "user4@example.com",
+                                                                                 "fechaRegistro": "2025-02-04"
+                                                                             }
+                                                                         }
+                                                                     ]
+                                                                 }
                                                                ]
                                                               """
                                                 )
@@ -126,15 +106,15 @@
         })
         @PostAuthorize("hasAnyRole('ADMIN', 'USER')")
         @GetMapping("{publicacionId}")
-        public Page<GetComentarioDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable,@PathVariable UUID publicacionId){
-            Page<Comentario> comentario = comentarioService.findAllComentByPublication(pageable, publicacionId);
-            return comentario.map(GetComentarioDTO::of);
+        public PaginacionDto<GetComentarioDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable,@PathVariable UUID publicacionId){
+            return  PaginacionDto.of(comentarioService.findAllComentByPublication(pageable, publicacionId)
+                    .map(GetComentarioDTO::of));
         }
 
 
         @Operation(summary = "Se ha creado el comentario")
         @ApiResponses(value = {
-                @ApiResponse(responseCode = "200",
+                @ApiResponse(responseCode = "201",
                         description = "Se ha creado un comentario",
                         content = {
                                 @Content(mediaType = "application/json",

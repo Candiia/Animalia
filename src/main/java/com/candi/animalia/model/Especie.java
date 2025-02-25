@@ -63,4 +63,6 @@ public class Especie {
         this.getMascotas().remove(m);
         m.setEspecie(null);
     }
+
+
 }

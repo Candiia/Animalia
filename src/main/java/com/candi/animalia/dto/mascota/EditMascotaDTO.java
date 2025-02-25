@@ -7,14 +7,14 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public record EditMascotaDTO(
-        @NotBlank
+        @NotBlank(message = "{editMascotaDTO.nombre.notblank}")
         String nombre,
         LocalDate fechaNacimiento,
         String avatar,
         String biografia,
-        @NotNull
+        @NotNull(message = "{editMascotaDTO.razaId.notnull}")
         UUID razaId,
-        @NotNull
+        @NotNull(message = "{editMascotaDTO.especieId.notnull}")
         UUID especieId
 ){
 }
