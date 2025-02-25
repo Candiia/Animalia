@@ -100,14 +100,6 @@ public class PublicacionService {
         return publicacionRepository.save(publicacion);
     }
 
-     /*public Page<Publicacion> findByUsuarioIdPublicacion(Usuario usuario, Pageable pageable) {
-        Page<Publicacion> publicacions = publicacionRepository.findAllPublicacionByMe(usuario.getId(), pageable);
-        if (publicacions.isEmpty()) {
-            throw new EntityNotFoundException("No se encontraron publicaciones");
-        }
-        return publicacions;
-    }*/
-
 }
 
 

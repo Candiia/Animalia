@@ -214,4 +214,23 @@
             return ResponseEntity.ok(GetLikeDTO.of(likesService.save(likeDTO, usuario)));
         }
 
+        @Operation(summary = "Elimina un like de una publicación")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "204",
+                        description = "El like ha sido eliminado correctamente",
+                        content = @Content),
+                @ApiResponse(responseCode = "404",
+                        description = "No se encontró la publicación o el like",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No tienes autorización",
+                        content = @Content)
+        })
+        @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+        @DeleteMapping("/{publicacionId}")
+        public ResponseEntity<Void> deleteLike(@PathVariable UUID publicacionId, @AuthenticationPrincipal Usuario usuario) {
+            likesService.deleteLike(publicacionId, usuario);
+            return ResponseEntity.noContent().build();
+        }
+
     }
