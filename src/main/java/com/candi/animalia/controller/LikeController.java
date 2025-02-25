@@ -1,5 +1,6 @@
     package com.candi.animalia.controller;
 
+    import com.candi.animalia.dto.comentario.GetComentarioDTO;
     import com.candi.animalia.dto.especie.CreateEspecieDTO;
     import com.candi.animalia.dto.especie.EditEspecieDTO;
     import com.candi.animalia.dto.especie.GetEspecieDTO;
@@ -272,6 +273,118 @@
         public ResponseEntity<Void> deleteLike(@PathVariable UUID publicacionId, @AuthenticationPrincipal Usuario usuario) {
             likesService.deleteLike(publicacionId, usuario);
             return ResponseEntity.noContent().build();
+        }
+
+
+        @Operation(summary = "Obtiene todas los likes")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Se ha obtenido todas los likes de la publicación",
+                        content = {
+                                @Content(mediaType = "application/json",
+
+                                        array = @ArraySchema(schema = @Schema(implementation = GetComentarioDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                                               [
+                                                               {
+                                                                     "numPagina": 0,
+                                                                     "tamanioPagina": 5,
+                                                                     "elementosEncontrados": 2,
+                                                                     "paginasTotales": 1,
+                                                                     "contenido": [
+                                                                         {
+                                                                             "fechaRealizada": "2025-02-22",
+                                                                             "publicacionDTO": {
+                                                                                 "imageURL": "Image",
+                                                                                 "descripcion": "Rocky participarÃ¡ en una carrera de perros este fin de semana.",
+                                                                                 "fechaRegistro": "2025-02-22",
+                                                                                 "usuario": {
+                                                                                     "username": "user3",
+                                                                                     "email": "user3@example.com",
+                                                                                     "fechaRegistro": "2025-02-03"
+                                                                                 },
+                                                                                 "mascotaDTO": {
+                                                                                     "nombre": "Rocky",
+                                                                                     "biografia": "Beagle aventurero y curioso.",
+                                                                                     "fechaNacimiento": "2021-01-10",
+                                                                                     "avatar": "Image",
+                                                                                     "raza": {
+                                                                                         "nombre": "Beagle"
+                                                                                     },
+                                                                                     "especie": {
+                                                                                         "nombre": "Canino",
+                                                                                         "localDate": "2025-01-01"
+                                                                                     },
+                                                                                     "userDTO": {
+                                                                                         "username": "user3",
+                                                                                         "email": "user3@example.com",
+                                                                                         "fechaRegistro": "2025-02-03"
+                                                                                     }
+                                                                                 }
+                                                                             },
+                                                                             "userDTO": {
+                                                                                 "username": "user1",
+                                                                                 "email": "user1@example.com",
+                                                                                 "fechaRegistro": "2025-02-01"
+                                                                             }
+                                                                         },
+                                                                         {
+                                                                             "fechaRealizada": "2025-02-23",
+                                                                             "publicacionDTO": {
+                                                                                 "imageURL": "Image",
+                                                                                 "descripcion": "Rocky participarÃ¡ en una carrera de perros este fin de semana.",
+                                                                                 "fechaRegistro": "2025-02-22",
+                                                                                 "usuario": {
+                                                                                     "username": "user3",
+                                                                                     "email": "user3@example.com",
+                                                                                     "fechaRegistro": "2025-02-03"
+                                                                                 },
+                                                                                 "mascotaDTO": {
+                                                                                     "nombre": "Rocky",
+                                                                                     "biografia": "Beagle aventurero y curioso.",
+                                                                                     "fechaNacimiento": "2021-01-10",
+                                                                                     "avatar": "Image",
+                                                                                     "raza": {
+                                                                                         "nombre": "Beagle"
+                                                                                     },
+                                                                                     "especie": {
+                                                                                         "nombre": "Canino",
+                                                                                         "localDate": "2025-01-01"
+                                                                                     },
+                                                                                     "userDTO": {
+                                                                                         "username": "user3",
+                                                                                         "email": "user3@example.com",
+                                                                                         "fechaRegistro": "2025-02-03"
+                                                                                     }
+                                                                                 }
+                                                                             },
+                                                                             "userDTO": {
+                                                                                 "username": "user2",
+                                                                                 "email": "user2@example.com",
+                                                                                 "fechaRegistro": "2025-02-02"
+                                                                             }
+                                                                         }
+                                                                     ]
+                                                                 }
+                                                               ]
+                                                              """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "404",
+                        description = "No se ha encontrado ningún like en la publicación",
+                        content = @Content)
+                , @ApiResponse(responseCode = "401",
+                description = "No tienes autorización",
+                content = @Content)
+        })
+        @PostAuthorize("hasAnyRole('ADMIN', 'USER')")
+        @GetMapping("/publicacion/{publicacionId}")
+        public PaginacionDto<GetLikeDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable,@PathVariable UUID publicacionId){
+            return  PaginacionDto.of(likesService.findAllLikeByPublication(pageable, publicacionId)
+                    .map(GetLikeDTO::of));
         }
 
     }

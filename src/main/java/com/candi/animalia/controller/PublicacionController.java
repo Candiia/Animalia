@@ -387,10 +387,33 @@
                                                 @ExampleObject(
                                                         value = """
                                              {
-                                              "titulo":"Nuevo Título",
-                                              "descripcion":"Nueva Descripción",
-                                              "categoria": {"id": 1}
-                                             }
+                                                                              "imageURL": "Image",
+                                                                              "descripcion": "En el parque disfrutando",
+                                                                              "fechaRegistro": "2025-02-22",
+                                                                              "usuario": {
+                                                                                  "username": "user3",
+                                                                                  "email": "candicalado@gmail.com",
+                                                                                  "fechaRegistro": "2025-02-03"
+                                                                              },
+                                                                              "mascotaDTO": {
+                                                                                  "nombre": "Rocky",
+                                                                                  "biografia": "Beagle aventurero y curioso.",
+                                                                                  "fechaNacimiento": "2021-01-10",
+                                                                                  "avatar": "Image",
+                                                                                  "raza": {
+                                                                                      "nombre": "Beagle"
+                                                                                  },
+                                                                                  "especie": {
+                                                                                      "nombre": "Canino",
+                                                                                      "localDate": "2025-01-01"
+                                                                                  },
+                                                                                  "userDTO": {
+                                                                                      "username": "user3",
+                                                                                      "email": "candicalado@gmail.com",
+                                                                                      "fechaRegistro": "2025-02-03"
+                                                                                  }
+                                                                              }
+                                                                          }
                                     """
                                                 )
                                         })

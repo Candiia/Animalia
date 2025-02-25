@@ -1,9 +1,6 @@
 package com.candi.animalia.repository;
 
-import com.candi.animalia.model.Like;
-import com.candi.animalia.model.Publicacion;
-import com.candi.animalia.model.Raza;
-import com.candi.animalia.model.Usuario;
+import com.candi.animalia.model.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,4 +26,15 @@ public interface LikeRepository extends JpaRepository<Like, UUID>, JpaSpecificat
     boolean existsByPublicacionAndUsuario(Publicacion publicacion, Usuario usuario);
 
     Optional<Like> findByPublicacionAndUsuario(Publicacion publicacion, Usuario usuario);
+
+
+    @Query("""
+            SELECT l
+            FROM Like l
+            LEFT JOIN FETCH l.publicacion p
+            LEFT JOIN FETCH l.usuario u
+            WHERE l.publicacion.id = :id
+           """)
+    Page<Like> findAllByPublicacionId(Pageable pageable, @Param("id") UUID publicacionId);
+
 }

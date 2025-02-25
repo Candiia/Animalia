@@ -438,11 +438,24 @@
                                         examples = {
                                                 @ExampleObject(
                                                         value = """
-                                                                         {
-                                                                          "titulo":"Nuevo Título",
-                                                                          "descripcion":"Nueva Descripción",
-                                                                          "categoria": {"id": 1}
-                                                                         }
+                                                                        {
+                                                                            "nombre": "Margarita",
+                                                                            "biografia": "Soy perrete muy amigable",
+                                                                            "fechaNacimiento": "2002-02-11",
+                                                                            "avatar": "http://localhost:8080/download/perrofeliz_343428.jpg",
+                                                                            "raza": {
+                                                                                "nombre": "SiamÃ©s"
+                                                                            },
+                                                                            "especie": {
+                                                                                "nombre": "Canino",
+                                                                                "localDate": "2025-01-01"
+                                                                            },
+                                                                            "userDTO": {
+                                                                                "username": "user3",
+                                                                                "email": "user3@example.com",
+                                                                                "fechaRegistro": "2025-02-03"
+                                                                            }
+                                                                        }
                                                                 """
                                                 )
                                         })
