@@ -1,5 +1,6 @@
     package com.candi.animalia.controller;
 
+    import com.candi.animalia.dto.comentario.GetComentarioDTO;
     import com.candi.animalia.dto.mascota.CreateMascotaDTO;
     import com.candi.animalia.dto.mascota.EditMascotaDTO;
     import com.candi.animalia.dto.mascota.GetMascotaDTO;
@@ -204,6 +205,57 @@
         }
 
 
+        @Operation(summary = "Se ha creado la publicación")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Se ha creado una publicación",
+                        content = {
+                                @Content(mediaType = "application/json",
+
+                                        array = @ArraySchema(schema = @Schema(implementation = GetPublicacionDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                                                 {
+                                                                       "imageURL": "http://localhost:8080/download/logo_416933.PNG",
+                                                                       "descripcion": "¡Jugando con mis hermanos!",
+                                                                       "fechaRegistro": "2025-02-25",
+                                                                       "usuario": {
+                                                                           "username": "user3",
+                                                                           "email": "user3@example.com",
+                                                                           "fechaRegistro": "2025-02-03"
+                                                                       },
+                                                                       "mascotaDTO": {
+                                                                           "nombre": "Milo",
+                                                                           "biografia": "Un pez dorado que adora nadar.",
+                                                                           "fechaNacimiento": "2023-01-15",
+                                                                           "avatar": "logo_416933.PNG",
+                                                                           "raza": {
+                                                                               "nombre": "Beagle"
+                                                                           },
+                                                                           "especie": {
+                                                                               "nombre": "Peces",
+                                                                               "localDate": "2023-01-01"
+                                                                           },
+                                                                           "userDTO": {
+                                                                               "username": "user3",
+                                                                               "email": "user3@example.com",
+                                                                               "fechaRegistro": "2025-02-03"
+                                                                           }
+                                                                       }
+                                                                   }
+                                                              """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "404",
+                        description = "No se ha podido crear la publicación",
+                        content = @Content)
+                ,
+                @ApiResponse(responseCode = "401",
+                        description = "No tienes autorización",
+                        content = @Content)
+        })
         @PostMapping("/{mascotaId}")
         @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
         public ResponseEntity<GetPublicacionDTO> create(@RequestPart("file") MultipartFile file, @RequestPart("post") CreatePublicacionDTO newPost,
