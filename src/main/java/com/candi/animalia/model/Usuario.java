@@ -70,6 +70,16 @@ public class Usuario implements UserDetails {
     @ToString.Exclude
     private List<Like> likes = new ArrayList<>();
 
+    @OneToMany(
+            mappedBy = "usuario",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @Builder.Default
+    @ToString.Exclude
+    private List<Comentario> comentarios = new ArrayList<>();
+
     @Builder.Default
     private Instant createdAt = Instant.now();
 

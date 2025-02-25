@@ -1,4 +1,4 @@
-
+--raza
 INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440000', 'Podenco');
 INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440001', 'Labrador Retriever');
 INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440002', 'Siamés');
@@ -11,6 +11,7 @@ INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440008', 'D�
 INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440009', 'Golden Retriever');
 INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440010', 'Bulldog Francés');
 
+--usuario
 INSERT INTO usuario (id, email, username, password, registration_date, enabled, activation_token, created_at)
 VALUES ('550e8400-e29b-41d4-a716-446655440000', 'admin@example.com', 'admin', '{noop}admin', '2025-02-05',  TRUE, '986541', NOW());
 INSERT INTO usuario (id, email, username, password, registration_date, enabled, activation_token, created_at)
@@ -22,12 +23,14 @@ VALUES ('550e8400-e29b-41d4-a716-446655440003', 'user3@example.com', 'user3', '{
 INSERT INTO usuario (id, email, username, password, registration_date, enabled, activation_token, created_at)
 VALUES ('550e8400-e29b-41d4-a716-446655440004', 'user4@example.com', 'user4', '{noop}12345678', '2025-02-04', TRUE, '456123', NOW());
 
+--userRoles
 INSERT INTO usuario_roles (usuario_id, roles) VALUES('550e8400-e29b-41d4-a716-446655440000', 'ADMIN');
 INSERT INTO usuario_roles (usuario_id, roles) VALUES('550e8400-e29b-41d4-a716-446655440001', 'USER');
 INSERT INTO usuario_roles (usuario_id, roles) VALUES('550e8400-e29b-41d4-a716-446655440002', 'USER');
 INSERT INTO usuario_roles (usuario_id, roles) VALUES('550e8400-e29b-41d4-a716-446655440003', 'USER');
 INSERT INTO usuario_roles (usuario_id, roles) VALUES('550e8400-e29b-41d4-a716-446655440004', 'USER');
 
+--especie
 INSERT INTO especie(id, nombre, fecha_registro) VALUES ('550e8400-e29b-41d4-a716-446655440000', 'Canino', '2025-01-01');
 INSERT INTO especie(id, nombre, fecha_registro) VALUES ('550e8400-e29b-41d4-a716-446655440001', 'Felino', '2025-01-01');
 INSERT INTO especie(id, nombre, fecha_registro) VALUES ('550e8400-e29b-41d4-a716-446655440002', 'Aves', '2022-07-22');
@@ -40,7 +43,7 @@ INSERT INTO especie(id, nombre, fecha_registro) VALUES ('550e8400-e29b-41d4-a716
 INSERT INTO especie(id, nombre, fecha_registro) VALUES ('550e8400-e29b-41d4-a716-446655440009', 'Roedores', '2025-01-01');
 INSERT INTO especie(id, nombre, fecha_registro) VALUES ('550e8400-e29b-41d4-a716-446655440010', 'Carnívoros', '2025-01-01');
 
-
+--mascota
 INSERT INTO mascota (id, nombre, fecha_nacimiento, biografia, avatar, raza_id, especie_id, usuario_id)
 VALUES ('550e8400-e29b-41d4-a716-446655440100', 'Max', '2020-05-15', 'Un perro muy juguetón y amigable.', 'https://example.com/avatars/max.jpg', '550e8400-e29b-41d4-a716-446655440001', '550e8400-e29b-41d4-a716-446655440000', '550e8400-e29b-41d4-a716-446655440001');
 INSERT INTO mascota (id, nombre, fecha_nacimiento, biografia, avatar, raza_id, especie_id, usuario_id)
@@ -54,7 +57,7 @@ VALUES ('550e8400-e29b-41d4-a716-446655440104', 'Thor', '2018-07-21', 'Husky sib
 INSERT INTO mascota (id, nombre, fecha_nacimiento, biografia, avatar, raza_id, especie_id, usuario_id)
 VALUES ('550e8400-e29b-41d4-a716-446655440105', 'Milo', '2023-01-15', 'Un pez dorado que adora nadar.', 'https://example.com/avatars/milo.jpg', '550e8400-e29b-41d4-a716-446655440005', '550e8400-e29b-41d4-a716-446655440005', '550e8400-e29b-41d4-a716-446655440003');
 
-
+--publicacion
 INSERT INTO publicacion (id, image, descripcion, fecha_publicacion, usuario_id, mascota_id)
 VALUES ('550e8400-e29b-41d4-a716-446655440200', 'Image', 'Max disfrutando del parque en un día soleado.', '2025-02-20', '550e8400-e29b-41d4-a716-446655440001', '550e8400-e29b-41d4-a716-446655440100');
 INSERT INTO publicacion (id, image, descripcion, fecha_publicacion, usuario_id, mascota_id)
@@ -72,7 +75,7 @@ VALUES ('550e8400-e29b-41d4-a716-446655440206', 'Image', 'Max irá a una sesión
 INSERT INTO publicacion (id, image, descripcion, fecha_publicacion, usuario_id, mascota_id)
 VALUES ('550e8400-e29b-41d4-a716-446655440207', 'Image', 'Luna durmiendo en el sofá, parece una reina.', '2025-02-18', '550e8400-e29b-41d4-a716-446655440002', '550e8400-e29b-41d4-a716-446655440101');
 
-
+--likes
 INSERT INTO likes (publicacion_id, usuario_id, fecha_realizada)
 VALUES ('550e8400-e29b-41d4-a716-446655440200', '550e8400-e29b-41d4-a716-446655440002', '2025-02-20');
 INSERT INTO likes (publicacion_id, usuario_id, fecha_realizada)
@@ -97,3 +100,47 @@ INSERT INTO likes (publicacion_id, usuario_id, fecha_realizada)
 VALUES ('550e8400-e29b-41d4-a716-446655440204', '550e8400-e29b-41d4-a716-446655440003', '2025-02-24');
 INSERT INTO likes (publicacion_id, usuario_id, fecha_realizada)
 VALUES ('550e8400-e29b-41d4-a716-446655440205', '550e8400-e29b-41d4-a716-446655440002', '2025-02-19');
+
+--Comentarios
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('¡Max se ve súper feliz en el parque!', '2025-02-20', '550e8400-e29b-41d4-a716-446655440200', '550e8400-e29b-41d4-a716-446655440002');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('Qué energía tiene Max, ¡increíble!', '2025-02-21', '550e8400-e29b-41d4-a716-446655440200', '550e8400-e29b-41d4-a716-446655440003');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('Max siempre robándose el show.', '2025-02-22', '550e8400-e29b-41d4-a716-446655440200', '550e8400-e29b-41d4-a716-446655440004');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('Luna en una caja, ¡qué ternura!', '2025-02-21', '550e8400-e29b-41d4-a716-446655440201', '550e8400-e29b-41d4-a716-446655440001');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('¡Luna es la reina de las cajas!', '2025-02-22', '550e8400-e29b-41d4-a716-446655440201', '550e8400-e29b-41d4-a716-446655440004');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('¿Cómo hace Luna para ser tan adorable?', '2025-02-23', '550e8400-e29b-41d4-a716-446655440201', '550e8400-e29b-41d4-a716-446655440003');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('¡Suerte a Rocky en la carrera!', '2025-02-22', '550e8400-e29b-41d4-a716-446655440202', '550e8400-e29b-41d4-a716-446655440001');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('Rocky va a arrasar este fin de semana.', '2025-02-23', '550e8400-e29b-41d4-a716-446655440202', '550e8400-e29b-41d4-a716-446655440002');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('Rocky es todo un atleta, ¡increíble!', '2025-02-24', '550e8400-e29b-41d4-a716-446655440202', '550e8400-e29b-41d4-a716-446655440004');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('Nala cazando es lo más divertido.', '2025-02-23', '550e8400-e29b-41d4-a716-446655440203', '550e8400-e29b-41d4-a716-446655440003');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('¡Qué ágil es Nala! Me encanta.', '2025-02-24', '550e8400-e29b-41d4-a716-446655440203', '550e8400-e29b-41d4-a716-446655440002');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('Nala es una cazadora nata.', '2025-02-24', '550e8400-e29b-41d4-a716-446655440203', '550e8400-e29b-41d4-a716-446655440001');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('Thor y la nieve, ¡qué combinación!', '2025-02-24', '550e8400-e29b-41d4-a716-446655440204', '550e8400-e29b-41d4-a716-446655440001');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('Thor parece un cachorro con la nieve.', '2025-02-24', '550e8400-e29b-41d4-a716-446655440204', '550e8400-e29b-41d4-a716-446655440003');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('Thor ladrando a la nieve es épico.', '2025-02-24', '550e8400-e29b-41d4-a716-446655440204', '550e8400-e29b-41d4-a716-446655440002');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('La pecera de Milo está genial.', '2025-02-19', '550e8400-e29b-41d4-a716-446655440205', '550e8400-e29b-41d4-a716-446655440002');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('Milo parece muy feliz nadando.', '2025-02-20', '550e8400-e29b-41d4-a716-446655440205', '550e8400-e29b-41d4-a716-446655440004');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('¡Max va a aprender nuevos trucos!', '2025-02-23', '550e8400-e29b-41d4-a716-446655440206', '550e8400-e29b-41d4-a716-446655440003');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('Qué bien que Max entrene mañana.', '2025-02-24', '550e8400-e29b-41d4-a716-446655440206', '550e8400-e29b-41d4-a716-446655440002');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('Luna durmiendo es un amor.', '2025-02-18', '550e8400-e29b-41d4-a716-446655440207', '550e8400-e29b-41d4-a716-446655440001');
+INSERT INTO comentario (texto, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('¡Luna parece tan cómoda en el sofá!', '2025-02-19', '550e8400-e29b-41d4-a716-446655440207', '550e8400-e29b-41d4-a716-446655440004');
