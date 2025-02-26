@@ -6,6 +6,9 @@
 ## Descripción :pencil2:
 El proyecto animalia consiste en desarrollar una API REST para una red social dedicada a animales. Esta plataforma permitirá a los usuarios registrar perfiles de sus mascotas, compartir publicaciones e interactuar con otros amantes de los animales.
 
+## Prototipo en figma :purple_circle:
+- https://www.figma.com/design/N0gQeeI3nC9xSkgLhMqa2A/Untitled?node-id=0-1&t=ih4foW9wdqybJgKS-1
+ 
 ## Funcionamiento :clipboard:
 Este proyecto tiene como objetivo principal la creación de una **red social de animales** que permitirá:
 - **Registro de mascotas:** Los usuarios podrán crear perfiles para sus animales con detalles como nombre, especie, edad y fotos.
