@@ -1,0 +1,1589 @@
+{
+	"info": {
+		"_postman_id": "8666dae5-4878-403e-82bf-5233d531cce2",
+		"name": "animalia_prod",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38690031",
+		"_collection_link": "https://satapp.postman.co/workspace/SatApp-Workspace~18b7277f-6c8f-4a26-85b4-bdbd3d5e775b/collection/38690031-8666dae5-4878-403e-82bf-5233d531cce2?action=share&source=collection_link&creator=38690031"
+	},
+	"item": [
+		{
+			"name": "raza",
+			"item": [
+				{
+					"name": "getAllRaza",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/raza/admin?page=0",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"raza",
+								"admin"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByIdRaza",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/raza/550e8400-e29b-41d4-a716-446655440002",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"raza",
+								"550e8400-e29b-41d4-a716-446655440002"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createRaza",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\":\"Bulldog francésa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE}}/raza",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"raza"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editarRaza",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\":\"Ciervo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE}}/raza/550e8400-e29b-41d4-a716-446655440002",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"raza",
+								"550e8400-e29b-41d4-a716-446655440002"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteRaza",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/raza/550e8400-e29b-41d4-a716-446655440001",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"raza",
+								"550e8400-e29b-41d4-a716-446655440001"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "seguridad",
+			"item": [
+				{
+					"name": "verificacion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\":\"086332\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE}}/usuario/activate/account/",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"usuario",
+								"activate",
+								"account",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refreshToken",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\":\"{{tokenRefresco_user}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE}}/usuario/refresh/token",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"usuario",
+								"refresh",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "Register User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"candi\",\n    \"password\": \"12345678\",\n    \"verifyPassword\": \"12345678\",\n    \"email\":\"candicalado@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE}}/usuario/register",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"usuario",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json = pm.response.json();\r",
+									"pm.collectionVariables.set(\"token_user\", json.token);\r",
+									"pm.collectionVariables.set(\"tokenRefresco_user\", json.refreshToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"candi\",\n    \"password\": \"12345678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE}}/usuario/login",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"usuario",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/usuario/admin?page=0",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"usuario",
+								"admin"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getById",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/usuario/550e8400-e29b-41d4-a716-446655440001",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"usuario",
+								"550e8400-e29b-41d4-a716-446655440001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"12345678\",\r\n    \"verifyPassword\": \"12345678\",\r\n    \"email\":\"candicalado@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE}}/usuario/me",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"usuario",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/usuario",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUserByAdmin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/usuario/admin/550e8400-e29b-41d4-a716-446655440001",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"usuario",
+								"admin",
+								"550e8400-e29b-41d4-a716-446655440001"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "POST Login Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var json = pm.response.json();\r",
+									"pm.collectionVariables.set(\"token_admin\", json.token);\r",
+									"pm.collectionVariables.set(\"tokenRefresco_admin\", json.refreshToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE}}/usuario/login/admin",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"usuario",
+								"login",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"a\",\n    \"password\": \"12345678\",\n    \"verifyPassword\": \"12345678\",\n    \"email\":\"candicalado@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE}}/usuario/register/admin",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"usuario",
+								"register",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "especie",
+			"item": [
+				{
+					"name": "gellAllEspecies",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/especie/admin?page=0",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"especie",
+								"admin"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByIdEspecie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/especie/550e8400-e29b-41d4-a716-446655440001",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"especie",
+								"550e8400-e29b-41d4-a716-446655440001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createEspecie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\":\"León\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE}}/especie",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"especie"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editEspecie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\":\"Caracol\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE}}/especie/550e8400-e29b-41d4-a716-446655440001",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"especie",
+								"550e8400-e29b-41d4-a716-446655440001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteEspecie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/especie/550e8400-e29b-41d4-a716-446655440002",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"especie",
+								"550e8400-e29b-41d4-a716-446655440002"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "mascotas",
+			"item": [
+				{
+					"name": "getAllMascotas",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/mascota/admin",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"mascota",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByIdMascota",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/mascota/550e8400-e29b-41d4-a716-446655440103",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"mascota",
+								"550e8400-e29b-41d4-a716-446655440103"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finBYIDUserAdmin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/mascota/usuario/550e8400-e29b-41d4-a716-446655440002?page=0",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"mascota",
+								"usuario",
+								"550e8400-e29b-41d4-a716-446655440002"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finBYIDUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/mascota/me?page=0",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"mascota",
+								"me"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createMascota",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/alcantarilla.cacan24/Downloads/logo.PNG"
+								},
+								{
+									"key": "post",
+									"type": "file",
+									"src": "/C:/Users/alcantarilla.cacan24/Desktop/Animalia/json/createMascota.json"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{API_BASE}}/mascota/usuario",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"mascota",
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteMascota",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/mascota/550e8400-e29b-41d4-a716-446655440103",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"mascota",
+								"550e8400-e29b-41d4-a716-446655440103"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editMascota",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/Candi/Desktop/Animalia/uploads/perrofeliz_113085.jpg"
+								},
+								{
+									"key": "post",
+									"type": "file",
+									"src": "/C:/Users/Candi/Desktop/Animalia/json/subidaMascota.json"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{API_BASE}}/mascota/550e8400-e29b-41d4-a716-446655440103",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"mascota",
+								"550e8400-e29b-41d4-a716-446655440103"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscarPorEspecieyRazayNombre",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/mascota/buscar?especie=Felino&raza=Persa&nombre=Luna&page=0",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"mascota",
+								"buscar"
+							],
+							"query": [
+								{
+									"key": "especie",
+									"value": "Felino"
+								},
+								{
+									"key": "raza",
+									"value": "Persa"
+								},
+								{
+									"key": "nombre",
+									"value": "Luna"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "5",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "publicacion",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/publicacion",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"publicacion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getByIdPublicación",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/publicacion/550e8400-e29b-41d4-a716-446655440201",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"publicacion",
+								"550e8400-e29b-41d4-a716-446655440201"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createPublicacion",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/alcantarilla.cacan24/Downloads/logo.PNG"
+								},
+								{
+									"key": "post",
+									"type": "file",
+									"src": "/C:/Users/alcantarilla.cacan24/Desktop/Animalia/json/createPublicacion.json"
+								},
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{API_BASE}}/publicacion/550e8400-e29b-41d4-a716-446655440105",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"publicacion",
+								"550e8400-e29b-41d4-a716-446655440105"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePublicacionByUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/publicacion/550e8400-e29b-41d4-a716-446655440205",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"publicacion",
+								"550e8400-e29b-41d4-a716-446655440205"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deletePublicacionByAdmin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/publicacion/admin/550e8400-e29b-41d4-a716-446655440202",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"publicacion",
+								"admin",
+								"550e8400-e29b-41d4-a716-446655440202"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editPublicacion",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"descripcion\":\"En el parque disfrutando\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE}}/publicacion/550e8400-e29b-41d4-a716-446655440202",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"publicacion",
+								"550e8400-e29b-41d4-a716-446655440202"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "like",
+			"item": [
+				{
+					"name": "getAllLikeByUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/like",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crearLike",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"publicacionId\":\"550e8400-e29b-41d4-a716-446655440201\"  \r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE}}/like",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "dleteLike",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/like/550e8400-e29b-41d4-a716-446655440201",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"like",
+								"550e8400-e29b-41d4-a716-446655440201"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllLikeByPublicacion",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/like/publicacion/550e8400-e29b-41d4-a716-446655440201",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"like",
+								"publicacion",
+								"550e8400-e29b-41d4-a716-446655440201"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comentario",
+			"item": [
+				{
+					"name": "getAllComentarioByPublication",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/comentario/550e8400-e29b-41d4-a716-446655440202",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"comentario",
+								"550e8400-e29b-41d4-a716-446655440202"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createComentario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"texto\":\"¡Que guapo!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE}}/comentario/publicacion/550e8400-e29b-41d4-a716-446655440201",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"comentario",
+								"publicacion",
+								"550e8400-e29b-41d4-a716-446655440201"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editComentario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comentario\":\"¡Ques!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_BASE}}/comentario/550e8400-e29b-41d4-a716-446655440317",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"comentario",
+								"550e8400-e29b-41d4-a716-446655440317"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteComenByUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_user}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/comentario/550e8400-e29b-41d4-a716-446655440300",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"comentario",
+								"550e8400-e29b-41d4-a716-446655440300"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteComenByAdmin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token_admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_BASE}}/comentario/admin/550e8400-e29b-41d4-a716-446655440300",
+							"host": [
+								"{{API_BASE}}"
+							],
+							"path": [
+								"comentario",
+								"admin",
+								"550e8400-e29b-41d4-a716-446655440300"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API_BASE",
+			"value": "localhost:8081",
+			"type": "string"
+		},
+		{
+			"key": "token_user",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "token_admin",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "tokenRefresco_admin",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "tokenRefresco_user",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
