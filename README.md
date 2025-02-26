@@ -1,6 +1,6 @@
 
 <h1 align="center">
-    Animalia :paw_prints:
+    <img src="https://github.com/user-attachments/assets/61a2b517-d3e3-4168-af93-143d02472ed1" alt="logo_animalia">
 </h1>
 
 ## Descripción :pencil2:
