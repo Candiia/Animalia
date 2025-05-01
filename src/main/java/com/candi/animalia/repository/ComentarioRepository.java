@@ -27,4 +27,8 @@ public interface ComentarioRepository extends JpaRepository<Comentario, UUID>, J
 
 
     Optional<Comentario> findByPublicacionAndUsuario(Publicacion publicacion, Usuario usuario);
+
+    @Query("SELECT COUNT(c) FROM Comentario c")
+    long contarComentarios();
+
 }

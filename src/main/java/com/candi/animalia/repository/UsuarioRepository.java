@@ -32,4 +32,9 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID>, JpaSpec
             FROM Usuario u
             """)
   Page<Usuario> findAllUsuario(Pageable pageable);
+
+  @Query("SELECT COUNT(u) FROM Usuario u WHERE u.enabled = true")
+  long contarUsuariosActivos();
+
+
 }

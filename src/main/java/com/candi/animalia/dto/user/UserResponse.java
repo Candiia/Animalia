@@ -3,7 +3,9 @@ package com.candi.animalia.dto.user;
 import com.candi.animalia.model.Usuario;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public record UserResponse(
         UUID id,
@@ -11,7 +13,9 @@ public record UserResponse(
         @JsonInclude(JsonInclude.Include.NON_NULL)
         String token,
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        String refreshToken
+        String refreshToken,
+        Set<String> roles
+
 ) {
 
     public static UserResponse of (Usuario user) {
@@ -19,7 +23,10 @@ public record UserResponse(
                 user.getId(),
                 user.getUsername(),
                 null,
-                null
+                null,
+                user.getRoles().stream()
+                        .map(Enum::name)
+                        .collect(Collectors.toSet())
         );
     }
 
@@ -28,7 +35,10 @@ public record UserResponse(
                 user.getId(),
                 user.getUsername(),
                 token,
-                refreshToken
+                refreshToken,
+                user.getRoles().stream()
+                        .map(Enum::name)
+                        .collect(Collectors.toSet())
         );
     }
 

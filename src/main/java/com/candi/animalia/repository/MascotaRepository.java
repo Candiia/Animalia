@@ -28,4 +28,8 @@ public interface MascotaRepository extends  JpaRepository<Mascota, UUID>, JpaSpe
     Page<Mascota> findByUsuarioIdMascotas(@Param("id") UUID usuarioId, Pageable pageable);
 
 
+    @Query("SELECT COUNT(m) FROM Mascota m")
+    long contarMascotas();
+
+
 }
