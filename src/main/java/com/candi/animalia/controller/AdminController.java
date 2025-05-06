@@ -1,6 +1,7 @@
 package com.candi.animalia.controller;
 
 import com.candi.animalia.dto.admin.EstadisticasDTO;
+import com.candi.animalia.dto.admin.PublicacionesPorMesDTO;
 import com.candi.animalia.dto.especie.GetEspecieDTO;
 import com.candi.animalia.service.AdminServices;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +17,8 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -54,4 +57,19 @@ public class AdminController {
     public EstadisticasDTO contarListas(){
         return adminServices.contarListas();
     }
+
+
+    @Operation(summary = "Obtener número de publicaciones por mes")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Conteo de publicaciones por mes",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = PublicacionesPorMesDTO.class)))),
+            @ApiResponse(responseCode = "401", description = "No autorizado", content = @Content)
+    })
+    @PostAuthorize("hasRole('ADMIN')")
+    @GetMapping("/estadisticas/publicaciones/por/mes")
+    public List<PublicacionesPorMesDTO> publicacionesPorMes() {
+        return adminServices.obtenerEstadisticasPublicacionesPorMes();
+    }
+
 }
