@@ -29,4 +29,8 @@ public interface EspecieRepository extends  JpaRepository<Especie, UUID>, JpaSpe
             """)
     Optional<Especie> findbyIdMascotas(@Param("id") UUID id);
 
+
+    @Query("SELECT COUNT(e) FROM Especie e")
+    long contarEspecies();
+
 }

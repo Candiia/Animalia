@@ -28,4 +28,8 @@ public interface RazaRepository extends  JpaRepository<Raza, UUID>, JpaSpecifica
             WHERE r.id = :id
             """)
     Optional<Raza> findbyIdMascotas(@Param("id") UUID id);
+
+
+    @Query("SELECT COUNT(e) FROM Especie e")
+    long contarRazas();
 }

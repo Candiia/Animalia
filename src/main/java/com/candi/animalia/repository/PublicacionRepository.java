@@ -1,5 +1,6 @@
 package com.candi.animalia.repository;
 
+import com.candi.animalia.dto.admin.PublicacionesPorMesDTO;
 import com.candi.animalia.model.Publicacion;
 import com.candi.animalia.model.Raza;
 import com.candi.animalia.model.Usuario;
@@ -10,6 +11,9 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -37,6 +41,12 @@ public interface PublicacionRepository extends JpaRepository<Publicacion, UUID>,
             WHERE u.id = :id
             """)
     Optional<Usuario> findByIdConPublicacions(@Param("id") UUID id);
+
+    @Query("""
+    SELECT p.fechaPublicacion
+    FROM Publicacion p
+    """)
+    List<LocalDate> obtenerFechasDePublicaciones();
 
 
 }

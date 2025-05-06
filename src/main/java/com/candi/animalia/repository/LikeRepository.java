@@ -37,4 +37,6 @@ public interface LikeRepository extends JpaRepository<Like, UUID>, JpaSpecificat
            """)
     Page<Like> findAllByPublicacionId(Pageable pageable, @Param("id") UUID publicacionId);
 
+    @Query("SELECT COUNT(l) FROM Like l")
+    long contarLikes();
 }
