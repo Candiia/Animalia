@@ -1,15 +1,46 @@
 --raza
 INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440000', 'Podenco');
 INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440001', 'Labrador Retriever');
-INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440002', 'Siamés');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440002', 'Siames');
 INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440003', 'Persa');
-INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440004', 'Bengalí');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440004', 'Bengali');
 INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440005', 'Beagle');
 INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440006', 'Husky Siberiano');
 INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440007', 'Rottweiler');
-INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440008', 'Dálmata');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440008', 'Dalmata');
 INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440009', 'Golden Retriever');
-INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440010', 'Bulldog Francés');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440010', 'Bulldog Frances');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440011', 'Chihuahua');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440012', 'Maine Coon');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440013', 'Doberman');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440014', 'Pastor Aleman');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440015', 'Appaloosa');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440016', 'Himalayo');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440017', 'Loro Eclectus');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440018', 'Conejo Rex');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440019', 'Persa Azul');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440020', 'Labradoodle');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440021', 'Abisinio');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440022', 'Husky Alaskano');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440023', 'Yorkshire Terrier');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440024', 'Periquito Australiano');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440025', 'Gran Danes');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440026', 'Arabian Horse');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440027', 'Manx');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440028', 'Cacatúa Ninfa');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440029', 'Pastor Belga');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440030', 'Conejo Cabeza de Leon');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440031', 'Burmes');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440032', 'Scottish Fold');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440033', 'Fox Terrier');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440034', 'Loro Amazonas');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440035', 'Pastor Australiano');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440036', 'Conejo Holandes');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440037', 'Sphynx');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440038', 'Ragdoll');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440039', 'Cavalier King Charles');
+INSERT INTO raza(id, nombre) VALUES ('550e8400-e29b-41d4-a716-446655440040', 'Pavo Real');
+
 
 --usuario
 INSERT INTO usuario (id, email, username, password, registration_date, enabled, activation_token, created_at)

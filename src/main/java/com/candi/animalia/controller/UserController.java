@@ -415,4 +415,73 @@ public class UserController {
     }
 
 
+
+
+    @Operation(summary = "se ha obtenido todos los usuarios")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha obtenido todos los usarios",
+                    content = {
+                            @Content(mediaType = "application/json",
+
+                                    array = @ArraySchema(schema = @Schema(implementation = GetUserDTO.class)),
+                                    examples = {
+                                            @ExampleObject(
+                                                    value = """
+                                            [
+                                                {
+                                                                        "numPagina": 0,
+                                                                        "tamanioPagina": 5,
+                                                                        "elementosEncontrados": 5,
+                                                                        "paginasTotales": 1,
+                                                                        "contenido": [
+                                                                            {
+                                                                                "username": "admin",
+                                                                                "email": "admin@example.com",
+                                                                                "fechaRegistro": "2025-02-05"
+                                                                            },
+                                                                            {
+                                                                                "username": "user1",
+                                                                                "email": "user1@example.com",
+                                                                                "fechaRegistro": "2025-02-01"
+                                                                            },
+                                                                            {
+                                                                                "username": "user2",
+                                                                                "email": "user2@example.com",
+                                                                                "fechaRegistro": "2025-02-02"
+                                                                            },
+                                                                            {
+                                                                                "username": "user3",
+                                                                                "email": "user3@example.com",
+                                                                                "fechaRegistro": "2025-02-03"
+                                                                            },
+                                                                            {
+                                                                                "username": "user4",
+                                                                                "email": "user4@example.com",
+                                                                                "fechaRegistro": "2025-02-04"
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                        """
+                                            )
+                                    })
+                    }),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado ninguna usuario",
+                    content = @Content),
+            @ApiResponse(responseCode = "401",
+                    description = "No tienes autorización",
+                    content = @Content),
+            @ApiResponse(responseCode = "403",
+                    description = "No acceso",
+                    content = @Content)
+    })
+    @GetMapping("/logged")
+    public GetUserDTO userLoggeado(@AuthenticationPrincipal Usuario usuario){
+       return userService.getUsuarioLogueado(usuario);
+    }
+
+
+
 }
