@@ -186,7 +186,7 @@
         })
         @PostAuthorize("hasAnyRole('ADMIN', 'USER')")
         @GetMapping()
-        public PaginacionDto<GetLikeDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable, @AuthenticationPrincipal Usuario usuario){
+        public PaginacionDto<GetLikeDTO> findAll(@PageableDefault(page=0, size=20) Pageable pageable, @AuthenticationPrincipal Usuario usuario){
             return  PaginacionDto.of(likesService.findAll(pageable, usuario)
                     .map(GetLikeDTO::of));
 

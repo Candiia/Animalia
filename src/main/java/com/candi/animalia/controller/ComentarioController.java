@@ -106,7 +106,7 @@
         })
         @PostAuthorize("hasAnyRole('ADMIN', 'USER')")
         @GetMapping("{publicacionId}")
-        public PaginacionDto<GetComentarioDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable,@PathVariable UUID publicacionId){
+        public PaginacionDto<GetComentarioDTO> findAll(@PageableDefault(page=0, size=20) Pageable pageable,@PathVariable UUID publicacionId){
             return  PaginacionDto.of(comentarioService.findAllComentByPublication(pageable, publicacionId)
                     .map(GetComentarioDTO::of));
         }

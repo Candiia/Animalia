@@ -304,7 +304,7 @@ public class UserController {
     })
     @PostAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin")
-    public PaginacionDto<GetUserDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable){
+    public PaginacionDto<GetUserDTO> findAll(@PageableDefault(page=0, size=12) Pageable pageable){
         return PaginacionDto.of(userService.findAll(pageable)
                 .map(GetUserDTO::of));
     }

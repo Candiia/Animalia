@@ -222,7 +222,7 @@
         })
         @GetMapping()
         @PostAuthorize("hasRole('ADMIN')")
-        public PaginacionDto<GetPublicacionDTO> getAll(@PageableDefault(page=0, size=5) Pageable pageable) {
+        public PaginacionDto<GetPublicacionDTO> getAll(@PageableDefault(page=0, size=20) Pageable pageable) {
             return PaginacionDto.of(publicacionService.findAll(pageable)
                     .map(m -> GetPublicacionDTO.of(m, getImageUrl(m.getImage()))));
         }

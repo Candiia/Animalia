@@ -7,8 +7,10 @@ import com.candi.animalia.model.Comentario;
 import com.candi.animalia.model.Publicacion;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public record GetComentarioDTO(
+        UUID id,
         String texto,
         LocalDate fechaRealizada,
         GetUserDTO userDTO
@@ -16,6 +18,7 @@ public record GetComentarioDTO(
 
     public static GetComentarioDTO of(Comentario comentario){
         return new GetComentarioDTO(
+                comentario.getId(),
                 comentario.getComentario(),
                 comentario.getFechaRealizada(),
                 GetUserDTO.of(comentario.getUsuario())

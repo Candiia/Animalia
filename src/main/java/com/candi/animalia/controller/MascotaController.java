@@ -192,7 +192,7 @@
         })
         @PostAuthorize("hasRole('ADMIN')")
         @GetMapping("/admin")
-        public PaginacionDto<GetMascotaDTO> findAll(@PageableDefault(page = 0, size = 5) Pageable pageable) {
+        public PaginacionDto<GetMascotaDTO> findAll(@PageableDefault(page = 0, size = 20) Pageable pageable) {
             return PaginacionDto.of(mascotaService.findAll(pageable)
                     .map(m -> GetMascotaDTO.of(m, getImageUrl(m.getAvatar()))));
         }
