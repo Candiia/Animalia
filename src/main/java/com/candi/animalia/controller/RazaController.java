@@ -82,7 +82,7 @@
                 content = @Content),
         })
         @GetMapping("/admin")
-        public PaginacionDto<GetRazaDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable){
+        public PaginacionDto<GetRazaDTO> findAll(@PageableDefault(page=0, size=20) Pageable pageable){
             return PaginacionDto.of(razaService.findAll(pageable)
                     .map(GetRazaDTO::of));
         }

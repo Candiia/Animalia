@@ -1,19 +1,36 @@
 package com.candi.animalia.dto.user;
 
+import com.candi.animalia.dto.mascota.GetListMascotas;
+import com.candi.animalia.dto.mascota.GetMascotaDTO;
 import com.candi.animalia.model.Usuario;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public record GetUserDTO(
+        UUID id,
         String username,
         String email,
-        LocalDate fechaRegistro
+        LocalDate fechaRegistro,
+        Set<String> roles,
+        boolean enable,
+        List<GetListMascotas> mascotaDTOList
+
 ) {
     public static GetUserDTO of(Usuario usuario){
         return new GetUserDTO(
+                usuario.getId(),
                 usuario.getUsername(),
                 usuario.getEmail(),
-                usuario.getRegistrationDate()
+                usuario.getRegistrationDate(),
+                usuario.getRoles().stream()
+                        .map(Enum::name)
+                        .collect(Collectors.toSet()),
+                usuario.isEnabled(),
+                GetListMascotas.of2(usuario.getMascotaList())
         );
     }
 }
