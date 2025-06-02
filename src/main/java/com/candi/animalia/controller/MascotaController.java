@@ -192,7 +192,7 @@
         })
         @PostAuthorize("hasRole('ADMIN')")
         @GetMapping("/admin")
-        public PaginacionDto<GetMascotaDTO> findAll(@PageableDefault(page = 0, size = 20) Pageable pageable) {
+        public PaginacionDto<GetMascotaDTO> findAll(@PageableDefault(page = 0, size = 12) Pageable pageable) {
             return PaginacionDto.of(mascotaService.findAll(pageable)
                     .map(m -> GetMascotaDTO.of(m, getImageUrl(m.getAvatar()))));
         }
@@ -470,7 +470,54 @@
         @PutMapping("/{id}")
         @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
         public GetMascotaDTO edit(@RequestPart("post") @Valid EditMascotaDTO edit, @PathVariable UUID id, @RequestPart("file") MultipartFile file, @AuthenticationPrincipal Usuario usuari) {
-            Mascota updatedMascota = mascotaService.edit(edit, id, file, usuari);
+            Mascota updatedMascota = mascotaService.editMe(edit, id, file, usuari);
+            return GetMascotaDTO.of(updatedMascota, getImageUrl(updatedMascota.getAvatar()));
+
+        }
+
+        @Operation(summary = "Editar datos de una mascota")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Mascota editada correctamente",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = EditMascotaDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                                                        {
+                                                                            "nombre": "Margarita",
+                                                                            "biografia": "Soy perrete muy amigable",
+                                                                            "fechaNacimiento": "2002-02-11",
+                                                                            "avatar": "http://localhost:8080/download/perrofeliz_343428.jpg",
+                                                                            "raza": {
+                                                                                "nombre": "SiamÃ©s"
+                                                                            },
+                                                                            "especie": {
+                                                                                "nombre": "Canino",
+                                                                                "localDate": "2025-01-01"
+                                                                            },
+                                                                            "userDTO": {
+                                                                                "username": "user3",
+                                                                                "email": "user3@example.com",
+                                                                                "fechaRegistro": "2025-02-03"
+                                                                            }
+                                                                        }
+                                                                """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "404",
+                        description = "No tienes permiso para editar esta mascota",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No estas autorizado",
+                        content = @Content)
+        })
+        @PutMapping("admin/{id}")
+        @PreAuthorize("hasAnyRole('ADMIN')")
+        public GetMascotaDTO editMascota(@RequestPart("post") @Valid EditMascotaDTO edit, @PathVariable UUID id, @RequestPart("file") MultipartFile file) {
+            Mascota updatedMascota = mascotaService.editAdmin(edit, id, file);
             return GetMascotaDTO.of(updatedMascota, getImageUrl(updatedMascota.getAvatar()));
 
         }

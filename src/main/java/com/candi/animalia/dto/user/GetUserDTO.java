@@ -17,7 +17,9 @@ public record GetUserDTO(
         LocalDate fechaRegistro,
         Set<String> roles,
         boolean enable,
-        List<GetListMascotas> mascotaDTOList
+        List<GetListMascotas> mascotaDTOList,
+        String password,
+        String verifyPassword
 
 ) {
     public static GetUserDTO of(Usuario usuario){
@@ -30,7 +32,9 @@ public record GetUserDTO(
                         .map(Enum::name)
                         .collect(Collectors.toSet()),
                 usuario.isEnabled(),
-                GetListMascotas.of2(usuario.getMascotaList())
+                GetListMascotas.of2(usuario.getMascotaList()),
+                usuario.getPassword(),
+                usuario.getPassword()
         );
     }
 }
