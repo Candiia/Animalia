@@ -406,3 +406,9 @@ INSERT INTO comentario (id, comentario, fecha_realizada, publicacion_id, usuario
 VALUES ('550e8400-e29b-41d4-a716-446655440319', 'Luna durmiendo es un amor.', '2025-02-18', '550e8400-e29b-41d4-a716-446655440207', '550e8400-e29b-41d4-a716-446655440001');
 INSERT INTO comentario (id, comentario, fecha_realizada, publicacion_id, usuario_id)
 VALUES ('550e8400-e29b-41d4-a716-446655440320', '¡Luna parece tan cómoda en el sofá!', '2025-02-19', '550e8400-e29b-41d4-a716-446655440207', '550e8400-e29b-41d4-a716-446655440004');
+INSERT INTO comentario (id, comentario, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440321', '¡Luna parece tan cómoda en el sofá!', '2025-02-19', '550e8400-e29b-41d4-a716-446655440207', '550e8400-e29b-41d4-a716-446655440004');
+INSERT INTO comentario (id, comentario, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440322', '¡Luna parece tan cómoda en el sofá!', '2025-02-19', '550e8400-e29b-41d4-a716-446655440207', '550e8400-e29b-41d4-a716-446655440004');
+INSERT INTO comentario (id, comentario, fecha_realizada, publicacion_id, usuario_id)
+VALUES ('550e8400-e29b-41d4-a716-446655440323', '¡Luna parece tan cómoda en el sofá!', '2025-02-19', '550e8400-e29b-41d4-a716-446655440207', '550e8400-e29b-41d4-a716-446655440004');

@@ -243,29 +243,8 @@
                                                                        "tipo": "Image",
                                                                        "descripcion": "Max disfrutando del parque en un día soleado.",
                                                                        "fechaRegistro": "2025-02-20",
-                                                                       "usuario": {
-                                                                           "username": "user1",
-                                                                           "email": "user1@example.com",
-                                                                           "fechaRegistro": "2025-02-01"
-                                                                       },
-                                                                       "mascotaDTO": {
-                                                                           "nombre": "Max",
-                                                                           "biografia": "Un perro muy juguetón y amigable.",
-                                                                           "fechaNacimiento": "2020-05-15",
-                                                                           "avatar": "https://example.com/avatars/max.jpg",
-                                                                           "raza": {
-                                                                               "nombre": "Labrador Retriever"
-                                                                           },
-                                                                           "especie": {
-                                                                               "nombre": "Canino",
-                                                                               "localDate": "2025-01-01"
-                                                                           },
-                                                                           "userDTO": {
-                                                                               "username": "user1",
-                                                                               "email": "user1@example.com",
-                                                                               "fechaRegistro": "2025-02-01"
-                                                                           }
-                                                                       }
+                                                                       "like":"3",
+                                                                       "comentario":"3"
                                                                    }
                                     """
                                                 )
