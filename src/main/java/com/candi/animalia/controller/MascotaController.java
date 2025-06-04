@@ -194,7 +194,7 @@
         @GetMapping("/admin")
         public PaginacionDto<GetMascotaDTO> findAll(@PageableDefault(page = 0, size = 12) Pageable pageable) {
             return PaginacionDto.of(mascotaService.findAll(pageable)
-                    .map(m -> GetMascotaDTO.of(m, getImageUrl(m.getAvatar()))));
+                    .map(m -> GetMascotaDTO.of(m, m.getAvatar())));
         }
 
         @Operation(summary = "Obtiene una mascota determinada")
