@@ -1,4 +1,6 @@
 package com.candi.animalia.controller;
+import com.candi.animalia.dto.especie.EditEspecieDTO;
+import com.candi.animalia.dto.especie.GetEspecieDTO;
 import com.candi.animalia.dto.paginacion.PaginacionDto;
 import com.candi.animalia.dto.raza.GetRazaDTO;
 import com.candi.animalia.dto.user.*;
@@ -414,5 +416,34 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-
+    @Operation(summary = "Editar un usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Usuario editado correctamente",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation = EditUserDTO.class)),
+                                    examples = {
+                                            @ExampleObject(
+                                                    value = """
+                                                            {
+                                                              "nombre": "Caracol",
+                                                              "localDate": "2025-01-01"
+                                                            }
+                                    """
+                                            )
+                                    })
+                    }),
+            @ApiResponse(responseCode = "404",
+                    description = "Usuario no encontrada",
+                    content = @Content),
+            @ApiResponse(responseCode = "401",
+                    description = "No autorizado",
+                    content = @Content)
+    })
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{id}")
+    public GetUserDTO edit(@RequestBody @Valid EditUserDTO edit, @PathVariable UUID id) {
+        return GetUserDTO.of(userService.edit(edit, id));
+    }
 }
