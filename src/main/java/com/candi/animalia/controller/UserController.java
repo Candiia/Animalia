@@ -342,8 +342,8 @@ public class UserController {
     })
     @GetMapping("/{id}")
     @PostMapping("hasAnyRole('ADMIN', 'USER')")
-    public GetUserDTO findByid(@PathVariable UUID id){
-        return GetUserDTO.of(userService.findById(id));
+    public GetUserCompletoDTO findByid(@PathVariable UUID id){
+        return GetUserCompletoDTO.of(userService.findById(id));
     }
 
 
