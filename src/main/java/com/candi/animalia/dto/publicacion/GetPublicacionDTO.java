@@ -1,10 +1,13 @@
 package com.candi.animalia.dto.publicacion;
 
+import com.candi.animalia.dto.comentario.GetComentarioDTO;
 import com.candi.animalia.dto.mascota.GetMascotaDTO;
 import com.candi.animalia.dto.user.GetUserDTO;
+import com.candi.animalia.dto.user.UserDTOUsername;
 import com.candi.animalia.model.Publicacion;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 public record GetPublicacionDTO(
@@ -12,8 +15,10 @@ public record GetPublicacionDTO(
         String imageURL,
         String descripcion,
         LocalDate fechaRegistro,
-        GetUserDTO usuario,
-        GetMascotaDTO mascotaDTO
+        long numeroLikes,
+        long numeroComentarios,
+        List<GetComentarioDTO> comentarioDTOList,
+        UserDTOUsername usename
 ) {
 
     public static GetPublicacionDTO of(Publicacion publicacion, String url){
@@ -22,8 +27,10 @@ public record GetPublicacionDTO(
                 url,
                 publicacion.getDescripcion(),
                 publicacion.getFechaPublicacion(),
-                GetUserDTO.of(publicacion.getUsuario()),
-                GetMascotaDTO.of(publicacion.getMascota(), publicacion.getImage())
+                publicacion.getLikes().size(),
+                publicacion.getComentarios().size(),
+                GetComentarioDTO.of(publicacion.getComentarios()),
+                UserDTOUsername.of(publicacion.getUsuario())
         );
     }
 }

@@ -2,7 +2,6 @@ package com.candi.animalia.dto.mascota;
 
 import com.candi.animalia.dto.especie.GetEspecieDTO;
 import com.candi.animalia.dto.raza.GetRazaDTO;
-import com.candi.animalia.dto.user.UserDTOMascotas;
 import com.candi.animalia.model.Mascota;
 
 import java.time.LocalDate;
