@@ -187,6 +187,42 @@
             return GetComentarioDTO.of(comentarioService.edit(edit, id, usuario));
         }
 
+        @Operation(summary = "Editar un comentario")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Comentario editado correctamente",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = EditComentarioDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                                           {
+                                                             "texto": "¡Que guapo!",
+                                                             "fechaRealizada": "2025-02-25",
+                                                             "userDTO": {
+                                                                 "username": "user3",
+                                                                 "email": "user3@example.com",
+                                                                 "fechaRegistro": "2025-02-03"
+                                                             }
+                                                           }
+                                    """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "404",
+                        description = "Comentario no encontrado",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No autorizado",
+                        content = @Content)
+        })
+        @PreAuthorize("hasAnyRole('ADMIN')")
+        @PutMapping("/admin/{id}")
+        public GetComentarioDTO editAdmin(@RequestBody @Valid EditComentarioDTO edit, @PathVariable UUID id) {
+            return GetComentarioDTO.of(comentarioService.editAdmin(edit, id));
+        }
+
 
         @Operation(summary = "Elimina un comentario de una publicación")
         @ApiResponses(value = {
