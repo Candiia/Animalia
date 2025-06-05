@@ -63,6 +63,15 @@ public class ComentarioService {
                 .orElseThrow(() -> new EntityNotFoundException("No hay comentario con esa id " + idComet));
     }
 
+    public Comentario editAdmin(EditComentarioDTO comentarioDTO, UUID idComet) {
+        return comentarioRepository.findById(idComet)
+                .map(old -> {
+                    old.setComentario(comentarioDTO.comentario());
+                    return comentarioRepository.save(old);
+                })
+                .orElseThrow(() -> new EntityNotFoundException("No hay comentario con esa id " + idComet));
+    }
+
     public void deleteComentarioByUser(Usuario usuario, UUID comentarioId) {
         Comentario comentario = comentarioRepository.findById(comentarioId)
                 .orElseThrow(() -> new EntityNotFoundException("No se ha encontrado el comentario con ID " + comentarioId));
