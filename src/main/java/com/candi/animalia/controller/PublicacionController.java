@@ -5,10 +5,7 @@
     import com.candi.animalia.dto.mascota.EditMascotaDTO;
     import com.candi.animalia.dto.mascota.GetMascotaDTO;
     import com.candi.animalia.dto.paginacion.PaginacionDto;
-    import com.candi.animalia.dto.publicacion.CreatePublicacionDTO;
-    import com.candi.animalia.dto.publicacion.EditPublicacionDTO;
-    import com.candi.animalia.dto.publicacion.GetPublicacionDTO;
-    import com.candi.animalia.dto.publicacion.GetPublicacionEditDTO;
+    import com.candi.animalia.dto.publicacion.*;
     import com.candi.animalia.model.*;
     import com.candi.animalia.service.EspecieService;
     import com.candi.animalia.service.MascotaService;
@@ -262,9 +259,8 @@
         })
         @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
         @GetMapping("/{id}")
-        public GetPublicacionDTO findByid(@PathVariable UUID id){
-            Publicacion publicacion = publicacionService.findById(id);
-            return GetPublicacionDTO.of(publicacion, getImageUrl(publicacion.getImage()));
+        public GetPublicacionDTOConLike findByid(@PathVariable UUID id, @AuthenticationPrincipal Usuario usuario) {
+            return publicacionService.findByIdConLike(id, usuario);
         }
 
 
