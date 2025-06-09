@@ -2,6 +2,7 @@ package com.candi.animalia.service;
 import com.candi.animalia.dto.especie.EditEspecieDTO;
 import com.candi.animalia.dto.user.CreateUserRequest;
 import com.candi.animalia.dto.user.EditUserDTO;
+import com.candi.animalia.dto.user.GetUserDTO;
 import com.candi.animalia.error.ActivationExpiredException;
 import com.candi.animalia.model.Especie;
 import com.candi.animalia.model.Publicacion;
@@ -139,5 +140,12 @@ public class UserService {
         refreshTokenRepository.deleteByUser(usuario);
         usuarioRepository.delete(usuario);
     }
+
+
+    public Usuario findByIdConMascotas(UUID id) {
+        return usuarioRepository.findByMascota(id)
+                .orElseThrow(() -> new EntityNotFoundException("No hay usuario con esa id " + id));
+    }
+
 
 }

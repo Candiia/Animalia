@@ -1,6 +1,4 @@
 package com.candi.animalia.controller;
-import com.candi.animalia.dto.especie.EditEspecieDTO;
-import com.candi.animalia.dto.especie.GetEspecieDTO;
 import com.candi.animalia.dto.paginacion.PaginacionDto;
 import com.candi.animalia.dto.raza.GetRazaDTO;
 import com.candi.animalia.dto.user.*;
@@ -445,5 +443,32 @@ public class UserController {
     @PutMapping("/{id}")
     public GetUserDTO edit(@RequestBody @Valid EditUserDTO edit, @PathVariable UUID id) {
         return GetUserDTO.of(userService.edit(edit, id));
+    }
+
+
+    @Operation(summary = "Obtiene el usuario actualmente logueado")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha obtenido al usuario logueado",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = GetUserCompletoDTO.class),
+                                    examples = {
+                                            @ExampleObject(value = """
+                                            {
+                                                "username": "user1",
+                                                "email": "user1@example.com",
+                                                "fechaRegistro": "2025-02-01"
+                                            }
+                                        """)
+                                    })
+                    }),
+            @ApiResponse(responseCode = "401", description = "No autorizado", content = @Content),
+            @ApiResponse(responseCode = "403", description = "Acceso denegado", content = @Content)
+    })
+    @GetMapping("/loggeado")
+    @PostMapping("hasAnyRole('ADMIN', 'USER')")
+    public GetUserCompletoDTO getUsuarioLogueado(@AuthenticationPrincipal Usuario usuario){
+        return GetUserCompletoDTO.of(userService.findByIdConMascotas(usuario.getId()));
     }
 }
