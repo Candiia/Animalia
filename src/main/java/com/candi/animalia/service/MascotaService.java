@@ -93,7 +93,8 @@ public class MascotaService {
     }
 
 
-    public Mascota edit(EditMascotaDTO editMascotaDTO, UUID id, MultipartFile file, Usuario usuario) {
+
+    public Mascota editMe(EditMascotaDTO editMascotaDTO, UUID id, MultipartFile file, Usuario usuario) {
 
             Mascota mascota = mascotaRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Mascota no encontrada"));
@@ -119,6 +120,32 @@ public class MascotaService {
             throw new EntityNotFoundException("No tienes permiso para editar esta mascota");
         }
             return mascotaRepository.save(mascota);
+    }
+
+
+    public Mascota editAdmin(EditMascotaDTO editMascotaDTO, UUID id, MultipartFile file) {
+
+        Mascota mascota = mascotaRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Mascota no encontrada"));
+
+
+        mascota.setNombre(editMascotaDTO.nombre());
+        mascota.setFechaNacimiento(editMascotaDTO.fechaNacimiento());
+        mascota.setBiografia(editMascotaDTO.biografia());
+
+        if (file != null && !file.isEmpty()) {
+            FileMetadata fileMetadata = storageService.store(file);
+            mascota.setAvatar(fileMetadata.getFilename());
+        }
+        Raza raza = razaRepository.findById(editMascotaDTO.razaId())
+                .orElseThrow(() -> new EntityNotFoundException("Raza no encontrada"));
+        Especie especie = especieRepository.findById(editMascotaDTO.especieId())
+                .orElseThrow(() -> new EntityNotFoundException("Especie no encontrada"));
+
+        mascota.setRaza(raza);
+        mascota.setEspecie(especie);
+
+        return mascotaRepository.save(mascota);
     }
 
 

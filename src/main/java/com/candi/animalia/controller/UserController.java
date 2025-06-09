@@ -304,7 +304,7 @@ public class UserController {
     })
     @PostAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin")
-    public PaginacionDto<GetUserDTO> findAll(@PageableDefault(page=0, size=5) Pageable pageable){
+    public PaginacionDto<GetUserDTO> findAll(@PageableDefault(page=0, size=12) Pageable pageable){
         return PaginacionDto.of(userService.findAll(pageable)
                 .map(GetUserDTO::of));
     }
@@ -340,8 +340,8 @@ public class UserController {
     })
     @GetMapping("/{id}")
     @PostMapping("hasAnyRole('ADMIN', 'USER')")
-    public GetUserDTO findByid(@PathVariable UUID id){
-        return GetUserDTO.of(userService.findById(id));
+    public GetUserCompletoDTO findByid(@PathVariable UUID id){
+        return GetUserCompletoDTO.of(userService.findById(id));
     }
 
 
@@ -414,74 +414,34 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-
-
-
-    @Operation(summary = "se ha obtenido todos los usuarios")
+    @Operation(summary = "Editar un usuario")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Se ha obtenido todos los usarios",
+                    description = "Usuario editado correctamente",
                     content = {
                             @Content(mediaType = "application/json",
-
-                                    array = @ArraySchema(schema = @Schema(implementation = GetUserDTO.class)),
+                                    array = @ArraySchema(schema = @Schema(implementation = EditUserDTO.class)),
                                     examples = {
                                             @ExampleObject(
                                                     value = """
-                                            [
-                                                {
-                                                                        "numPagina": 0,
-                                                                        "tamanioPagina": 5,
-                                                                        "elementosEncontrados": 5,
-                                                                        "paginasTotales": 1,
-                                                                        "contenido": [
-                                                                            {
-                                                                                "username": "admin",
-                                                                                "email": "admin@example.com",
-                                                                                "fechaRegistro": "2025-02-05"
-                                                                            },
-                                                                            {
-                                                                                "username": "user1",
-                                                                                "email": "user1@example.com",
-                                                                                "fechaRegistro": "2025-02-01"
-                                                                            },
-                                                                            {
-                                                                                "username": "user2",
-                                                                                "email": "user2@example.com",
-                                                                                "fechaRegistro": "2025-02-02"
-                                                                            },
-                                                                            {
-                                                                                "username": "user3",
-                                                                                "email": "user3@example.com",
-                                                                                "fechaRegistro": "2025-02-03"
-                                                                            },
-                                                                            {
-                                                                                "username": "user4",
-                                                                                "email": "user4@example.com",
-                                                                                "fechaRegistro": "2025-02-04"
-                                                                            }
-                                                                        ]
-                                                                    }
-                                                                ]
-                                        """
+                                                            {
+                                                              "nombre": "Caracol",
+                                                              "localDate": "2025-01-01"
+                                                            }
+                                    """
                                             )
                                     })
                     }),
             @ApiResponse(responseCode = "404",
-                    description = "No se ha encontrado ninguna usuario",
+                    description = "Usuario no encontrada",
                     content = @Content),
             @ApiResponse(responseCode = "401",
-                    description = "No tienes autorización",
-                    content = @Content),
-            @ApiResponse(responseCode = "403",
-                    description = "No acceso",
+                    description = "No autorizado",
                     content = @Content)
     })
-    @GetMapping("/logged")
-    public GetUserDTO userLoggeado(@AuthenticationPrincipal Usuario usuario){
-       return userService.getUsuarioLogueado(usuario);
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{id}")
+    public GetUserDTO edit(@RequestBody @Valid EditUserDTO edit, @PathVariable UUID id) {
+        return GetUserDTO.of(userService.edit(edit, id));
     }
-
-
-
 }

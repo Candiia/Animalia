@@ -5,10 +5,7 @@
     import com.candi.animalia.dto.mascota.EditMascotaDTO;
     import com.candi.animalia.dto.mascota.GetMascotaDTO;
     import com.candi.animalia.dto.paginacion.PaginacionDto;
-    import com.candi.animalia.dto.publicacion.CreatePublicacionDTO;
-    import com.candi.animalia.dto.publicacion.EditPublicacionDTO;
-    import com.candi.animalia.dto.publicacion.GetPublicacionDTO;
-    import com.candi.animalia.dto.publicacion.GetPublicacionEditDTO;
+    import com.candi.animalia.dto.publicacion.*;
     import com.candi.animalia.model.*;
     import com.candi.animalia.service.EspecieService;
     import com.candi.animalia.service.MascotaService;
@@ -222,7 +219,7 @@
         })
         @GetMapping()
         @PostAuthorize("hasRole('ADMIN')")
-        public PaginacionDto<GetPublicacionDTO> getAll(@PageableDefault(page=0, size=5) Pageable pageable) {
+        public PaginacionDto<GetPublicacionDTO> getAll(@PageableDefault(page=0, size=20) Pageable pageable) {
             return PaginacionDto.of(publicacionService.findAll(pageable)
                     .map(m -> GetPublicacionDTO.of(m, getImageUrl(m.getImage()))));
         }
@@ -243,29 +240,8 @@
                                                                        "tipo": "Image",
                                                                        "descripcion": "Max disfrutando del parque en un día soleado.",
                                                                        "fechaRegistro": "2025-02-20",
-                                                                       "usuario": {
-                                                                           "username": "user1",
-                                                                           "email": "user1@example.com",
-                                                                           "fechaRegistro": "2025-02-01"
-                                                                       },
-                                                                       "mascotaDTO": {
-                                                                           "nombre": "Max",
-                                                                           "biografia": "Un perro muy juguetón y amigable.",
-                                                                           "fechaNacimiento": "2020-05-15",
-                                                                           "avatar": "https://example.com/avatars/max.jpg",
-                                                                           "raza": {
-                                                                               "nombre": "Labrador Retriever"
-                                                                           },
-                                                                           "especie": {
-                                                                               "nombre": "Canino",
-                                                                               "localDate": "2025-01-01"
-                                                                           },
-                                                                           "userDTO": {
-                                                                               "username": "user1",
-                                                                               "email": "user1@example.com",
-                                                                               "fechaRegistro": "2025-02-01"
-                                                                           }
-                                                                       }
+                                                                       "like":"3",
+                                                                       "comentario":"3"
                                                                    }
                                     """
                                                 )
@@ -283,9 +259,8 @@
         })
         @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
         @GetMapping("/{id}")
-        public GetPublicacionDTO findByid(@PathVariable UUID id){
-            Publicacion publicacion = publicacionService.findById(id);
-            return GetPublicacionDTO.of(publicacion, getImageUrl(publicacion.getImage()));
+        public GetPublicacionDTOConLike findByid(@PathVariable UUID id, @AuthenticationPrincipal Usuario usuario) {
+            return publicacionService.findByIdConLike(id, usuario);
         }
 
 
