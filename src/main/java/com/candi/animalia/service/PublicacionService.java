@@ -2,6 +2,7 @@ package com.candi.animalia.service;
 
 import com.candi.animalia.dto.publicacion.CreatePublicacionDTO;
 import com.candi.animalia.dto.publicacion.EditPublicacionDTO;
+import com.candi.animalia.dto.publicacion.GetPublicacionDTOConLike;
 import com.candi.animalia.files.model.FileMetadata;
 import com.candi.animalia.files.service.StorageService;
 import com.candi.animalia.model.*;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -34,11 +36,21 @@ public class PublicacionService {
         return result;
     }
 
-    public Publicacion findById(UUID id) {
-        return publicacionRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("No hay publicación con esa id " + id));
+    public GetPublicacionDTOConLike findByIdConLike(UUID id, Usuario usuarioActual) {
+        Publicacion publicacion = publicacionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Publicación no encontrada"));
 
+        boolean hasLiked = publicacion.getLikes().stream()
+                .anyMatch(like -> like.getUsuario().getId().equals(usuarioActual.getId()));
+
+        String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/download/")
+                .path(publicacion.getImage())
+                .toUriString();
+
+        return GetPublicacionDTOConLike.of(publicacion, imageUrl, hasLiked);
     }
+
 
     @Transactional
     public Publicacion save(CreatePublicacionDTO createPostDto, MultipartFile file, Usuario usuario, UUID mascotaId) {
