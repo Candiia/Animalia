@@ -36,5 +36,11 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID>, JpaSpec
   @Query("SELECT COUNT(u) FROM Usuario u WHERE u.enabled = true")
   long contarUsuariosActivos();
 
-
+  @Query("""
+            SELECT u
+            FROM Usuario u
+            LEFT JOIN FETCH u.mascotaList
+            WHERE u.id = :id
+            """)
+  Optional<Usuario> findByMascota(@Param("id") UUID id);
 }

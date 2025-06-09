@@ -142,9 +142,10 @@ public class UserService {
     }
 
 
-    public GetUserDTO getUsuarioLogueado(Usuario usuario) {
-        Usuario usuarioConMascotas = usuarioRepository.buscarConMascotas(usuario.getId());
-        return GetUserDTO.of(usuarioConMascotas);
+    public Usuario findByIdConMascotas(UUID id) {
+        return usuarioRepository.findByMascota(id)
+                .orElseThrow(() -> new EntityNotFoundException("No hay usuario con esa id " + id));
     }
+
 
 }
