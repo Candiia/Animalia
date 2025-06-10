@@ -3,6 +3,7 @@
     import com.candi.animalia.dto.mascota.CreateMascotaDTO;
     import com.candi.animalia.dto.mascota.EditMascotaDTO;
     import com.candi.animalia.dto.mascota.GetMascotaDTO;
+    import com.candi.animalia.dto.mascota.GetMascotaDTOConPublicaciones;
     import com.candi.animalia.dto.paginacion.PaginacionDto;
     import com.candi.animalia.dto.publicacion.GetPublicacionDTO;
     import com.candi.animalia.dto.raza.CreateRazaDTO;
@@ -239,11 +240,11 @@
                         description = "Acceso denegado",
                         content = @Content),
         })
-        @PostAuthorize("hasRole('ADMIN')")
+        @PostAuthorize("hasAnyRole('USER', 'ADMIN')")
         @GetMapping("/{id}")
-        public GetMascotaDTO findByid(@PathVariable UUID id) {
+        public GetMascotaDTOConPublicaciones findByid(@PathVariable UUID id, @AuthenticationPrincipal Usuario usuarioActual) {
             Mascota mascota = mascotaService.findById(id);
-            return GetMascotaDTO.of(mascota, getImageUrl(mascota.getAvatar()));
+            return GetMascotaDTOConPublicaciones.of(mascota, getImageUrl(mascota.getAvatar()), usuarioActual);
         }
 
 
