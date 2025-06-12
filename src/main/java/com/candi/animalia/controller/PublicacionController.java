@@ -29,6 +29,7 @@
     import org.springframework.security.access.prepost.PostAuthorize;
     import org.springframework.security.access.prepost.PreAuthorize;
     import org.springframework.security.core.annotation.AuthenticationPrincipal;
+    import org.springframework.security.core.context.SecurityContextHolder;
     import org.springframework.web.bind.annotation.*;
     import org.springframework.web.multipart.MultipartFile;
     import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -218,11 +219,20 @@
                         content = @Content),
         })
         @GetMapping()
-        @PostAuthorize("hasRole('ADMIN')")
-        public PaginacionDto<GetPublicacionDTO> getAll(@PageableDefault(page=0, size=20) Pageable pageable) {
-            return PaginacionDto.of(publicacionService.findAll(pageable)
-                    .map(m -> GetPublicacionDTO.of(m, getImageUrl(m.getImage()))));
+        @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+        public PaginacionDto<GetPublicacionDTOConLike> getAll(@PageableDefault(page = 0, size = 20) Pageable pageable) {
+            String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+            return PaginacionDto.of(
+                    publicacionService.findAll(pageable)
+                            .map(m -> {
+                                boolean hasLike = m.getLikes().stream()
+                                        .anyMatch(like -> like.getUsuario().getUsername().equals(currentUsername));
+
+                                return GetPublicacionDTOConLike.of(m, getImageUrl(m.getImage()), hasLike);
+                            })
+            );
         }
+
 
 
 

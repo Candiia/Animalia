@@ -81,7 +81,7 @@
                 description = "No se ha encontrado ninguna razas",
                 content = @Content),
         })
-        @GetMapping("/admin")
+        @GetMapping("/")
         public PaginacionDto<GetRazaDTO> findAll(@PageableDefault(page=0, size=20) Pageable pageable){
             return PaginacionDto.of(razaService.findAll(pageable)
                     .map(GetRazaDTO::of));

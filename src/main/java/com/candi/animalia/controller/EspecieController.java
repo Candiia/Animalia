@@ -89,8 +89,8 @@
                 description = "No tienes autorización",
                 content = @Content)
         })
-        @PostAuthorize("hasRole('ADMIN')")
-        @GetMapping("/admin")
+        @PostAuthorize("hasAnyRole('USER', 'ADMIN')")
+        @GetMapping("/")
         public PaginacionDto<GetEspecieDTO> findAll(@PageableDefault(page=0, size=20) Pageable pageable){
             return PaginacionDto.of(especieService.findAll(pageable)
                     .map(GetEspecieDTO::of));

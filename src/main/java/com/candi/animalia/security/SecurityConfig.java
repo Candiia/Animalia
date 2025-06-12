@@ -86,7 +86,7 @@ public class SecurityConfig {
         );
         http.authorizeHttpRequests(authz -> authz
                 .requestMatchers(HttpMethod.POST, "/usuario/register", "/usuario/login", "/usuario/refresh/token", "/error", "usuario/activate/account/", "/usuario/login/admin").permitAll()
-                .requestMatchers(HttpMethod.GET, "/raza/admin", "/raza/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/raza", "/raza/{id}").permitAll()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/download/**", "/h2-console/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/raza", "/usuario/register/admin").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/mascota/{id}", "/usuario/logged").permitAll()
