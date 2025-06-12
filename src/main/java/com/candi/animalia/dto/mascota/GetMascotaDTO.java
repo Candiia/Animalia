@@ -3,6 +3,7 @@ package com.candi.animalia.dto.mascota;
 import com.candi.animalia.dto.especie.GetEspecieDTO;
 import com.candi.animalia.dto.raza.GetRazaDTO;
 import com.candi.animalia.dto.user.UserDTOUsername;
+import com.candi.animalia.dto.user.UserDTOUsernameYId;
 import com.candi.animalia.model.Mascota;
 
 import java.time.LocalDate;
@@ -16,7 +17,7 @@ public record GetMascotaDTO(
         String avatar,
         GetRazaDTO raza,
         GetEspecieDTO especie,
-        UserDTOUsername userDTO
+        UserDTOUsernameYId userDTO
 ) {
 
     public static GetMascotaDTO of(Mascota mascota, String url){
@@ -28,7 +29,7 @@ public record GetMascotaDTO(
                 url,
                 GetRazaDTO.of(mascota.getRaza()),
                 GetEspecieDTO.of(mascota.getEspecie()),
-                UserDTOUsername.of(mascota.getUsuario())
+                UserDTOUsernameYId.of(mascota.getUsuario())
         );
     }
 }

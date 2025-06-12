@@ -11,7 +11,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=animalia
       - SPRING_DATASOURCE_PASSWORD=87654321
       - SPRING_PROFILE_ACTIVE=prod
-      - SENDGRID_API_KEY=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
+      - SENDGRID_API_KEY=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
     depends_on:
       pg:
         condition: service_healthy

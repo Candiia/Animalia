@@ -31,7 +31,10 @@ public record GetMascotaDTOConPublicaciones(
                 .map(publicacion -> {
                     boolean hasLiked = publicacion.getLikes().stream()
                             .anyMatch(like -> like.getUsuario().getId().equals(usuarioActual.getId()));
-                    return GetPublicacionDTOConLike.of(publicacion, url, hasLiked);
+
+                    String imageUrl = publicacion.getImage() != null ? publicacion.getImage() : null;
+
+                    return GetPublicacionDTOConLike.of(publicacion, imageUrl, hasLiked);
                 })
                 .toList()
                 : List.of();

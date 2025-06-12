@@ -1,6 +1,7 @@
 package com.candi.animalia.dto.publicacion;
 
 import com.candi.animalia.dto.comentario.GetComentarioDTO;
+import com.candi.animalia.dto.mascota.GetMascotaDTOName;
 import com.candi.animalia.dto.user.UserDTOUsername;
 import com.candi.animalia.model.Publicacion;
 
@@ -17,7 +18,8 @@ public record GetPublicacionDTOConLike(
         long numeroComentarios,
         List<GetComentarioDTO> comentarioDTOList,
         UserDTOUsername usename,
-        boolean hasLike
+        boolean hasLike,
+        GetMascotaDTOName getMascotaDTOName
 ) {
 
     public static GetPublicacionDTOConLike of(Publicacion publicacion, String url, boolean hasLike){
@@ -30,7 +32,8 @@ public record GetPublicacionDTOConLike(
                 publicacion.getComentarios().size(),
                 GetComentarioDTO.of(publicacion.getComentarios()),
                 UserDTOUsername.of(publicacion.getUsuario()),
-                hasLike
+                hasLike,
+                GetMascotaDTOName.of(publicacion.getMascota())
         );
     }
 }

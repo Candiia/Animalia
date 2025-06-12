@@ -20,7 +20,7 @@ public record GetUserCompletoDTO(
         LocalDate fechaRegistro,
         Set<String> roles,
         boolean enable,
-        List<GetMascotaSinUserDTO> mascotaDTOList,
+        List<GetMascotaDTO> mascotaDTOList,
         List<GetPublicacionSinUserDTO> publicacionDTOS,
         String password,
         String verifyPassword
@@ -37,7 +37,7 @@ public record GetUserCompletoDTO(
                         .collect(Collectors.toSet()),
                 usuario.isEnabled(),
               usuario.getMascotaList().stream()
-                      .map(m -> GetMascotaSinUserDTO.of(m, m.getAvatar()))
+                      .map(m -> GetMascotaDTO.of(m, m.getAvatar()))
                       .collect(Collectors.toList()),
                 usuario.getPublicacions().stream()
                         .map(p -> GetPublicacionSinUserDTO.of(p, p.getImage()))
