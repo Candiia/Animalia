@@ -12,6 +12,7 @@
     import com.candi.animalia.service.PublicacionService;
     import com.candi.animalia.service.RazaService;
     import io.swagger.v3.oas.annotations.Operation;
+    import io.swagger.v3.oas.annotations.Parameter;
     import io.swagger.v3.oas.annotations.media.ArraySchema;
     import io.swagger.v3.oas.annotations.media.Content;
     import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -34,6 +35,8 @@
     import org.springframework.web.multipart.MultipartFile;
     import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+    import java.util.List;
+    import java.util.Map;
     import java.util.UUID;
 
 
@@ -443,5 +446,139 @@
             return ResponseEntity.noContent().build();
         }
 
+        @Operation(summary = "Obtiene las publicaciones con nombre, con la raza o especie que hayas buscado",
+                parameters = {
+                        @Parameter(name = "especie", description = "Nombre de la especie de la mascota (opcional)", required = false, example = "Felino"),
+                        @Parameter(name = "raza", description = "Nombre de la raza de la mascota (opcional", required = false, example = "Persa"),
+                        @Parameter(name = "nombre", description = "Nombre la mascota (opcional)", required = false, example = "Luna"),
+                })
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Se ha obtenido las publicaciones deseadas",
+                        content = {
+                                @Content(mediaType = "application/json",
+                                        array = @ArraySchema(schema = @Schema(implementation = GetMascotaDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                                                 "contenido": [
+                                                                           {
+                                                                               "id": "550e8400-e29b-41d4-a716-446655440201",
+                                                                               "imageURL": "http://localhost:8080/download/https:/cdn.pixabay.com/photo/2017/11/09/21/41/cat-2934720_1280.jpg",
+                                                                               "descripcion": "Luna se escondiÃ³ en una caja hoy, Â¡es tan adorable!",
+                                                                               "fechaRegistro": "2025-02-21",
+                                                                               "numeroLikes": 2,
+                                                                               "numeroComentarios": 3,
+                                                                               "comentarioDTOList": [
+                                                                                   {
+                                                                                       "id": "550e8400-e29b-41d4-a716-446655440303",
+                                                                                       "texto": "Luna en una caja, Â¡quÃ© ternura!",
+                                                                                       "fechaRealizada": "2025-02-21",
+                                                                                       "userDTO": {
+                                                                                           "username": "user1"
+                                                                                       }
+                                                                                   },
+                                                                                   {
+                                                                                       "id": "550e8400-e29b-41d4-a716-446655440304",
+                                                                                       "texto": "Â¡Luna es la reina de las cajas!",
+                                                                                       "fechaRealizada": "2025-02-22",
+                                                                                       "userDTO": {
+                                                                                           "username": "user4"
+                                                                                       }
+                                                                                   },
+                                                                                   {
+                                                                                       "id": "550e8400-e29b-41d4-a716-446655440305",
+                                                                                       "texto": "Â¿CÃ³mo hace Luna para ser tan adorable?",
+                                                                                       "fechaRealizada": "2025-02-23",
+                                                                                       "userDTO": {
+                                                                                           "username": "user3"
+                                                                                       }
+                                                                                   }
+                                                                               ],
+                                                                               "usename": {
+                                                                                   "username": "user2"
+                                                                               },
+                                                                               "hasLike": false,
+                                                                               "getMascotaDTOName": {
+                                                                                   "nombre": "Luna"
+                                                                               }
+                                                                           },
+                                                                           {
+                                                                               "id": "550e8400-e29b-41d4-a716-446655440203",
+                                                                               "imageURL": "http://localhost:8080/download/https:/asfec.cat/wp-content/uploads/2019/03/bengali.png",
+                                                                               "descripcion": "Nala cazando una pelota en el jardÃ­n.",
+                                                                               "fechaRegistro": "2025-02-23",
+                                                                               "numeroLikes": 2,
+                                                                               "numeroComentarios": 3,
+                                                                               "comentarioDTOList": [
+                                                                                   {
+                                                                                       "id": "550e8400-e29b-41d4-a716-446655440309",
+                                                                                       "texto": "Nala cazando es lo mÃ¡s divertido.",
+                                                                                       "fechaRealizada": "2025-02-23",
+                                                                                       "userDTO": {
+                                                                                           "username": "user3"
+                                                                                       }
+                                                                                   },
+                                                                                   {
+                                                                                       "id": "550e8400-e29b-41d4-a716-446655440310",
+                                                                                       "texto": "Â¡QuÃ© Ã¡gil es Nala! Me encanta.",
+                                                                                       "fechaRealizada": "2025-02-24",
+                                                                                       "userDTO": {
+                                                                                           "username": "user2"
+                                                                                       }
+                                                                                   },
+                                                                                   {
+                                                                                       "id": "550e8400-e29b-41d4-a716-446655440311",
+                                                                                       "texto": "Nala es una cazadora nata.",
+                                                                                       "fechaRealizada": "2025-02-24",
+                                                                                       "userDTO": {
+                                                                                           "username": "user1"
+                                                                                       }
+                                                                                   }
+                                                                               ],
+                                                                               "usename": {
+                                                                                   "username": "user4"
+                                                                               },
+                                                                               "hasLike": false,
+                                                                               "getMascotaDTOName": {
+                                                                                   "nombre": "Nala"
+                                                                               }
+                                                                           }
+                                                                           ]
+                                                                """
+                                                )
+                                        })
+                        }),
+                @ApiResponse(responseCode = "404",
+                        description = "Publicacion no encontrada con esos criterios",
+                        content = @Content),
+                @ApiResponse(responseCode = "401",
+                        description = "No autorizado",
+                        content = @Content),
+        })
+        @GetMapping("/filtro/buscar")
+        public ResponseEntity<?> buscarPublicaciones(
+                @RequestParam(value = "nombre", required = false) String nombreMascota,
+                @RequestParam(value = "especie", required = false) String nombreEspecie,
+                @RequestParam(value = "raza", required = false) String nombreRaza,
+                @PageableDefault(size = 10) Pageable pageable) {
+
+            Page<Publicacion> publicaciones = publicacionService.filtrarPublicaciones(nombreMascota, nombreEspecie, nombreRaza, pageable);
+
+            List<GetPublicacionDTOConLike> result = publicaciones.stream()
+                    .map(p -> {
+                        String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                                .path("/download/")
+                                .path(p.getImage())
+                                .toUriString();
+                        return GetPublicacionDTOConLike.of(p, imageUrl, false);
+                    })
+                    .toList();
+
+            return ResponseEntity.ok().body(Map.of(
+                    "contenido", result,
+                    "paginasTotales", publicaciones.getTotalPages()
+            ));
+        }
 
     }
