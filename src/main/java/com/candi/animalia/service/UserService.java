@@ -82,7 +82,7 @@ public class UserService {
                 .email(createUserRequest.email())
                 .registrationDate(LocalDate.now())
                 .roles(Set.of(Role.ADMIN))
-                .activationToken(generatedVerificationCode())
+                .enabled(true)
                 .build();
         try {
             String text = "Su código de activación es " + user.getActivationToken();
