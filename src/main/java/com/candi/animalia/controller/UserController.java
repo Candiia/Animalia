@@ -34,6 +34,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -72,6 +73,36 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@RequestBody @Valid CreateUserRequest createUserRequest) {
         Usuario user = userService.createUser(createUserRequest);
+        System.out.println(user.getActivationToken());
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(UserResponse.of(user));
+    }
+
+    @Operation(summary = "Creación de un nuevo usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201",
+                    description = "Se ha creado un usuario",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation = CreateUserRequest.class)),
+                                    examples = {
+                                            @ExampleObject(
+                                                    value = """
+                                                    {
+                                                        "id": "3da37c63-40f2-4114-9fb5-499767f83f5e",
+                                                        "username": "lucialp"
+                                                    }
+                                                """
+                                            )
+                                    })
+                    }),
+            @ApiResponse(responseCode = "401",
+                    description = "No tienes autorización",
+                    content = @Content)
+    })
+    @PostMapping("/register/userAdmin")
+    public ResponseEntity<UserResponse> registerUserAdmin(@RequestBody @Valid CreateUserRequest createUserRequest) {
+        Usuario user = userService.createUserAdmin(createUserRequest);
         System.out.println(user.getActivationToken());
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(UserResponse.of(user));
@@ -471,4 +502,70 @@ public class UserController {
     public GetUserCompletoDTO getUsuarioLogueado(@AuthenticationPrincipal Usuario usuario){
         return GetUserCompletoDTO.of(userService.findByIdConMascotas(usuario.getId()));
     }
+
+    @Operation(summary = "se ha obtenido todos los usuarios")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha obtenido todos los usarios",
+                    content = {
+                            @Content(mediaType = "application/json",
+
+                                    array = @ArraySchema(schema = @Schema(implementation = GetUserDTO.class)),
+                                    examples = {
+                                            @ExampleObject(
+                                                    value = """
+                                            [
+                                                {
+                                                                        "numPagina": 0,
+                                                                        "tamanioPagina": 5,
+                                                                        "elementosEncontrados": 5,
+                                                                        "paginasTotales": 1,
+                                                                        "contenido": [
+                                                                            {
+                                                                                "username": "admin",
+                                                                                "email": "admin@example.com",
+                                                                                "fechaRegistro": "2025-02-05"
+                                                                            },
+                                                                            {
+                                                                                "username": "user1",
+                                                                                "email": "user1@example.com",
+                                                                                "fechaRegistro": "2025-02-01"
+                                                                            },
+                                                                            {
+                                                                                "username": "user2",
+                                                                                "email": "user2@example.com",
+                                                                                "fechaRegistro": "2025-02-02"
+                                                                            },
+                                                                            {
+                                                                                "username": "user3",
+                                                                                "email": "user3@example.com",
+                                                                                "fechaRegistro": "2025-02-03"
+                                                                            },
+                                                                            {
+                                                                                "username": "user4",
+                                                                                "email": "user4@example.com",
+                                                                                "fechaRegistro": "2025-02-04"
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ]
+                                        """
+                                            )
+                                    })
+                    }),
+            @ApiResponse(responseCode = "404",
+                    description = "No se ha encontrado ninguna usuario",
+                    content = @Content),
+            @ApiResponse(responseCode = "401",
+                    description = "No tienes autorización",
+                    content = @Content),
+            @ApiResponse(responseCode = "403",
+                    description = "No acceso",
+                    content = @Content)
+    })
+    @GetMapping("/todos")
+    public List<GetUserDTO> getAllUsers() {
+        return userService.todos();
+    }
+
 }

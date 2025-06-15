@@ -2,8 +2,11 @@ package com.candi.animalia.service;
 
 import com.candi.animalia.dto.especie.CreateEspecieDTO;
 import com.candi.animalia.dto.especie.EditEspecieDTO;
+import com.candi.animalia.dto.especie.GetEspecieDTO;
+import com.candi.animalia.dto.raza.GetRazaDTO;
 import com.candi.animalia.model.Especie;
 import com.candi.animalia.model.Mascota;
+import com.candi.animalia.model.Raza;
 import com.candi.animalia.repository.EspecieRepository;
 import com.candi.animalia.repository.MascotaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +34,13 @@ public class EspecieService {
         if (result.isEmpty())
             throw new EntityNotFoundException("No hay especie con esos criterios de búsqueda");
         return result;
+    }
+
+    public List<GetEspecieDTO> todos() {
+        List<Especie> especies = especieRepository.findAll();
+        return especies.stream()
+                .map(GetEspecieDTO::of)
+                .collect(Collectors.toList());
     }
 
     public Especie findById(UUID id) {
