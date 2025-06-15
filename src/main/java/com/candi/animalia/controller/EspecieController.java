@@ -27,6 +27,7 @@
     import org.springframework.security.access.prepost.PreAuthorize;
     import org.springframework.web.bind.annotation.*;
 
+    import java.util.List;
     import java.util.UUID;
 
 
@@ -205,4 +206,58 @@
             especieService.deleteById(id);
             return ResponseEntity.noContent().build();
         }
+
+        @Operation(summary = "Obtiene todas las especies")
+        @ApiResponses(value = {
+                @ApiResponse(responseCode = "200",
+                        description = "Se ha obtenido todas las especies",
+                        content = {
+                                @Content(mediaType = "application/json",
+
+                                        array = @ArraySchema(schema = @Schema(implementation = GetEspecieDTO.class)),
+                                        examples = {
+                                                @ExampleObject(
+                                                        value = """
+                                                                    
+                                                                        {
+                                                                            "contenido": [
+                                                                                {
+                                                                                    "nombre": "Canino",
+                                                                                    "localDate": "2025-01-01"
+                                                                                },
+                                                                                {
+                                                                                    "nombre": "Felino",
+                                                                                    "localDate": "2025-01-01"
+                                                                                },
+                                                                                {
+                                                                                    "nombre": "Aves",
+                                                                                    "localDate": "2022-07-22"
+                                                                                },
+                                                                                {
+                                                                                    "nombre": "Reptiles",
+                                                                                    "localDate": "2025-01-11"
+                                                                                },
+                                                                                {
+                                                                                    "nombre": "Anfibios",
+                                                                                    "localDate": "2022-01-01"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                               
+                                                                """
+                                                )
+                                        })
+                        }), @ApiResponse(responseCode = "404",
+                description = "No se ha encontrado ninguna especie",
+                content = @Content)
+                , @ApiResponse(responseCode = "401",
+                description = "No tienes autorización",
+                content = @Content)
+        })
+        @PostAuthorize("hasAnyRole('USER', 'ADMIN')")
+        @GetMapping("/todos")
+        public List<GetEspecieDTO> todos(){
+            return   especieService.todos();
+        }
+
     }

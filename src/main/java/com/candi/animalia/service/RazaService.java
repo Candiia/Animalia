@@ -2,8 +2,11 @@ package com.candi.animalia.service;
 
 import com.candi.animalia.dto.raza.CreateRazaDTO;
 import com.candi.animalia.dto.raza.EditRazaDTO;
+import com.candi.animalia.dto.raza.GetRazaDTO;
+import com.candi.animalia.dto.user.GetUserDTO;
 import com.candi.animalia.model.Mascota;
 import com.candi.animalia.model.Raza;
+import com.candi.animalia.model.Usuario;
 import com.candi.animalia.repository.MascotaRepository;
 import com.candi.animalia.repository.RazaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +34,13 @@ public class RazaService {
         if (result.isEmpty())
             throw new EntityNotFoundException("No hay raza con esos criterios de búsqueda");
         return result;
+    }
+
+    public List<GetRazaDTO> todos() {
+        List<Raza> razas = razaRepository.findAll();
+        return razas.stream()
+                .map(GetRazaDTO::of)
+                .collect(Collectors.toList());
     }
 
     public Raza findById(UUID id) {

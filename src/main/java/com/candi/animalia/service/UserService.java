@@ -12,6 +12,7 @@ import com.candi.animalia.repository.UsuarioRepository;
 import com.candi.animalia.security.jwt.refresh.RefreshTokenRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,9 +25,11 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -46,6 +49,26 @@ public class UserService {
                 .email(createUserRequest.email())
                 .registrationDate(LocalDate.now())
                 .roles(Set.of(Role.USER))
+                .activationToken(generatedVerificationCode())
+                .build();
+        try {
+            String text = "Su codigo de activacion es " + user.getActivationToken();
+            mailSender.sendMail(createUserRequest.email(), "Activación de cuenta", text);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"Error al enviar el email de activación");
+        }
+
+        return usuarioRepository.save(user);
+    }
+
+    public Usuario createUserAdmin(CreateUserRequest createUserRequest) {
+        Usuario user = Usuario.builder()
+                .username(createUserRequest.username())
+                .password(passwordEncoder.encode(createUserRequest.password()))
+                .email(createUserRequest.email())
+                .registrationDate(LocalDate.now())
+                .roles(Set.of(Role.USER))
+                .enabled(true)
                 .activationToken(generatedVerificationCode())
                 .build();
         try {
@@ -100,6 +123,15 @@ public class UserService {
             throw new EntityNotFoundException("No hay usuario con esos criterios de búsqueda");
         return result;
     }
+
+    public List<GetUserDTO> todos() {
+        List<Usuario> users = usuarioRepository.findAll();
+        return users.stream()
+                .map(GetUserDTO::of)
+                .collect(Collectors.toList());
+    }
+
+
 
     public Usuario findById(UUID id) {
         return usuarioRepository.findById(id)

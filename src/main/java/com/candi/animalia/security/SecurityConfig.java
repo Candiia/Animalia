@@ -85,8 +85,8 @@ public class SecurityConfig {
                 .accessDeniedHandler(accessDeniedHandler)
         );
         http.authorizeHttpRequests(authz -> authz
-                .requestMatchers(HttpMethod.POST, "/usuario/register", "/usuario/login", "/usuario/refresh/token", "/error", "usuario/activate/account/", "/usuario/login/admin").permitAll()
-                .requestMatchers(HttpMethod.GET, "/raza", "/raza/{id}", "/publicacion/filtro/buscar").permitAll()
+                .requestMatchers(HttpMethod.POST, "/usuario/register", "/usuario/login", "/usuario/refresh/token", "/error", "usuario/activate/account/", "/usuario/login/admin", "/usuario/register/userAdmin").permitAll()
+                .requestMatchers(HttpMethod.GET, "/raza", "/raza/{id}", "/publicacion/filtro/buscar", "/usuario/todos").permitAll()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/download/**", "/h2-console/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/raza", "/usuario/register/admin").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/mascota/{id}", "/usuario/logged").permitAll()
