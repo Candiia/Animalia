@@ -16,6 +16,7 @@ public interface EspecieRepository extends  JpaRepository<Especie, UUID>, JpaSpe
     @Query("""
             SELECT e
             FROM Especie e
+            ORDER BY e.nombre
             """)
     Page<Especie> findAllEspecie(Pageable pageable);
 

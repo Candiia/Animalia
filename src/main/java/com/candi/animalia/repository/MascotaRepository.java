@@ -15,6 +15,7 @@ public interface MascotaRepository extends  JpaRepository<Mascota, UUID>, JpaSpe
     @Query("""
             SELECT m
             FROM Mascota m
+            ORDER BY m.nombre
             """)
     Page<Mascota> findAllMascota(Pageable pageable);
 

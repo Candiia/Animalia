@@ -18,6 +18,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID>, JpaSpec
             FROM Usuario u
             LEFT JOIN FETCH u.mascotaList
             WHERE u.id = :id
+            
             """)
   Usuario buscarConMascotas(@Param("id") UUID id);
 
@@ -30,6 +31,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, UUID>, JpaSpec
   @Query("""
             SELECT u
             FROM Usuario u
+            order by u.username
             """)
   Page<Usuario> findAllUsuario(Pageable pageable);
 
