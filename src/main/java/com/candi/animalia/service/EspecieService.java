@@ -4,6 +4,7 @@ import com.candi.animalia.dto.especie.CreateEspecieDTO;
 import com.candi.animalia.dto.especie.EditEspecieDTO;
 import com.candi.animalia.dto.especie.GetEspecieDTO;
 import com.candi.animalia.dto.raza.GetRazaDTO;
+import com.candi.animalia.error.EspecieConMascotasException;
 import com.candi.animalia.model.Especie;
 import com.candi.animalia.model.Mascota;
 import com.candi.animalia.model.Raza;
@@ -67,22 +68,17 @@ public class EspecieService {
                 .orElseThrow(() -> new EntityNotFoundException("No hay especie con esa id " + id));
     }
 
-    public void deleteById(UUID id){
+    public void deleteById(UUID id) {
         Optional<Especie> especieOpt = especieRepository.findbyIdMascotas(id);
-        Especie especie;
-        List<Mascota> mascotas;
-
         if (especieOpt.isPresent()) {
-            especie = especieOpt.get();
+            Especie especie = especieOpt.get();
 
-            mascotas = new ArrayList<>(especie.getMascotas());
-            mascotas.forEach(especie::removeMascota);
-
-            mascotaRepository.saveAll(mascotas);
-            especieRepository.save(especie);
-
+            if (!especie.getMascotas().isEmpty()) {
+                throw new EspecieConMascotasException("No se puede eliminar la especie porque tiene mascotas asociadas.");
+            }
             especieRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("No hay especie con esa id " + id);
         }
     }
-
 }

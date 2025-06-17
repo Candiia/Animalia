@@ -3,10 +3,8 @@ package com.candi.animalia.service;
 import com.candi.animalia.dto.raza.CreateRazaDTO;
 import com.candi.animalia.dto.raza.EditRazaDTO;
 import com.candi.animalia.dto.raza.GetRazaDTO;
-import com.candi.animalia.dto.user.GetUserDTO;
-import com.candi.animalia.model.Mascota;
+import com.candi.animalia.error.RazaConMascotaException;
 import com.candi.animalia.model.Raza;
-import com.candi.animalia.model.Usuario;
 import com.candi.animalia.repository.MascotaRepository;
 import com.candi.animalia.repository.RazaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -65,21 +62,17 @@ public class RazaService {
     }
 
 
-    public void deleteById(UUID id){
+    public void deleteById(UUID id) {
         Optional<Raza> razaOpt = razaRepository.findbyIdMascotas(id);
-        Raza raza;
-        List<Mascota> mascotas;
-
         if (razaOpt.isPresent()) {
-            raza= razaOpt.get();
+            Raza raza = razaOpt.get();
 
-            mascotas = new ArrayList<>(raza.getMascotas());
-            mascotas.forEach(raza::removeMascota);
-
-            mascotaRepository.saveAll(mascotas);
-            razaRepository.save(raza);
-
+            if (!raza.getMascotas().isEmpty()) {
+                throw new RazaConMascotaException("No se puede eliminar la raza porque tiene mascotas asociadas.");
+            }
             razaRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("No hay raza con esa id " + id);
         }
     }
 
