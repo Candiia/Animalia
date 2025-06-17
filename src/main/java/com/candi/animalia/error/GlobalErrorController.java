@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.naming.AuthenticationException;
 import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +30,20 @@ public class GlobalErrorController extends ResponseEntityExceptionHandler {
         ProblemDetail result = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         result.setTitle("Entidad no encontrada.");
         result.setProperty("author", "Candi");
+        return result;
+    }
+
+    @ExceptionHandler(EspecieConMascotasException.class)
+    public ProblemDetail handleEspecieConMascotasException(EspecieConMascotasException ex) {
+        ProblemDetail result = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+        result.setTitle("Error de integridad");
+        return result;
+    }
+
+    @ExceptionHandler(RazaConMascotaException.class)
+    public ProblemDetail handleRazaConMascotasException(RazaConMascotaException ex) {
+        ProblemDetail result = ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+        result.setTitle("Error de integridad");
         return result;
     }
 

@@ -29,7 +29,7 @@ public record GetMascotaDTO(
                 url,
                 GetRazaDTO.of(mascota.getRaza()),
                 GetEspecieDTO.of(mascota.getEspecie()),
-                UserDTOUsernameYId.of(mascota.getUsuario())
+                UserDTOUsernameYId  .of(mascota.getUsuario())
         );
     }
 }
