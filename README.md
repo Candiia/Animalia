@@ -22,7 +22,7 @@ El resultado de este proyecto será una **API REST** implementada con **Spring B
 - **Persistencia de datos**: Spring Data JPA y PostgreSQL.
 - **Documentación de API**: OpenAPI, Swagger y Springdoc.
 - **Pruebas de API**: Postman.
--  **Contenedores**: `Docker Compose` para la configuración y despliegue automático de `PostgreSQ`, `pgAdmin` y la `API`.
+-  **Contenedores**: `Docker Compose` para la configuración y despliegue automático de `PostgreSQ`, `pgAdmin`, `API` y `FRONTEND`.
 
 Con Animalia buscamos ofrecer un espacio divertido y funcional para los amantes de los animales, aplicando tecnología moderna para construir una experiencia interactiva y dinámica.
 
@@ -81,8 +81,14 @@ Este modelo está diseñado para ser escalable y adaptarse a las necesidades de 
    * Imagen: bellsoft/liberica-openjdk-alpine:17
    * Puerto mapeado: 8081 (local) → 8080 (contenedor)
    * Conexión a PostgreSQL mediante variables de entorno (SPRING_DATASOURCE_URL, SPRING_DATASOURCE_USERNAME, SPRING_DATASOURCE_PASSWORD)
+     
+4. **Frontend** :globe_with_meridians:
+   * Construido desde el Dockerfile ubicado en la carpeta ../Front-Animalia.
+   * Puerto mapeado: 4200 (local) → 80 (contenedor).
+   * Contenedor: animalia-front
   
-4. Para levantar los contenedores, simplemente ejecuta:
+5. Para levantar los contenedores, simplemente ejecuta:
+   - Para ejecutar correctamente debe estar los repositorios a la misma altura.
    - docker-compose up -d, esto tambien levanta la imagen que hemos creado, así nos ahorramos de realzar un docker build -t
 
 ## Construcción con Dockerfile :hammer:
