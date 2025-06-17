@@ -16,6 +16,7 @@ public interface RazaRepository extends  JpaRepository<Raza, UUID>, JpaSpecifica
     @Query("""
             SELECT r
             FROM Raza r
+            ORDER BY r.nombre
             """)
     Page<Raza> findAllRaza(Pageable pageable);
 
